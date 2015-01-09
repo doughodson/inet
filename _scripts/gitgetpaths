@@ -1,0 +1,45 @@
+#! /usr/bin/env python
+# This script generates git-history scripts in current directory and
+# subdirectories.
+#
+
+#for i in $* ; do
+#    git log -p --follow $i | \
+#    grep '^diff ' | \
+#    cut -c 12- | \
+#    sed 's/ /\n/' | \
+#    cut -c 2- | \
+#    xargs -i dirname '{}' | \
+#    sort -u
+#done ;
+
+import fnmatch
+import os
+import re
+import string
+import subprocess
+
+rootPath = '.'
+err = 0
+
+sets = dict()
+
+for root, dirs, files in os.walk(rootPath):
+    for filename in files:
+        fullpath = os.path.join(root, filename)
+        dirname = os.path.dirname(fullpath)
+        if dirname not in sets:
+            sets[dirname] = set()
+
+        proc = subprocess.Popen(['git', 'log', '-p', '--follow', fullpath], stdout=subprocess.PIPE)
+        for line in proc.stdout:
+            if line.startswith('diff --git '):
+                line = line[11:].rstrip()
+                for onefile in line.split(' '):
+                    onefile = onefile[2:]
+                    histdir = os.path.dirname(onefile)
+                    sets[dirname].add(histdir)
+#                    print dirname+': '+histdir
+
+for key in sorted(sets.keys()):
+    print key, ': ', ' '.join(sorted(sets[key]))
