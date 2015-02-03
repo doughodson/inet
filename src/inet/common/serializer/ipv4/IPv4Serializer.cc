@@ -18,18 +18,15 @@
 //
 
 #include <algorithm>    // std::min
-#include <platdep/sockets.h>
 
 #include "inet/common/serializer/ipv4/IPv4Serializer.h"
 
-#include "inet/common/serializer/headers/defs.h"
-#include "inet/common/serializer/headers/bsdint.h"
 #include "inet/common/serializer/headers/in.h"
 #include "inet/common/serializer/headers/in_systm.h"
 #include "inet/common/serializer/ipv4/headers/ip.h"
-
 #include "inet/common/serializer/ipv4/ICMPSerializer.h"
 #include "inet/common/serializer/ipv4/IGMPSerializer.h"
+#include "inet/linklayer/common/Ieee802Ctrl_m.h"
 #include "inet/networklayer/common/IPProtocolId_m.h"
 
 #ifdef WITH_UDP
@@ -62,6 +59,13 @@ namespace inet {
 
 namespace serializer {
 
+Register_Serializer(IPv4Datagram, ETHERTYPE, ETHERTYPE_IPv4, IPv4Serializer);
+
+void IPv4Serializer::serialize(const cPacket *pkt, Buffer &b, Context& context)
+{
+    b.seek(serialize(check_and_cast<const IPv4Datagram *>(pkt), b._getBuf(), b._getBufSize(), true));
+}
+
 int IPv4Serializer::serialize(const IPv4Datagram *dgram, unsigned char *buf, unsigned int bufsize, bool hasCalcChkSum)
 {
     int packetLength;
@@ -84,7 +88,7 @@ int IPv4Serializer::serialize(const IPv4Datagram *dgram, unsigned char *buf, uns
     ip->ip_sum = 0;
 
     if (dgram->getHeaderLength() > IP_HEADER_BYTES)
-        EV << "Serializing an IPv4 packet with options. Dropping the options.\n";
+        EV_ERROR << "Serializing an IPv4 packet with options. Dropping the options.\n";
 
     packetLength = IP_HEADER_BYTES;
 
@@ -134,6 +138,14 @@ int IPv4Serializer::serialize(const IPv4Datagram *dgram, unsigned char *buf, uns
     }
 
     return packetLength;
+}
+
+cPacket* IPv4Serializer::parse(Buffer &b, Context& context)
+{
+    IPv4Datagram *pkt = new IPv4Datagram("parsed-ipv4");
+    parse(b._getBuf(), b._getBufSize(), pkt);
+    b.seek(b._getBufSize());
+    return pkt;
 }
 
 void IPv4Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv4Datagram *dest)

@@ -18,6 +18,7 @@
 #ifndef __INET_IPV4SERIALIZER_H
 #define __INET_IPV4SERIALIZER_H
 
+#include "inet/common/serializer/ISerializer.h"
 #include "inet/networklayer/ipv4/IPv4Datagram.h"
 
 namespace inet {
@@ -27,10 +28,10 @@ namespace serializer {
 /**
  * Converts between IPv4Datagram and binary (network byte order) IPv4 header.
  */
-class IPv4Serializer
+class IPv4Serializer : public SerializerBase
 {
   public:
-    IPv4Serializer() {}
+    IPv4Serializer(const char *name = nullptr) : SerializerBase(name) {}
 
     /**
      * Serializes an IPv4Datagram for transmission on the wire.
@@ -41,11 +42,15 @@ class IPv4Serializer
      */
     int serialize(const IPv4Datagram *dgram, unsigned char *buf, unsigned int bufsize, bool hasCalcChkSum = false);
 
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
+
     /**
      * Puts a packet sniffed from the wire into an IPv4Datagram. Does NOT
      * verify the checksum.
      */
     void parse(const unsigned char *buf, unsigned int bufsize, IPv4Datagram *dest);
+
+    virtual cPacket* parse(Buffer &b, Context& context) override;
 };
 
 } // namespace serializer
