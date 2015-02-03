@@ -16,13 +16,14 @@
 //
 
 #include <algorithm>    // std::min
-#include <platdep/sockets.h>
 
 #include "inet/common/serializer/ipv6/IPv6Serializer.h"
 
 #include "inet/common/serializer/headers/defs.h"
+#include "inet/common/serializer/headers/ethernethdr.h"
 #include "inet/common/serializer/ipv6/headers/ip6.h"
 #include "inet/networklayer/icmpv6/ICMPv6Message_m.h"
+#include "inet/linklayer/common/Ieee802Ctrl_m.h"
 
 #ifdef WITH_UDP
 #include "inet/common/serializer/udp/UDPSerializer.h"
@@ -57,6 +58,13 @@ namespace serializer {
 using namespace tcp;
 using namespace sctp;
 
+Register_Serializer(IPv6Datagram, ETHERTYPE, ETHERTYPE_IPv6, IPv6Serializer);
+
+void IPv6Serializer::serialize(const cPacket *pkt, Buffer &b, Context& context)
+{
+    serialize(check_and_cast<const IPv6Datagram *>(pkt), b._getBuf(), b._getBufSize());
+}
+
 int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, unsigned int bufsize)
 {
     int packetLength, i;
@@ -84,6 +92,7 @@ int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, uns
     }
 
     cMessage *encapPacket = dgram->getEncapsulatedPacket();
+    packetLength = 0;
 
     switch (dgram->getTransportProtocol())
     {
@@ -124,6 +133,14 @@ int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, uns
 
     return packetLength + IPv6_HEADER_BYTES;
 }
+
+cPacket* IPv6Serializer::parse(Buffer &b, Context& context)
+{
+    IPv6Datagram *pkt = new IPv6Datagram("parsed-ipv6");
+    parse(b._getBuf(), b._getBufSize(), pkt);
+    return pkt;
+}
+
 void IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv6Datagram *dest)
 {
     const struct ip6_hdr *ip6h = (struct ip6_hdr *) buf;
