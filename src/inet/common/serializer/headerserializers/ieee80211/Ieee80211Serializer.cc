@@ -573,8 +573,7 @@ cPacket* Ieee80211Serializer::parse(const unsigned char *buf, unsigned int bufsi
 #endif
 
                 case ETHERTYPE_ARP:
-                    encapPacket = new ARPPacket("arp-from-wire");
-                    ARPSerializer().parse(buf+packetLength, bufsize-packetLength, (ARPPacket *)encapPacket);
+                    encapPacket = ARPSerializer().parse(buf+packetLength, bufsize-packetLength);
                     break;
 
                 default:

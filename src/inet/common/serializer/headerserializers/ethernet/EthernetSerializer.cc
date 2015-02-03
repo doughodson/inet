@@ -117,8 +117,7 @@ cPacket* EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsiz
 #endif
 
         case ETHERTYPE_ARP:
-            encapPacket = new ARPPacket("arp-from-wire");
-            ARPSerializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN, (ARPPacket *)encapPacket);
+            encapPacket = ARPSerializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
             break;
 
         default:
