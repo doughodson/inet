@@ -192,8 +192,7 @@ void IPv4Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv4D
 
 #ifdef WITH_UDP
         case IP_PROT_UDP:
-            encapPacket = new UDPPacket("udp-from-wire");
-            UDPSerializer().parse(buf + headerLength, encapLength, (UDPPacket *)encapPacket);
+            encapPacket = UDPSerializer().parse(buf + headerLength, encapLength);
             break;
 #endif // ifdef WITH_UDP
 

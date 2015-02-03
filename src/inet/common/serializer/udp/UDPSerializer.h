@@ -19,29 +19,37 @@
 #ifndef __INET_UDPSERIALIZER_H
 #define __INET_UDPSERIALIZER_H
 
+#include "inet/common/serializer/ISerializer.h"
 #include "inet/transportlayer/udp/UDPPacket.h"
 
 namespace inet {
 
+namespace serializer {
+
 /**
  * Converts between UDPPacket and binary (network byte order) UDP header.
  */
-class UDPSerializer
+class UDPSerializer : public SerializerBase
 {
-  public:
-    UDPSerializer() {}
-
+  protected:
     /**
      * Serializes an UDPPacket for transmission on the wire.
-     * Returns the length of data written into buffer.
      */
-    int serialize(const UDPPacket *pkt, unsigned char *buf, unsigned int bufsize);
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
 
     /**
      * Puts a packet sniffed from the wire into an UDPPacket.
      */
-    void parse(const unsigned char *buf, unsigned int bufsize, UDPPacket *pkt);
+    virtual cPacket *parse(Buffer &b, Context& context) override;
+
+  public:
+    UDPSerializer(const char *name = nullptr) : SerializerBase(name) {}
+
+    int serialize(const UDPPacket *pkt, unsigned char *buf, unsigned int bufsize);
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
+
+} // namespace serializer
 
 } // namespace inet
 
