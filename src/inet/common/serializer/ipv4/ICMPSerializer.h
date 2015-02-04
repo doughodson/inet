@@ -19,6 +19,7 @@
 #ifndef __INET_ICMPSERIALIZER_H
 #define __INET_ICMPSERIALIZER_H
 
+#include "inet/common/serializer/ISerializer.h"
 #include "inet/networklayer/ipv4/ICMPMessage_m.h"
 
 namespace inet {
@@ -28,10 +29,15 @@ namespace serializer {
 /**
  * Converts between ICMPMessage and binary (network byte order) ICMP header.
  */
-class ICMPSerializer
+class ICMPSerializer : public SerializerBase
 {
+  protected:
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
+    virtual cPacket *parse(Buffer &b, Context& context) override;
+
   public:
-    ICMPSerializer() {}
+    ICMPSerializer(const char *name = nullptr) : SerializerBase(name) {}
+
 
     /**
      * Serializes an ICMPMessage for transmission on the wire.
@@ -42,7 +48,7 @@ class ICMPSerializer
     /**
      * Puts a packet sniffed from the wire into an ICMPMessage.
      */
-    void parse(const unsigned char *buf, unsigned int bufsize, ICMPMessage *pkt);
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer

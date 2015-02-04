@@ -181,8 +181,7 @@ void IPv4Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv4D
 
     switch (dest->getTransportProtocol()) {
         case IP_PROT_ICMP:
-            encapPacket = new ICMPMessage("icmp-from-wire");
-            ICMPSerializer().parse(buf + headerLength, encapLength, (ICMPMessage *)encapPacket);
+            encapPacket = ICMPSerializer().parse(buf + headerLength, encapLength);
             break;
 
         case IP_PROT_IGMP:
