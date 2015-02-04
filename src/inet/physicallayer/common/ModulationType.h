@@ -1,22 +1,22 @@
-/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
-/*
- * Copyright (c) 2005,2006,2007 INRIA
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation;
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
- */
+//
+// Copyright (C) 2005,2006 INRIA, 2014 OpenSim Ltd.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program; if not, see <http://www.gnu.org/licenses/>.
+//
+// Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
+//
+
 #ifndef __INET_MODULATIONTYPE_H
 #define __INET_MODULATIONTYPE_H
 
@@ -86,10 +86,12 @@ class ModulationType
     /**
      * \returns the number of Hz used by this signal
      */
-    uint32_t getBandwidth(void) const { return bandwidth; }
-    void setBandwidth(uint32_t p) { bandwidth = p; }
+    uint32_t getChannelSpacing(void) const { return channelSpacing; }
+    void setChannelSpacing(uint32_t p) { channelSpacing = p; }
     uint32_t getFrequency(void) const { return frequency; }
     void setFrequency(uint32_t p) { frequency = p; }
+    uint32_t getBandwidth() const { return bandwidth; }
+    void setBandwidth(uint32_t p) { bandwidth = p; }
     /**
      * \returns the physical bit rate of this signal.
      *
@@ -152,6 +154,7 @@ class ModulationType
     ModulationType()
     {
         isMandatory = false;
+        channelSpacing = 0;
         bandwidth = 0;
         codeRate = CODE_RATE_UNDEFINED;
         dataRate = 0;
@@ -168,13 +171,14 @@ class ModulationType
 
   private:
     bool isMandatory;
-    uint32_t bandwidth;
+    uint32_t channelSpacing;
     enum CodeRate codeRate;
     uint32_t dataRate;
     uint32_t phyRate;
     uint8_t constellationSize;
     enum ModulationClass modulationClass;
     uint32_t frequency;
+    uint32_t bandwidth;
 };
 
 bool operator==(const ModulationType& a, const ModulationType& b);
