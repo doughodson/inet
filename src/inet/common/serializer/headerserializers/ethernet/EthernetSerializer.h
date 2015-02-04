@@ -18,6 +18,7 @@
 
 #include "inet/linklayer/ethernet/EtherFrame.h"
 #include "inet/common/serializer/headers/defs.h"
+#include "inet/common/serializer/ISerializer.h"
 
 namespace inet {
 
@@ -26,21 +27,24 @@ namespace serializer {
 /**
  * Converts between EtherFrame and binary (network byte order) Ethernet header.
  */
-
-class EthernetSerializer
+class EthernetSerializer : public SerializerBase
 {
-    public:
+  protected:
+    /**
+     * Serializes an EtherFrame for transmission on the wire.
+     */
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
 
-        /**
-         * Serializes an EtherFrame for transmission on the wire.
-         * Returns the length of data written into buffer.
-         */
-        int serialize(const EthernetIIFrame *pkt, unsigned char *buf, unsigned int bufsize);
+    /**
+     * Puts a packet sniffed from the wire into an EtherFrame.
+     */
+    virtual cPacket *parse(Buffer &b, Context& context) override;
 
-        /**
-         * Puts a packet sniffed from the wire into an EtherFrame.
-         */
-        cPacket* parse(const unsigned char *buf, unsigned int bufsize);
+  public:
+    EthernetSerializer(const char *name = nullptr) : SerializerBase(name) {}
+
+    int serialize(const EtherFrame *pkt, unsigned char *buf, unsigned int bufsize);
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer

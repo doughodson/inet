@@ -19,21 +19,11 @@
 #include "inet/common/serializer/headers/ethernethdr.h"
 #include "inet/common/serializer/headers/in.h"
 #include "inet/common/serializer/headers/in_systm.h"
-#include "inet/common/serializer/headerserializers/arp/headers/arp.h"
+#include "inet/common/serializer/ISerializer.h"
 
 #if !defined(_WIN32) && !defined(__WIN32__) && !defined(WIN32) && !defined(__CYGWIN__) && !defined(_WIN64)
 #include <netinet/in.h>  // htonl, ntohl, ...
 #endif
-
-#ifdef WITH_IPv4
-#include "inet/common/serializer/ipv4/IPv4Serializer.h"
-#endif
-
-#ifdef WITH_IPv6
-#include "inet/common/serializer/ipv6/IPv6Serializer.h"
-#endif
-
-#include "inet/common/serializer/headerserializers/arp/ARPSerializer.h"
 
 #include "inet/common/serializer/headerserializers/EthernetCRC.h"
 
@@ -41,93 +31,98 @@ namespace inet {
 
 namespace serializer {
 
-int EthernetSerializer::serialize(const EthernetIIFrame *pkt, unsigned char *buf, unsigned int bufsize)
+Register_Serializer(EtherFrame, LINKTYPE, LINKTYPE_ETHERNET, EthernetSerializer);
+
+void EthernetSerializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
 {
-    int packetLength = ETHER_HDR_LEN;
-
-    struct ether_header *etherhdr = (struct ether_header *) (buf);
-
-    pkt->getDest().getAddressBytes(etherhdr->ether_dhost);
-    pkt->getSrc().getAddressBytes(etherhdr->ether_shost);
-    etherhdr->ether_type = htons(pkt->getEtherType());
-
-    cMessage *encapPacket = pkt->getEncapsulatedPacket();
-
-    switch (pkt->getEtherType())
-    {
-#ifdef WITH_IPv4
-        case ETHERTYPE_IPv4:
-            packetLength += IPv4Serializer().serialize(check_and_cast<IPv4Datagram *>(encapPacket),
-                                                               buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN, true);
-            break;
-#endif
-
-#ifdef WITH_IPv6
-        case ETHERTYPE_IPv6:
-            packetLength += IPv6Serializer().serialize(check_and_cast<IPv6Datagram *>(encapPacket),
-                                                               buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
-            break;
-#endif
-
-#ifdef WITH_IPv4
-        case ETHERTYPE_ARP:
-            packetLength += ARPSerializer().serialize(check_and_cast<ARPPacket *>(encapPacket),
-                                                               buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
-            break;
-#endif
-
-        default:
-            throw cRuntimeError("EthernetSerializer: cannot serialize protocol %x", pkt->getEtherType());
+    const EtherFrame *ethPkt = check_and_cast<const EtherFrame *>(pkt);
+    b.writeMACAddress(ethPkt->getDest());
+    b.writeMACAddress(ethPkt->getSrc());
+    if (dynamic_cast<const EthernetIIFrame *>(pkt)) {
+        const EthernetIIFrame *frame = static_cast<const EthernetIIFrame *>(pkt);
+        uint16_t ethType = frame->getEtherType();
+        b.writeUint16(ethType);
+        cPacket *encapPkt = frame->getEncapsulatedPacket();
+        SerializerBase::serialize(encapPkt, b, c, ETHERTYPE, ethType, 4);
     }
-
-    uint32_t *fcs = (uint32_t *) (buf + packetLength);
-    *fcs = ethernetCRC(buf, packetLength);
-    return packetLength + 4;
+    else if (dynamic_cast<const EtherFrameWithLLC *>(pkt)) {
+        const EtherFrameWithLLC *frame = static_cast<const EtherFrameWithLLC *>(pkt);
+        b.writeUint16(frame->getByteLength());
+        b.writeByte(frame->getSsap());
+        b.writeByte(frame->getDsap());
+        b.writeByte(frame->getControl());
+        if (dynamic_cast<const EtherFrameWithSNAP *>(pkt)) {
+            const EtherFrameWithSNAP *frame = static_cast<const EtherFrameWithSNAP *>(pkt);
+            b.writeByte(frame->getOrgCode() >> 16);
+            b.writeByte(frame->getOrgCode() >> 8);
+            b.writeByte(frame->getOrgCode());
+            b.writeUint16(frame->getLocalcode());
+            if (frame->getOrgCode() == 0) {
+                cPacket *encapPkt = frame->getEncapsulatedPacket();
+                SerializerBase::serialize(encapPkt, b, c, ETHERTYPE, frame->getLocalcode(), 4);
+            }
+            else {
+                //TODO
+                cPacket *encapPkt = frame->getEncapsulatedPacket();
+                SerializerBase::serialize(encapPkt, b, c, UNKNOWN, frame->getLocalcode(), 4);
+            }
+        }
+        else {
+            throw cRuntimeError("Serializer not found for '%s'", pkt->getClassName());
+        }
+    }
+    else if (dynamic_cast<const EtherPauseFrame *>(pkt)) {
+        const EtherPauseFrame *frame = static_cast<const EtherPauseFrame *>(pkt);
+        b.writeUint16(0x8808);
+        b.writeUint16(0x0001);
+        b.writeUint16(frame->getPauseTime());
+    }
+    else {
+        throw cRuntimeError("Serializer not found for '%s'", pkt->getClassName());
+    }
+    uint32_t fcs = ethernetCRC(b._getBuf(), b.getPos());
+    b.writeUint32(fcs);
 }
 
-cPacket* EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsize)
+cPacket* EthernetSerializer::parse(Buffer &b, Context& c)
 {
-    struct ether_header *etherhdr = (struct ether_header*) buf;
-    cPacket *pkt = new EthernetIIFrame;
-    EthernetIIFrame *etherPacket = (EthernetIIFrame*)pkt;
+    //FIXME should detect and create the real packet type.
+    EthernetIIFrame *etherPacket = new EthernetIIFrame;
 
-    MACAddress temp;
-    temp.setAddressBytes(etherhdr->ether_dhost);
-    etherPacket->setDest(temp);
-    temp.setAddressBytes(etherhdr->ether_shost);
-    etherPacket->setSrc(temp);
-    etherPacket->setEtherType(ntohs(etherhdr->ether_type));
+    etherPacket->setDest(b.readMACAddress());
+    etherPacket->setSrc(b.readMACAddress());
+    etherPacket->setEtherType(b.readUint16());
 
-    cPacket *encapPacket = NULL;
-
-    switch (etherPacket->getEtherType())
-    {
-#ifdef WITH_IPv4
-        case ETHERTYPE_IPv4:
-            encapPacket = IPv4Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
-            break;
-#endif
-
-#ifdef WITH_IPv6
-        case ETHERTYPE_IPv6:
-            encapPacket = IPv6Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
-            break;
-#endif
-
-        case ETHERTYPE_ARP:
-            encapPacket = ARPSerializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
-            break;
-
-        default:
-            throw cRuntimeError("EthernetSerializer: cannot parse protocol %x", etherPacket->getEtherType());
-    }
+    cPacket *encapPacket = SerializerBase::parse(b, c, ETHERTYPE, etherPacket->getEtherType(), 4);
     ASSERT(encapPacket);
     etherPacket->encapsulate(encapPacket);
     etherPacket->setName(encapPacket->getName());
+    uint32_t calcfcs = ethernetCRC(b._getBuf(), b.getPos());
+    uint32_t storedfcs = b.readUint32();
+    if (calcfcs != storedfcs)
+        etherPacket->setBitError(true);
+    return etherPacket;
+}
+
+//TODO remove next 2 functions
+int EthernetSerializer::serialize(const EtherFrame *pkt, unsigned char *buf, unsigned int bufsize)
+{
+    Buffer b(buf, bufsize);
+    Context c;
+    serialize(pkt, b, c);
+    return b.getPos();
+}
+
+cPacket *EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsize)
+{
+    Buffer b(const_cast<unsigned char *>(buf), bufsize);
+    Context c;
+    cPacket *pkt = parse(b, c);
     return pkt;
 }
 
 } // namespace serializer
+
 } // namespace inet
 
 
