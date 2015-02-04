@@ -287,11 +287,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate54Mbps()
 }
 
 /* 10 MHz channel rates */
-ModulationType Ieee80211Modulation::GetOfdmRate3MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate3MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(3000000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -300,11 +300,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate3MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(4500000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -313,11 +313,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate6MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate6MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(6000000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -326,11 +326,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate6MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate9MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate9MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(9000000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -339,11 +339,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate9MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate12MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate12MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(12000000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -352,11 +352,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate12MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate18MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate18MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(18000000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -365,11 +365,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate18MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate24MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate24MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(24000000);
     mode.setCodeRate(CODE_RATE_2_3);
@@ -378,11 +378,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate24MbpsBW10MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate27MbpsBW10MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate27MbpsCS10MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(10000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(10000000);
     mode.setDataRate(27000000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -392,11 +392,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate27MbpsBW10MHz()
 }
 
 /* 5 MHz channel rates */
-ModulationType Ieee80211Modulation::GetOfdmRate1_5MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(1500000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -405,11 +405,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate1_5MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate2_25MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate2_25MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(2250000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -418,11 +418,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate2_25MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate3MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate3MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(3000000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -431,11 +431,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate3MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(4500000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -444,11 +444,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate4_5MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate6MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate6MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(6000000);
     mode.setCodeRate(CODE_RATE_1_2);
@@ -457,11 +457,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate6MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate9MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate9MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(9000000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -470,11 +470,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate9MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate12MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate12MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(12000000);
     mode.setCodeRate(CODE_RATE_2_3);
@@ -483,11 +483,11 @@ ModulationType Ieee80211Modulation::GetOfdmRate12MbpsBW5MHz()
     return mode;
 }
 
-ModulationType Ieee80211Modulation::GetOfdmRate13_5MbpsBW5MHz()
+ModulationType Ieee80211Modulation::GetOfdmRate13_5MbpsCS5MHz()
 {
     ModulationType mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(5000000);
+    mode.setBandwidth(20000000);
     mode.setChannelSpacing(5000000);
     mode.setDataRate(13500000);
     mode.setCodeRate(CODE_RATE_3_4);
@@ -500,7 +500,7 @@ simtime_t Ieee80211Modulation::getPlcpHeaderDuration(ModulationType payloadMode,
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getBandwidth()) {
+            switch (payloadMode.getChannelSpacing()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3 and figure 17-4
@@ -544,7 +544,7 @@ simtime_t Ieee80211Modulation::getPlcpPreambleDuration(ModulationType payloadMod
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getBandwidth()) {
+            switch (payloadMode.getChannelSpacing()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3,  figure 17-4
@@ -594,7 +594,7 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, ModulationType 
             // IEEE Std 802.11-2007, section 17.3.2.3, table 17-4
             // corresponds to T_{SYM} in the table
             uint32_t symbolDurationUs;
-            switch (payloadMode.getBandwidth()) {
+            switch (payloadMode.getChannelSpacing()) {
                 case 20000000:
                 default:
                     symbolDurationUs = 4;
@@ -657,12 +657,12 @@ ModulationType Ieee80211Modulation::getPlcpHeaderMode(ModulationType payloadMode
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getBandwidth()) {
+            switch (payloadMode.getChannelSpacing()) {
                 case 5000000:
-                    return Ieee80211Modulation::GetOfdmRate1_5MbpsBW5MHz();
+                    return Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz();
 
                 case 10000000:
-                    return Ieee80211Modulation::GetOfdmRate3MbpsBW10MHz();
+                    return Ieee80211Modulation::GetOfdmRate3MbpsCS10MHz();
 
                 default:
                     // IEEE Std 802.11-2007, 17.3.2
@@ -696,7 +696,7 @@ simtime_t Ieee80211Modulation::getSlotDuration(ModulationType modType, Ieee80211
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getBandwidth()) {
+            switch (modType.getChannelSpacing()) {
                 case 5000000:
                     return 21.0 / 1000000.0;
 
@@ -735,7 +735,7 @@ simtime_t Ieee80211Modulation::getSifsTime(ModulationType modType, Ieee80211Prea
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getBandwidth()) {
+            switch (modType.getChannelSpacing()) {
                 case 5000000:
                     return 64.0 / 1000000.0;
 
@@ -768,7 +768,7 @@ simtime_t Ieee80211Modulation::get_aPHY_RX_START_Delay(ModulationType modType, I
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getBandwidth()) {
+            switch (modType.getChannelSpacing()) {
                 case 5000000:
                     return 97.0 / 1000000.0;
 

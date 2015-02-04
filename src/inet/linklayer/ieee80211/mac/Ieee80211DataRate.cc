@@ -59,14 +59,14 @@ const Ieee80211DescriptorData Ieee80211Descriptor::data[] = {
     { 'g', 48000000, Ieee80211Modulation::GetErpOfdmRate48Mbps() },
     { 'g', 54000000, Ieee80211Modulation::GetErpOfdmRate54Mbps() },
 
-    { 'p', 3000000, Ieee80211Modulation::GetOfdmRate3MbpsBW10MHz() },
-    { 'p', 4500000, Ieee80211Modulation::GetOfdmRate4_5MbpsBW10MHz() },
-    { 'p', 6000000, Ieee80211Modulation::GetOfdmRate6MbpsBW10MHz() },
-    { 'p', 9000000, Ieee80211Modulation::GetOfdmRate9MbpsBW10MHz() },
-    { 'p', 12000000, Ieee80211Modulation::GetOfdmRate12MbpsBW10MHz() },
-    { 'p', 18000000, Ieee80211Modulation::GetOfdmRate18MbpsBW10MHz() },
-    { 'p', 24000000, Ieee80211Modulation::GetOfdmRate24MbpsBW10MHz() },
-    { 'p', 27000000, Ieee80211Modulation::GetOfdmRate27MbpsBW10MHz() },
+    { 'p', 3000000, Ieee80211Modulation::GetOfdmRate3MbpsCS10MHz() },
+    { 'p', 4500000, Ieee80211Modulation::GetOfdmRate4_5MbpsCS10MHz() },
+    { 'p', 6000000, Ieee80211Modulation::GetOfdmRate6MbpsCS10MHz() },
+    { 'p', 9000000, Ieee80211Modulation::GetOfdmRate9MbpsCS10MHz() },
+    { 'p', 12000000, Ieee80211Modulation::GetOfdmRate12MbpsCS10MHz() },
+    { 'p', 18000000, Ieee80211Modulation::GetOfdmRate18MbpsCS10MHz() },
+    { 'p', 24000000, Ieee80211Modulation::GetOfdmRate24MbpsCS10MHz() },
+    { 'p', 27000000, Ieee80211Modulation::GetOfdmRate27MbpsCS10MHz() },
 };
 
 const int Ieee80211Descriptor::descriptorSize = sizeof(Ieee80211Descriptor::data) / sizeof(Ieee80211Descriptor::data[0]);
