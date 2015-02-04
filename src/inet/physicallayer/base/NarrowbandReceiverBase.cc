@@ -16,11 +16,11 @@
 //
 
 #include "inet/physicallayer/contract/IRadioMedium.h"
+#include "inet/physicallayer/base/APSKModulationBase.h"
 #include "inet/physicallayer/base/NarrowbandReceiverBase.h"
 #include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
 #include "inet/physicallayer/base/NarrowbandReceptionBase.h"
 #include "inet/physicallayer/base/NarrowbandNoiseBase.h"
-#include "inet/physicallayer/common/Modulation.h"
 #include "inet/physicallayer/common/BandListening.h"
 #include "inet/physicallayer/common/ListeningDecision.h"
 #include "inet/physicallayer/common/ReceptionDecision.h"
@@ -43,29 +43,18 @@ NarrowbandReceiverBase::NarrowbandReceiverBase() :
 NarrowbandReceiverBase::~NarrowbandReceiverBase()
 {
     delete errorModel;
-    delete modulation;
 }
 
 void NarrowbandReceiverBase::initialize(int stage)
 {
     SNIRReceiverBase::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
+        modulation = APSKModulationBase::findModulation(par("modulation"));
         errorModel = dynamic_cast<IErrorModel *>(getSubmodule("errorModel"));
         energyDetection = mW(math::dBm2mW(par("energyDetection")));
         sensitivity = mW(math::dBm2mW(par("sensitivity")));
         carrierFrequency = Hz(par("carrierFrequency"));
         bandwidth = Hz(par("bandwidth"));
-        const char *modulationName = par("modulation");
-        if (strcmp(modulationName, "BPSK") == 0)
-            modulation = new BPSKModulation();
-        else if (strcmp(modulationName, "16-QAM") == 0)
-            modulation = new QAM16Modulation();
-        else if (strcmp(modulationName, "256-QAM") == 0)
-            modulation = new QAM256Modulation();
-        else if (strcmp(modulationName, "DSSS-OQPSK-16") == 0)
-            modulation = new DSSSOQPSK16Modulation();
-        else
-            throw cRuntimeError(this, "Unknown modulation '%s'", modulationName);
     }
 }
 

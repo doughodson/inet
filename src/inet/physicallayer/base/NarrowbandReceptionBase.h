@@ -18,13 +18,14 @@
 #ifndef __INET_NARROWBANDRECEPTIONBASE_H
 #define __INET_NARROWBANDRECEPTIONBASE_H
 
+#include "inet/physicallayer/contract/IRadioSignal.h"
 #include "inet/physicallayer/base/ReceptionBase.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API NarrowbandReceptionBase : public ReceptionBase
+class INET_API NarrowbandReceptionBase : public ReceptionBase, public virtual INarrowbandSignal
 {
   protected:
     const Hz carrierFrequency;

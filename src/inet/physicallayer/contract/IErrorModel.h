@@ -18,7 +18,7 @@
 #ifndef __INET_IERRORMODEL_H
 #define __INET_IERRORMODEL_H
 
-#include "ISNIR.h"
+#include "inet/physicallayer/contract/ISNIR.h"
 
 namespace inet {
 
@@ -28,9 +28,7 @@ class INET_API IErrorModel : public IPrintableObject
 {
   public:
     virtual double computePacketErrorRate(const ISNIR *snir) const = 0;
-
     virtual double computeBitErrorRate(const ISNIR *snir) const = 0;
-
     virtual double computeSymbolErrorRate(const ISNIR *snir) const = 0;
 };
 

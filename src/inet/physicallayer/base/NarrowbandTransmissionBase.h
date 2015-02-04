@@ -20,12 +20,13 @@
 
 #include "inet/physicallayer/base/TransmissionBase.h"
 #include "inet/physicallayer/contract/IModulation.h"
+#include "inet/physicallayer/contract/IRadioSignal.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API NarrowbandTransmissionBase : public TransmissionBase
+class INET_API NarrowbandTransmissionBase : public TransmissionBase, public virtual INarrowbandSignal
 {
   protected:
     const IModulation *modulation;

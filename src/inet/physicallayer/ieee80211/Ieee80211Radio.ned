@@ -32,6 +32,7 @@ import inet.physicallayer.base.NarrowbandRadioBase;
 // See also ~Ieee80211ScalarRadio, and ~Ieee80211DimensionalRadio for more
 // details.
 //
+// TODO: check this Table 18-14—Receiver performance requirements
 module Ieee80211Radio extends NarrowbandRadioBase
 {
     parameters:

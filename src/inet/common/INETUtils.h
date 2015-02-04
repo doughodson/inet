@@ -73,6 +73,8 @@ cObject *createOneIfClassIsKnown(const char *className, const char *defaultNames
  */
 cObject *createOne(const char *className, const char *defaultNamespace = simulation.getContext()->getClassName());
 
+unsigned int operator"" _b(const char* str);
+
 } // namespace utils
 
 } // namespace inet

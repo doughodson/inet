@@ -24,7 +24,7 @@ namespace inet {
 
 namespace physicallayer {
 
-class INET_API ScalarTransmission : public NarrowbandTransmissionBase
+class INET_API ScalarTransmission : public NarrowbandTransmissionBase, public virtual IScalarSignal
 {
   protected:
     const W power;
@@ -34,6 +34,7 @@ class INET_API ScalarTransmission : public NarrowbandTransmissionBase
 
     virtual void printToStream(std::ostream& stream) const override;
     virtual W getPower() const { return power; }
+    virtual W computeMinPower(const simtime_t startTime, const simtime_t endTime) const { return power; }
 };
 
 } // namespace physicallayer

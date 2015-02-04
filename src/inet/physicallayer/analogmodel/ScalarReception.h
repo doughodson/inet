@@ -18,13 +18,14 @@
 #ifndef __INET_SCALARRECEPTION_H
 #define __INET_SCALARRECEPTION_H
 
+#include "inet/physicallayer/contract/IRadioSignal.h"
 #include "inet/physicallayer/base/NarrowbandReceptionBase.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API ScalarReception : public NarrowbandReceptionBase
+class INET_API ScalarReception : public NarrowbandReceptionBase, public virtual IScalarSignal
 {
   protected:
     const W power;

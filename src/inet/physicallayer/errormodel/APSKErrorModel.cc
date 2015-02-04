@@ -16,6 +16,7 @@
 //
 
 #include "inet/physicallayer/errormodel/APSKErrorModel.h"
+#include "inet/physicallayer/base/APSKModulationBase.h"
 #include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
 
 namespace inet {
@@ -37,23 +38,23 @@ double APSKErrorModel::computePacketErrorRate(const ISNIR *snir) const
     else if (bitErrorRate == 1.0)
         return 1.0;
     else {
-        const IReception *reception = snir->getReception();
-        const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(reception->getTransmission());
-        return 1.0 - pow(1.0 - bitErrorRate, narrowbandTransmission->getPayloadBitLength());
+        const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(snir->getReception()->getTransmission());
+        return 1.0 - pow(1.0 - bitErrorRate, narrowbandTransmission->getHeaderBitLength() + narrowbandTransmission->getPayloadBitLength());
     }
 }
 
 double APSKErrorModel::computeBitErrorRate(const ISNIR *snir) const
 {
-    const IReception *reception = snir->getReception();
-    const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(reception->getTransmission());
-    const IModulation *modulation = narrowbandTransmission->getModulation();
-    return modulation->calculateBER(snir->getMin(), narrowbandTransmission->getBandwidth().get(), narrowbandTransmission->getBitrate().get());
+    const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(snir->getReception()->getTransmission());
+    const APSKModulationBase *modulation = dynamic_cast<const APSKModulationBase *>(narrowbandTransmission->getModulation());
+    return modulation->calculateBER(snir->getMin(), narrowbandTransmission->getBandwidth(), narrowbandTransmission->getBitrate());
 }
 
 double APSKErrorModel::computeSymbolErrorRate(const ISNIR *snir) const
 {
-    return NaN;
+    const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(snir->getReception()->getTransmission());
+    const APSKModulationBase *modulation = dynamic_cast<const APSKModulationBase *>(narrowbandTransmission->getModulation());
+    return modulation->calculateSER(snir->getMin(), narrowbandTransmission->getBandwidth(), narrowbandTransmission->getBitrate());
 }
 
 } // namespace physicallayer

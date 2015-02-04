@@ -112,6 +112,20 @@ cObject *createOne(const char *className, const char *defaultNamespace)
     return ret;
 }
 
+// TODO: compile time
+unsigned int operator"" _b(const char* str)
+{
+    unsigned int bin = 0;
+    for (unsigned int i = 0;  str[i] != '\0';  i++)
+    {
+        char digit = str[i];
+        if (digit != '1' && digit != '0')
+        throw cRuntimeError("Incorrect binary representation %s", str);
+        bin = bin * 2 + (digit - '0');
+    }
+    return bin;
+}
+
 } // namespace utils
 
 } // namespace inet

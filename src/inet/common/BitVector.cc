@@ -95,13 +95,10 @@ void BitVector::appendBit(bool value, int n)
         appendBit(value);
 }
 
-bool BitVector::getBitAllowOutOfRange(int pos) const
+void BitVector::appendByte(uint8_t value)
 {
-    if (undef)
-        throw cRuntimeError("You can't get bits from an undefined BitVector");
-    if (pos >= size)
-        return false;
-    return getBit(pos);
+    for (unsigned int i = 0; i < 8; i++)
+        appendBit(value & (1 << i));
 }
 
 std::string BitVector::toString() const

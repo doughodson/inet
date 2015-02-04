@@ -18,9 +18,9 @@
 #ifndef __INET_NARROWBANDRECEIVERBASE_H
 #define __INET_NARROWBANDRECEIVERBASE_H
 
+#include "inet/physicallayer/base/SNIRReceiverBase.h"
 #include "inet/physicallayer/contract/IModulation.h"
 #include "inet/physicallayer/contract/IErrorModel.h"
-#include "inet/physicallayer/base/SNIRReceiverBase.h"
 
 namespace inet {
 

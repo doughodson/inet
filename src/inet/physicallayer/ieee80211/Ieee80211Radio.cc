@@ -52,7 +52,6 @@ void Ieee80211Radio::handleUpperCommand(cMessage *message)
         int newChannelNumber = configureCommand->getChannelNumber();
         if (newChannelNumber != -1)
             setChannelNumber(newChannelNumber);
-        delete message;
     }
     else
         NarrowbandRadioBase::handleUpperCommand(message);

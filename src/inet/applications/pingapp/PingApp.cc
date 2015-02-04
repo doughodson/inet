@@ -194,9 +194,13 @@ void PingApp::sendPingRequest()
     msg->setByteLength(packetSize);
     std::string time = SIMTIME_STR(simTime());
     int timeLength = time.length();
-    msg->setDataArraySize(timeLength);
-    for (int i = 0; i < timeLength; i++)
-        msg->setData(i, time[i]);
+    // TODO: Revise.
+    msg->setDataArraySize(packetSize - 4);
+    for (int i = 0; i < packetSize - 4; i++)
+        if (i < timeLength)
+            msg->setData(i, time[i]);
+        else
+            msg->setData(i, 0);
 
     // store the sending time in a circular buffer so we can compute RTT when the packet returns
     sendTimeHistory[sendSeqNo % PING_HISTORY_SIZE] = simTime();
