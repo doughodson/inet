@@ -109,8 +109,7 @@ void ExtInterface::handleMessage(cMessage *msg)
         for (uint32 i = 0; i < packetLength; i++)
             buffer[i] = rawPacket->getData(i);
 
-        IPv4Datagram *ipPacket = new IPv4Datagram("ip-from-wire");
-        IPv4Serializer().parse(buffer, packetLength, (IPv4Datagram *)ipPacket);
+        IPv4Datagram *ipPacket = check_and_cast<IPv4Datagram *>(IPv4Serializer().parse(buffer, packetLength));
         EV << "Delivering an IPv4 packet from "
            << ipPacket->getSrcAddress()
            << " to "

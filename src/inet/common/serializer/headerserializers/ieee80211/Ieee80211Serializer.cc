@@ -560,8 +560,7 @@ cPacket* Ieee80211Serializer::parse(const unsigned char *buf, unsigned int bufsi
             {
 #ifdef WITH_IPv4
                 case ETHERTYPE_IPv4:
-                    encapPacket = new IPv4Datagram("ipv4-from-wire");
-                    IPv4Serializer().parse(buf+packetLength, bufsize-packetLength, (IPv4Datagram *)encapPacket);
+                    encapPacket = IPv4Serializer().parse(buf+packetLength, bufsize-packetLength);
                     break;
 #endif
 

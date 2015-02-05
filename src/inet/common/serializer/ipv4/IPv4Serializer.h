@@ -30,6 +30,9 @@ namespace serializer {
  */
 class IPv4Serializer : public SerializerBase
 {
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
+    virtual cPacket* parse(Buffer &b, Context& context) override;
+
   public:
     IPv4Serializer(const char *name = nullptr) : SerializerBase(name) {}
 
@@ -42,15 +45,13 @@ class IPv4Serializer : public SerializerBase
      */
     int serialize(const IPv4Datagram *dgram, unsigned char *buf, unsigned int bufsize, bool hasCalcChkSum = false);
 
-    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
 
-    /**
-     * Puts a packet sniffed from the wire into an IPv4Datagram. Does NOT
-     * verify the checksum.
-     */
-    void parse(const unsigned char *buf, unsigned int bufsize, IPv4Datagram *dest);
-
-    virtual cPacket* parse(Buffer &b, Context& context) override;
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize)
+    {
+        Buffer b(const_cast<unsigned char *>(buf), bufsize);
+        Context c;
+        return parse(b, c);
+    }
 };
 
 } // namespace serializer

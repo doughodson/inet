@@ -104,8 +104,7 @@ cPacket* EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsiz
     {
 #ifdef WITH_IPv4
         case ETHERTYPE_IPv4:
-            encapPacket = new IPv4Datagram("ipv4-from-wire");
-            IPv4Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN, (IPv4Datagram *)encapPacket);
+            encapPacket = IPv4Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
             break;
 #endif
 
