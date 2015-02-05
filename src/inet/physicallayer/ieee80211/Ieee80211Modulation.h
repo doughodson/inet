@@ -20,7 +20,6 @@
 #ifndef __INET_IEEE80211MODULATION_H
 #define __INET_IEEE80211MODULATION_H
 
-#include <ostream>
 #include "inet/physicallayer/base/PhysicalLayerDefs.h"
 
 namespace inet {
@@ -233,12 +232,6 @@ class Ieee80211Modulation
 };
 
 bool operator==(const Ieee80211Modulation& a, const Ieee80211Modulation& b);
-
-inline std::ostream& operator<<(std::ostream& out, const Ieee80211Modulation& m)
-{
-    //FIXME TODO implements operator<<
-    return out;
-}
 
 } // namespace physicallayer
 
