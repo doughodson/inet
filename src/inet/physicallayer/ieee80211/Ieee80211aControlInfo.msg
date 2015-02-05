@@ -37,7 +37,7 @@ class Radio80211aControlInfo
     double snr;
     double lossRate;
     double recPow;
-    Ieee80211Modulation modulationType;
+    Ieee80211Modulation modulation;
     bool airtimeMetric;
     double testFrameDuration;
     double testFrameError;

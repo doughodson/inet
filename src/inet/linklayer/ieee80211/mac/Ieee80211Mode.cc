@@ -203,10 +203,10 @@ const Ieee80211Mode& Ieee80211Mode::getDescriptor(int idx)
     return data[idx];
 }
 
-Ieee80211Modulation Ieee80211Mode::getModulationType(char mode, double bitrate)
+Ieee80211Modulation Ieee80211Mode::getModulation(char mode, double bitrate)
 {
     int i = getIdx(mode, bitrate);
-    return getDescriptor(i).modulationType;
+    return getDescriptor(i).modulation;
 }
 
 } // namespace ieee80211

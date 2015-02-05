@@ -237,12 +237,12 @@ void Ieee80211Mac::initialize(int stage)
         {
             int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
             controlBitRate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
-            controlFrameModulationType = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulationType;
+            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulation;
         }
         else
         {
             int basicBitrateIdx = Ieee80211Mode::getIdx(opMode, controlBitRate);
-            controlFrameModulationType = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulationType;
+            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulation;
         }
 
         // configure AutoBit Rate
@@ -708,8 +708,8 @@ void Ieee80211Mac::handleLowerPacket(cPacket *msg)
     emit(NF_LINK_FULL_PROMISCUOUS, msg);
     validRecMode = false;
     if (cinfo) {
-        recFrameModulationType = cinfo->getModulationType();
-        if (!isNaN(recFrameModulationType.getDataRate().get()))
+        recFrameModulation = cinfo->getModulation();
+        if (!isNaN(recFrameModulation.getDataRate().get()))
             validRecMode = true;
     }
 
@@ -1391,7 +1391,7 @@ simtime_t Ieee80211Mac::getSIFS()
 // TODO:   return aRxRFDelay() + aRxPLCPDelay() + aMACProcessingDelay() + aRxTxTurnaroundTime();
     if (useModulationParameters) {
         Ieee80211Modulation modType;
-        modType = Ieee80211Mode::getModulationType(opMode, bitrate);
+        modType = Ieee80211Mode::getModulation(opMode, bitrate);
         return modType.getSifsTime(wifiPreambleType);
     }
 
@@ -1403,7 +1403,7 @@ simtime_t Ieee80211Mac::getSlotTime()
 // TODO:   return aCCATime() + aRxTxTurnaroundTime + aAirPropagationTime() + aMACProcessingDelay();
     if (useModulationParameters) {
         Ieee80211Modulation modType;
-        modType = Ieee80211Mode::getModulationType(opMode, bitrate);
+        modType = Ieee80211Mode::getModulation(opMode, bitrate);
         return modType.getSlotDuration(wifiPreambleType);
     }
     return ST;
@@ -1430,7 +1430,7 @@ simtime_t Ieee80211Mac::getDIFS(int category)
 simtime_t Ieee80211Mac::getHeaderTime(double bitrate)
 {
     Ieee80211Modulation modType;
-    modType = Ieee80211Mode::getModulationType(opMode, bitrate);
+    modType = Ieee80211Mode::getModulation(opMode, bitrate);
     return modType.getPreambleAndHeader(wifiPreambleType);
 }
 
@@ -1554,7 +1554,7 @@ void Ieee80211Mac::scheduleDataTimeoutPeriod(Ieee80211DataOrMgmtFrame *frameToSe
         EV_DEBUG << "scheduling data timeout period\n";
         if (useModulationParameters) {
             Ieee80211Modulation modType;
-            modType = Ieee80211Mode::getModulationType(opMode, bitRate);
+            modType = Ieee80211Mode::getModulation(opMode, bitRate);
             double duration = computeFrameDuration(frameToSend);
             double slot = SIMTIME_DBL(modType.getSlotDuration(wifiPreambleType));
             double sifs = SIMTIME_DBL(modType.getSifsTime(wifiPreambleType));
@@ -2051,7 +2051,7 @@ double Ieee80211Mac::computeFrameDuration(int bits, double bitrate)
 {
     double duration;
     Ieee80211Modulation modType;
-    modType = Ieee80211Mode::getModulationType(opMode, bitrate);
+    modType = Ieee80211Mode::getModulation(opMode, bitrate);
     if (PHY_HEADER_LENGTH < 0)
         duration = SIMTIME_DBL(modType.calculateTxDuration(bits, wifiPreambleType));
     else
@@ -2534,7 +2534,7 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
         if (Ieee80211Mode::getDescriptor(idx).mode != opMode)
             break;
         Ieee80211Modulation thismode;
-        thismode = Ieee80211Mode::getModulationType(opMode, Ieee80211Mode::getDescriptor(idx).bitrate);
+        thismode = Ieee80211Mode::getModulation(opMode, Ieee80211Mode::getDescriptor(idx).bitrate);
 
         /* If the rate:
          *
@@ -2671,11 +2671,11 @@ double Ieee80211Mac::controlFrameTxTime(int bits)
 {
      double duration;
      if (PHY_HEADER_LENGTH < 0)
-         duration = SIMTIME_DBL(controlFrameModulationType.calculateTxDuration(bits,wifiPreambleType));
+         duration = SIMTIME_DBL(controlFrameModulation.calculateTxDuration(bits,wifiPreambleType));
      else
-         duration = SIMTIME_DBL(controlFrameModulationType.getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
+         duration = SIMTIME_DBL(controlFrameModulation.getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
 
-     EV_DEBUG << " duration=" << duration*1e6 << "us(" << bits << "bits " << controlFrameModulationType.getPhyRate()/1e6 << "Mbps)" << endl;
+     EV_DEBUG << " duration=" << duration*1e6 << "us(" << bits << "bits " << controlFrameModulation.getPhyRate()/1e6 << "Mbps)" << endl;
      return duration;
 }
 
