@@ -216,18 +216,18 @@ void Ieee80211Mac::initialize(int stage)
         lastTimeDelete = 0;
 
         if (bitrate == -1) {
-            rateIndex = Ieee80211Descriptor::getMaxIdx(opMode);
-            bitrate = Ieee80211Descriptor::getDescriptor(rateIndex).bitrate;
+            rateIndex = Ieee80211Mode::getMaxIdx(opMode);
+            bitrate = Ieee80211Mode::getDescriptor(rateIndex).bitrate;
         }
         else
-            rateIndex = Ieee80211Descriptor::getIdx(opMode, bitrate);
+            rateIndex = Ieee80211Mode::getIdx(opMode, bitrate);
 
         if (basicBitrate == -1) {
-            int basicBitrateIdx = Ieee80211Descriptor::getMaxIdx(opMode);
-            basicBitrate = Ieee80211Descriptor::getDescriptor(basicBitrateIdx).bitrate;
+            int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
+            basicBitrate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
         }
         else
-            Ieee80211Descriptor::getIdx(opMode, basicBitrate);
+            Ieee80211Mode::getIdx(opMode, basicBitrate);
 
         controlBitRate = par("controlBitrate").doubleValue();
 
@@ -235,14 +235,14 @@ void Ieee80211Mac::initialize(int stage)
 
         if (controlBitRate == -1)
         {
-            int basicBitrateIdx = Ieee80211Descriptor::getMaxIdx(opMode);
-            controlBitRate = Ieee80211Descriptor::getDescriptor(basicBitrateIdx).bitrate;
-            controlFrameModulationType = Ieee80211Descriptor::getDescriptor(basicBitrateIdx).modulationType;
+            int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
+            controlBitRate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
+            controlFrameModulationType = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulationType;
         }
         else
         {
-            int basicBitrateIdx = Ieee80211Descriptor::getIdx(opMode, controlBitRate);
-            controlFrameModulationType = Ieee80211Descriptor::getDescriptor(basicBitrateIdx).modulationType;
+            int basicBitrateIdx = Ieee80211Mode::getIdx(opMode, controlBitRate);
+            controlFrameModulationType = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulationType;
         }
 
         // configure AutoBit Rate
@@ -1391,7 +1391,7 @@ simtime_t Ieee80211Mac::getSIFS()
 // TODO:   return aRxRFDelay() + aRxPLCPDelay() + aMACProcessingDelay() + aRxTxTurnaroundTime();
     if (useModulationParameters) {
         Ieee80211Modulation modType;
-        modType = Ieee80211Descriptor::getModulationType(opMode, bitrate);
+        modType = Ieee80211Mode::getModulationType(opMode, bitrate);
         return modType.getSifsTime(wifiPreambleType);
     }
 
@@ -1403,7 +1403,7 @@ simtime_t Ieee80211Mac::getSlotTime()
 // TODO:   return aCCATime() + aRxTxTurnaroundTime + aAirPropagationTime() + aMACProcessingDelay();
     if (useModulationParameters) {
         Ieee80211Modulation modType;
-        modType = Ieee80211Descriptor::getModulationType(opMode, bitrate);
+        modType = Ieee80211Mode::getModulationType(opMode, bitrate);
         return modType.getSlotDuration(wifiPreambleType);
     }
     return ST;
@@ -1430,7 +1430,7 @@ simtime_t Ieee80211Mac::getDIFS(int category)
 simtime_t Ieee80211Mac::getHeaderTime(double bitrate)
 {
     Ieee80211Modulation modType;
-    modType = Ieee80211Descriptor::getModulationType(opMode, bitrate);
+    modType = Ieee80211Mode::getModulationType(opMode, bitrate);
     return modType.getPreambleAndHeader(wifiPreambleType);
 }
 
@@ -1554,7 +1554,7 @@ void Ieee80211Mac::scheduleDataTimeoutPeriod(Ieee80211DataOrMgmtFrame *frameToSe
         EV_DEBUG << "scheduling data timeout period\n";
         if (useModulationParameters) {
             Ieee80211Modulation modType;
-            modType = Ieee80211Descriptor::getModulationType(opMode, bitRate);
+            modType = Ieee80211Mode::getModulationType(opMode, bitRate);
             double duration = computeFrameDuration(frameToSend);
             double slot = SIMTIME_DBL(modType.getSlotDuration(wifiPreambleType));
             double sifs = SIMTIME_DBL(modType.getSifsTime(wifiPreambleType));
@@ -2051,7 +2051,7 @@ double Ieee80211Mac::computeFrameDuration(int bits, double bitrate)
 {
     double duration;
     Ieee80211Modulation modType;
-    modType = Ieee80211Descriptor::getModulationType(opMode, bitrate);
+    modType = Ieee80211Mode::getModulationType(opMode, bitrate);
     if (PHY_HEADER_LENGTH < 0)
         duration = SIMTIME_DBL(modType.calculateTxDuration(bits, wifiPreambleType));
     else
@@ -2170,9 +2170,9 @@ void Ieee80211Mac::reportDataOk()
     failedCounter = 0;
     recovery = false;
     if ((successCounter == getSuccessThreshold() || timer == getTimerTimeout())
-        && Ieee80211Descriptor::incIdx(rateIndex))
+        && Ieee80211Mode::incIdx(rateIndex))
     {
-        setBitrate(Ieee80211Descriptor::getDescriptor(rateIndex).bitrate);
+        setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
         timer = 0;
         successCounter = 0;
         recovery = true;
@@ -2190,16 +2190,16 @@ void Ieee80211Mac::reportDataFailed(void)
     if (recovery) {
         if (retryCounter() == 1) {
             reportRecoveryFailure();
-            if (Ieee80211Descriptor::decIdx(rateIndex))
-                setBitrate(Ieee80211Descriptor::getDescriptor(rateIndex).bitrate);
+            if (Ieee80211Mode::decIdx(rateIndex))
+                setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
         }
         timer = 0;
     }
     else {
         if (needNormalFallback()) {
             reportFailure();
-            if (Ieee80211Descriptor::decIdx(rateIndex))
-                setBitrate(Ieee80211Descriptor::getDescriptor(rateIndex).bitrate);
+            if (Ieee80211Mode::decIdx(rateIndex))
+                setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
         }
         if (retryCounter() >= 2) {
             timer = 0;
@@ -2530,11 +2530,11 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
      */
     bool found = false;
     Ieee80211Modulation mode;
-    for (int idx = Ieee80211Descriptor::getMinIdx(opMode); idx < Ieee80211Descriptor::size(); idx++) {
-        if (Ieee80211Descriptor::getDescriptor(idx).mode != opMode)
+    for (int idx = Ieee80211Mode::getMinIdx(opMode); idx < Ieee80211Mode::size(); idx++) {
+        if (Ieee80211Mode::getDescriptor(idx).mode != opMode)
             break;
         Ieee80211Modulation thismode;
-        thismode = Ieee80211Descriptor::getModulationType(opMode, Ieee80211Descriptor::getDescriptor(idx).bitrate);
+        thismode = Ieee80211Mode::getModulationType(opMode, Ieee80211Mode::getDescriptor(idx).bitrate);
 
         /* If the rate:
          *

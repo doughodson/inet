@@ -15,10 +15,7 @@ class INET_API Ieee80211Mode
     char mode;
     double bitrate;
     Ieee80211Modulation modulationType;
-};
 
-class INET_API Ieee80211Descriptor
-{
   private:
     static const int descriptorSize;
     static const Ieee80211Mode data[];

@@ -31,7 +31,7 @@ using namespace inet::physicallayer;
 /* Bit rates for 802.11b/g/a/p.
  * Must be ordered by mode, bitrate.
  */
-const Ieee80211Mode Ieee80211Descriptor::data[] = {
+const Ieee80211Mode Ieee80211Mode::data[] = {
     { 'a', 6000000, Ieee80211Modulation::GetOfdmRate6Mbps() },
     { 'a', 9000000, Ieee80211Modulation::GetOfdmRate9Mbps() },
     { 'a', 12000000, Ieee80211Modulation::GetOfdmRate12Mbps() },
@@ -69,12 +69,12 @@ const Ieee80211Mode Ieee80211Descriptor::data[] = {
     { 'p', 27000000, Ieee80211Modulation::GetOfdmRate27MbpsCS10MHz() },
 };
 
-const int Ieee80211Descriptor::descriptorSize = sizeof(Ieee80211Descriptor::data) / sizeof(Ieee80211Descriptor::data[0]);
+const int Ieee80211Mode::descriptorSize = sizeof(Ieee80211Mode::data) / sizeof(Ieee80211Mode::data[0]);
 
 #if 0
 // linear search
 
-int Ieee80211Descriptor::findIdx(char mode, double bitrate)
+int Ieee80211Mode::findIdx(char mode, double bitrate)
 {
     for (int i = 0; i < descriptorSize; i++) {
         if (data[i].mode == mode) {
@@ -89,7 +89,7 @@ int Ieee80211Descriptor::findIdx(char mode, double bitrate)
     return -1;
 }
 
-int Ieee80211Descriptor::getMinIdx(char mode)
+int Ieee80211Mode::getMinIdx(char mode)
 {
     for (int i = 0; i < descriptorSize; i++) {
         if (data[i].mode == mode)
@@ -100,7 +100,7 @@ int Ieee80211Descriptor::getMinIdx(char mode)
     throw cRuntimeError("mode '%c' not valid", mode);
 }
 
-int Ieee80211Descriptor::getMaxIdx(char mode)
+int Ieee80211Mode::getMaxIdx(char mode)
 {
     int idx = -1;
     for (int i = 0; i < descriptorSize; i++) {
@@ -130,7 +130,7 @@ bool ieee80211DescriptorCompareMode(const Ieee80211Mode& a, const Ieee80211Mode&
 }
 } // namespace {
 
-int Ieee80211Descriptor::findIdx(char mode, double bitrate)
+int Ieee80211Mode::findIdx(char mode, double bitrate)
 {
     Ieee80211Mode d;
     d.mode = mode;
@@ -142,7 +142,7 @@ int Ieee80211Descriptor::findIdx(char mode, double bitrate)
     return -1;
 }
 
-int Ieee80211Descriptor::getMinIdx(char mode)
+int Ieee80211Mode::getMinIdx(char mode)
 {
     Ieee80211Mode d;
     d.mode = mode;
@@ -153,7 +153,7 @@ int Ieee80211Descriptor::getMinIdx(char mode)
     throw cRuntimeError("mode '%c' not valid", mode);
 }
 
-int Ieee80211Descriptor::getMaxIdx(char mode)
+int Ieee80211Mode::getMaxIdx(char mode)
 {
     Ieee80211Mode d;
     d.mode = mode;
@@ -168,7 +168,7 @@ int Ieee80211Descriptor::getMaxIdx(char mode)
 
 #endif // if 0
 
-int Ieee80211Descriptor::getIdx(char mode, double bitrate)
+int Ieee80211Mode::getIdx(char mode, double bitrate)
 {
     int idx = findIdx(mode, bitrate);
     if (idx == -1)
@@ -176,7 +176,7 @@ int Ieee80211Descriptor::getIdx(char mode, double bitrate)
     return idx;
 }
 
-bool Ieee80211Descriptor::incIdx(int& idx)
+bool Ieee80211Mode::incIdx(int& idx)
 {
     ASSERT(idx >= 0 && idx < descriptorSize);
 
@@ -186,7 +186,7 @@ bool Ieee80211Descriptor::incIdx(int& idx)
     return true;
 }
 
-bool Ieee80211Descriptor::decIdx(int& idx)
+bool Ieee80211Mode::decIdx(int& idx)
 {
     ASSERT(idx >= 0 && idx < descriptorSize);
 
@@ -196,14 +196,14 @@ bool Ieee80211Descriptor::decIdx(int& idx)
     return true;
 }
 
-const Ieee80211Mode& Ieee80211Descriptor::getDescriptor(int idx)
+const Ieee80211Mode& Ieee80211Mode::getDescriptor(int idx)
 {
     ASSERT(idx >= 0 && idx < descriptorSize);
 
     return data[idx];
 }
 
-Ieee80211Modulation Ieee80211Descriptor::getModulationType(char mode, double bitrate)
+Ieee80211Modulation Ieee80211Mode::getModulationType(char mode, double bitrate)
 {
     int i = getIdx(mode, bitrate);
     return getDescriptor(i).modulationType;
