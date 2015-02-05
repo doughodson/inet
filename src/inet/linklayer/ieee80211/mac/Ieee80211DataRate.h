@@ -7,14 +7,14 @@ namespace inet {
 
 namespace ieee80211 {
 
-struct Ieee80211Mode
+class INET_API Ieee80211Mode
 {
     char mode;
     double bitrate;
     ModulationType modulationType;
 };
 
-class Ieee80211Descriptor
+class INET_API Ieee80211Descriptor
 {
   private:
     static const int descriptorSize;
