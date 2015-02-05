@@ -88,8 +88,6 @@ class ModulationType
      */
     uint32_t getChannelSpacing(void) const { return channelSpacing; }
     void setChannelSpacing(uint32_t p) { channelSpacing = p; }
-    uint32_t getFrequency(void) const { return frequency; }
-    void setFrequency(uint32_t p) { frequency = p; }
     uint32_t getBandwidth() const { return bandwidth; }
     void setBandwidth(uint32_t p) { bandwidth = p; }
     /**
@@ -161,7 +159,6 @@ class ModulationType
         phyRate = 0;
         constellationSize = 0;
         modulationClass = MOD_CLASS_UNKNOWN;
-        frequency = 2400;
     }
 
     bool operator==(const ModulationType& b)
@@ -177,7 +174,6 @@ class ModulationType
     uint32_t phyRate;
     uint8_t constellationSize;
     enum ModulationClass modulationClass;
-    uint32_t frequency;
     uint32_t bandwidth;
 };
 
