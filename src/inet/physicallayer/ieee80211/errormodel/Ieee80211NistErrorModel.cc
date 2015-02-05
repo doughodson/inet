@@ -145,7 +145,7 @@ double Ieee80211NistErrorModel::GetFec64QamBer(double snr, uint32_t nbits, uint3
     return pms;
 }
 
-double Ieee80211NistErrorModel::GetChunkSuccessRate(ModulationType mode, double snr, uint32_t nbits) const
+double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211Modulation mode, double snr, uint32_t nbits) const
 {
     if (mode.getModulationClass() == MOD_CLASS_ERP_OFDM || mode.getModulationClass() == MOD_CLASS_OFDM) {
         if (mode.getConstellationSize() == 2) {

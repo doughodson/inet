@@ -71,6 +71,16 @@ enum CodeRate {
 };
 
 /**
+ * See IEEE Std 802.11-2007 section 18.2.2.
+ */
+enum Ieee80211PreambleMode {
+    IEEE80211_PREAMBLE_LONG,
+    IEEE80211_PREAMBLE_SHORT,
+    IEEE80211_PREAMBLE_HT_MF,
+    IEEE80211_PREAMBLE_HT_GF
+};
+
+/**
  * \brief represent a single transmission mode
  *
  * A WifiMode is implemented by a single integer which is used
@@ -78,7 +88,7 @@ enum CodeRate {
  * associated transmission mode. It is thus extremely cheap to
  * keep a WifiMode variable around.
  */
-class ModulationType
+class Ieee80211Modulation
 {
   public:
     /**
@@ -147,7 +157,7 @@ class ModulationType
 
     void setIsMandatory(bool val) { isMandatory = val; }
     bool getIsMandatory() { return isMandatory; }
-    ModulationType()
+    Ieee80211Modulation()
     {
         isMandatory = false;
         channelSpacing = 0;
@@ -159,7 +169,7 @@ class ModulationType
         modulationClass = MOD_CLASS_UNKNOWN;
     }
 
-    bool operator==(const ModulationType& b)
+    bool operator==(const Ieee80211Modulation& b)
     {
         return *this == b;
     }
@@ -173,76 +183,63 @@ class ModulationType
     uint8_t constellationSize;
     enum ModulationClass modulationClass;
     uint32_t bandwidth;
+
+  public:
+    static Ieee80211Modulation GetDsssRate1Mbps();
+    static Ieee80211Modulation GetDsssRate2Mbps();
+    static Ieee80211Modulation GetDsssRate5_5Mbps();
+    static Ieee80211Modulation GetDsssRate11Mbps();
+    static Ieee80211Modulation GetErpOfdmRate6Mbps();
+    static Ieee80211Modulation GetErpOfdmRate9Mbps();
+    static Ieee80211Modulation GetErpOfdmRate12Mbps();
+    static Ieee80211Modulation GetErpOfdmRate18Mbps();
+    static Ieee80211Modulation GetErpOfdmRate24Mbps();
+    static Ieee80211Modulation GetErpOfdmRate36Mbps();
+    static Ieee80211Modulation GetErpOfdmRate48Mbps();
+    static Ieee80211Modulation GetErpOfdmRate54Mbps();
+    static Ieee80211Modulation GetOfdmRate6Mbps();
+    static Ieee80211Modulation GetOfdmRate9Mbps();
+    static Ieee80211Modulation GetOfdmRate12Mbps();
+    static Ieee80211Modulation GetOfdmRate18Mbps();
+    static Ieee80211Modulation GetOfdmRate24Mbps();
+    static Ieee80211Modulation GetOfdmRate36Mbps();
+    static Ieee80211Modulation GetOfdmRate48Mbps();
+    static Ieee80211Modulation GetOfdmRate54Mbps();
+    static Ieee80211Modulation GetOfdmRate3MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate4_5MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate6MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate9MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate12MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate18MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate24MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate27MbpsCS10MHz();
+    static Ieee80211Modulation GetOfdmRate1_5MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate2_25MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate3MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate4_5MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate6MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate9MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate12MbpsCS5MHz();
+    static Ieee80211Modulation GetOfdmRate13_5MbpsCS5MHz();
+
+    static simtime_t getPlcpHeaderDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t getPlcpPreambleDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t getPreambleAndHeader(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t getPayloadDuration(uint64_t size, Ieee80211Modulation payloadMode);
+    static simtime_t calculateTxDuration(uint64_t size, Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t getSlotDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t getSifsTime(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static simtime_t get_aPHY_RX_START_Delay(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    static Ieee80211Modulation getPlcpHeaderMode(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
 };
 
-bool operator==(const ModulationType& a, const ModulationType& b);
+bool operator==(const Ieee80211Modulation& a, const Ieee80211Modulation& b);
 
-inline std::ostream& operator<<(std::ostream& out, const ModulationType& m)
+inline std::ostream& operator<<(std::ostream& out, const Ieee80211Modulation& m)
 {
     //FIXME TODO implements operator<<
     return out;
 }
-
-/**
- * See IEEE Std 802.11-2007 section 18.2.2.
- */
-enum Ieee80211PreambleMode {
-    IEEE80211_PREAMBLE_LONG,
-    IEEE80211_PREAMBLE_SHORT,
-    IEEE80211_PREAMBLE_HT_MF,
-    IEEE80211_PREAMBLE_HT_GF
-};
-
-class Ieee80211Modulation
-{
-  public:
-    static ModulationType GetDsssRate1Mbps();
-    static ModulationType GetDsssRate2Mbps();
-    static ModulationType GetDsssRate5_5Mbps();
-    static ModulationType GetDsssRate11Mbps();
-    static ModulationType GetErpOfdmRate6Mbps();
-    static ModulationType GetErpOfdmRate9Mbps();
-    static ModulationType GetErpOfdmRate12Mbps();
-    static ModulationType GetErpOfdmRate18Mbps();
-    static ModulationType GetErpOfdmRate24Mbps();
-    static ModulationType GetErpOfdmRate36Mbps();
-    static ModulationType GetErpOfdmRate48Mbps();
-    static ModulationType GetErpOfdmRate54Mbps();
-    static ModulationType GetOfdmRate6Mbps();
-    static ModulationType GetOfdmRate9Mbps();
-    static ModulationType GetOfdmRate12Mbps();
-    static ModulationType GetOfdmRate18Mbps();
-    static ModulationType GetOfdmRate24Mbps();
-    static ModulationType GetOfdmRate36Mbps();
-    static ModulationType GetOfdmRate48Mbps();
-    static ModulationType GetOfdmRate54Mbps();
-    static ModulationType GetOfdmRate3MbpsCS10MHz();
-    static ModulationType GetOfdmRate4_5MbpsCS10MHz();
-    static ModulationType GetOfdmRate6MbpsCS10MHz();
-    static ModulationType GetOfdmRate9MbpsCS10MHz();
-    static ModulationType GetOfdmRate12MbpsCS10MHz();
-    static ModulationType GetOfdmRate18MbpsCS10MHz();
-    static ModulationType GetOfdmRate24MbpsCS10MHz();
-    static ModulationType GetOfdmRate27MbpsCS10MHz();
-    static ModulationType GetOfdmRate1_5MbpsCS5MHz();
-    static ModulationType GetOfdmRate2_25MbpsCS5MHz();
-    static ModulationType GetOfdmRate3MbpsCS5MHz();
-    static ModulationType GetOfdmRate4_5MbpsCS5MHz();
-    static ModulationType GetOfdmRate6MbpsCS5MHz();
-    static ModulationType GetOfdmRate9MbpsCS5MHz();
-    static ModulationType GetOfdmRate12MbpsCS5MHz();
-    static ModulationType GetOfdmRate13_5MbpsCS5MHz();
-
-    static simtime_t getPlcpHeaderDuration(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPlcpPreambleDuration(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPreambleAndHeader(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPayloadDuration(uint64_t size, ModulationType payloadMode);
-    static simtime_t calculateTxDuration(uint64_t size, ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getSlotDuration(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getSifsTime(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t get_aPHY_RX_START_Delay(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-    static ModulationType getPlcpHeaderMode(ModulationType payloadMode, Ieee80211PreambleMode preamble);
-};
 
 } // namespace physicallayer
 

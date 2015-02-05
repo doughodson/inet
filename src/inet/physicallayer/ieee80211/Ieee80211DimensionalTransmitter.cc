@@ -71,7 +71,7 @@ const ITransmission *Ieee80211DimensionalTransmitter::createTransmission(const I
     TransmissionRequest *controlInfo = dynamic_cast<TransmissionRequest *>(macFrame->getControlInfo());
     W transmissionPower = controlInfo && !isNaN(controlInfo->getPower().get()) ? controlInfo->getPower() : power;
     bps transmissionBitrate = controlInfo && !isNaN(controlInfo->getBitrate().get()) ? controlInfo->getBitrate() : bitrate;
-    ModulationType modulationType = Ieee80211Descriptor::getModulationType(opMode, transmissionBitrate.get());
+    Ieee80211Modulation modulationType = Ieee80211Descriptor::getModulationType(opMode, transmissionBitrate.get());
     const simtime_t duration = SIMTIME_DBL(Ieee80211Modulation::calculateTxDuration(macFrame->getBitLength(), modulationType, preambleMode));
     const simtime_t endTime = startTime + duration;
     IMobility *mobility = transmitter->getAntenna()->getMobility();

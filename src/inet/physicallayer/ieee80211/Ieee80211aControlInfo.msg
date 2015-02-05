@@ -30,14 +30,14 @@ using namespace inet::physicallayer;
 
 namespace inet;
 
-class noncobject ModulationType;
+class noncobject Ieee80211Modulation;
 
 class Radio80211aControlInfo
 {
     double snr;
     double lossRate;
     double recPow;
-    ModulationType modulationType;
+    Ieee80211Modulation modulationType;
     bool airtimeMetric;
     double testFrameDuration;
     double testFrameError;

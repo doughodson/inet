@@ -81,11 +81,11 @@ double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
         headerSize = HEADER_WITHOUT_PREAMBLE;
     else
         headerSize = 24;
-    ModulationType modeBody = Ieee80211Descriptor::getModulationType(opMode, bitrate);
-    ModulationType modeHeader = Ieee80211Modulation::getPlcpHeaderMode(modeBody, preambleUsed);
+    Ieee80211Modulation modeBody = Ieee80211Descriptor::getModulationType(opMode, bitrate);
+    Ieee80211Modulation modeHeader = Ieee80211Modulation::getPlcpHeaderMode(modeBody, preambleUsed);
     if (opMode == 'g') {
         if (autoHeaderSize) {
-            ModulationType modeBodyA = Ieee80211Descriptor::getModulationType('a', bitrate);
+            Ieee80211Modulation modeBodyA = Ieee80211Descriptor::getModulationType('a', bitrate);
             headerSize = ceil(SIMTIME_DBL(Ieee80211Modulation::getPlcpHeaderDuration(modeBodyA, preambleUsed)) * modeHeader.getDataRate());
         }
     }

@@ -14,7 +14,7 @@ class INET_API Ieee80211Mode
   public:
     char mode;
     double bitrate;
-    ModulationType modulationType;
+    Ieee80211Modulation modulationType;
 };
 
 class INET_API Ieee80211Descriptor
@@ -31,7 +31,7 @@ class INET_API Ieee80211Descriptor
     static bool incIdx(int& idx);
     static bool decIdx(int& idx);
     static const Ieee80211Mode& getDescriptor(int idx);
-    static ModulationType getModulationType(char mode, double bitrate);
+    static Ieee80211Modulation getModulationType(char mode, double bitrate);
     static int size() { return descriptorSize; }
 };
 
