@@ -78,6 +78,12 @@ enum Ieee80211PreambleMode {
     IEEE80211_PREAMBLE_HT_GF
 };
 
+class INET_API Ieee80211Code
+{
+  public:
+    static Ieee80211Code getCodeRate1per2() { return Ieee80211Code(); }
+};
+
 /**
  * \brief represent a single transmission mode
  *
@@ -86,7 +92,7 @@ enum Ieee80211PreambleMode {
  * associated transmission mode. It is thus extremely cheap to
  * keep a WifiMode variable around.
  */
-class Ieee80211Modulation
+class INET_API Ieee80211Modulation
 {
   public:
     /**

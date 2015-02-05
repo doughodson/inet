@@ -2,6 +2,7 @@
 #define __INET_IEEE80211DATARATE_H
 
 #include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211OFDMCode.h"
 
 namespace inet {
 
@@ -14,11 +15,16 @@ class INET_API Ieee80211Mode
   public:
     char mode;
     double bitrate;
+    bool isMandatory;
+    Ieee80211Code code;
     Ieee80211Modulation modulation;
 
   private:
     static const int descriptorSize;
     static const Ieee80211Mode data[];
+
+  public:
+    bool getIsMandatory() { return isMandatory; }
 
   public:
     static int findIdx(char mode, double bitrate);
