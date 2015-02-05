@@ -110,8 +110,7 @@ cPacket* EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsiz
 
 #ifdef WITH_IPv6
         case ETHERTYPE_IPv6:
-            encapPacket = new IPv6Datagram("ipv6-from-wire");
-            IPv6Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN, (IPv6Datagram *)encapPacket);
+            encapPacket = IPv6Serializer().parse(buf+ETHER_HDR_LEN, bufsize-ETHER_HDR_LEN);
             break;
 #endif
 

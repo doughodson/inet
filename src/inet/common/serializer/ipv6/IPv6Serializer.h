@@ -30,6 +30,10 @@ namespace serializer {
  */
 class IPv6Serializer : public SerializerBase
 {
+  protected:
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
+    virtual cPacket* parse(Buffer &b, Context& context) override;
+
   public:
     IPv6Serializer(const char *name = nullptr) : SerializerBase(name) {}
 
@@ -38,13 +42,11 @@ class IPv6Serializer : public SerializerBase
      * Returns the length of data written into buffer.
      */
     int serialize(const IPv6Datagram *dgram, unsigned char *buf, unsigned int bufsize);
-    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
 
     /**
      * Puts a packet sniffed from the wire into an IPv6Datagram.
      */
-    void parse(const unsigned char *buf, unsigned int bufsize, IPv6Datagram *dest);
-    virtual cPacket* parse(Buffer &b, Context& context) override;
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer

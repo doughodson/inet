@@ -136,13 +136,14 @@ int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, uns
 
 cPacket* IPv6Serializer::parse(Buffer &b, Context& context)
 {
-    IPv6Datagram *pkt = new IPv6Datagram("parsed-ipv6");
-    parse(b._getBuf(), b._getBufSize(), pkt);
+    cPacket* pkt = parse(static_cast<unsigned char *>(b.accessNBytes(0)), b.getRemainder());
+    b.accessNBytes(b.getRemainder());
     return pkt;
 }
 
-void IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv6Datagram *dest)
+cPacket *IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize)
 {
+    IPv6Datagram *dest = new IPv6Datagram("parsed-ipv6");
     const struct ip6_hdr *ip6h = (struct ip6_hdr *) buf;
     uint32_t flowinfo = ntohl(ip6h->ip6_flow);
     dest->setFlowLabel(flowinfo & 0xFFFFF);
@@ -208,6 +209,7 @@ void IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize, IPv6D
     ASSERT(encapPacket);
     dest->encapsulate(encapPacket);
     dest->setName(encapPacket->getName());
+    return dest;
 }
 
 } // namespace serializer
