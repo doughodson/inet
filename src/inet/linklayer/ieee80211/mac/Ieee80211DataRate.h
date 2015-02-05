@@ -7,6 +7,8 @@ namespace inet {
 
 namespace ieee80211 {
 
+using namespace inet::physicallayer;
+
 class INET_API Ieee80211Mode
 {
   public:

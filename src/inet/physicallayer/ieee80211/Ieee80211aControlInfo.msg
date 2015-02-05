@@ -21,7 +21,11 @@
 // Control info for controlling the physical layer (the radio).
 //
 cplusplus {{
+
 #include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+
+using namespace inet::physicallayer;
+
 }}
 
 namespace inet;

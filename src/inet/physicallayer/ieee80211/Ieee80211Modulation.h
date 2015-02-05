@@ -26,6 +26,8 @@
 
 namespace inet {
 
+namespace physicallayer {
+
 enum ModulationClass {
     /** Modulation class unknown or unspecified. A WifiMode with this
        WifiModulationClass has not been properly initialised. */
@@ -180,8 +182,6 @@ inline std::ostream& operator<<(std::ostream& out, const ModulationType& m)
     //FIXME TODO implements operator<<
     return out;
 }
-
-namespace physicallayer {
 
 /**
  * See IEEE Std 802.11-2007 section 18.2.2.
