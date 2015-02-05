@@ -112,7 +112,7 @@ int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, uns
 
 #ifdef WITH_SCTP
         case IP_PROT_SCTP:
-            packetLength = sctp::SCTPSerializer().serialize(check_and_cast<sctp::SCTPMessage *>(encapPacket),
+            packetLength = SCTPSerializer().serialize(check_and_cast<sctp::SCTPMessage *>(encapPacket),
                         buf + IPv6_HEADER_BYTES, bufsize - IPv6_HEADER_BYTES);
             break;
 #endif // ifdef WITH_SCTP

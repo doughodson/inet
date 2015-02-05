@@ -42,15 +42,32 @@
 
 namespace inet {
 
-using namespace serializer;
+using namespace sctp;
 
-namespace sctp {
+namespace serializer {
+
+Register_Serializer(sctp::SCTPMessage, IP_PROT, IP_PROT_SCTP, SCTPSerializer);
 
 unsigned char SCTPSerializer::keyVector[512];
 unsigned int SCTPSerializer::sizeKeyVector = 0;
 unsigned char SCTPSerializer::peerKeyVector[512];
 unsigned int SCTPSerializer::sizePeerKeyVector = 0;
 unsigned char SCTPSerializer::sharedKey[512];
+
+void SCTPSerializer::serialize(const cPacket *pkt, Buffer &b, Context& context)
+{
+    int32 len = serialize(check_and_cast<const SCTPMessage *>(pkt), static_cast<unsigned char *>(b.accessNBytes(0)), b.getRemainder());
+    b.accessNBytes(len);
+}
+
+cPacket* SCTPSerializer::parse(Buffer &b, Context& context)
+{
+    SCTPMessage *dest = new SCTPMessage("parsed-sctp");
+    parse(static_cast<uint8 *>(b.accessNBytes(0)), b.getRemainder(), dest);
+    b.accessNBytes(b.getRemainder());
+    return dest;
+}
+
 
 int32 SCTPSerializer::serialize(const SCTPMessage *msg, unsigned char *buf, uint32 bufsize)
 {
