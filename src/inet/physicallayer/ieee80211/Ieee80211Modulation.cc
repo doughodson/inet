@@ -496,11 +496,11 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate13_5MbpsCS5MHz()
     return mode;
 }
 
-simtime_t Ieee80211Modulation::getPlcpHeaderDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::getPlcpHeaderDuration(Ieee80211PreambleMode preamble)
 {
-    switch (payloadMode.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)payloadMode.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3 and figure 17-4
@@ -540,11 +540,11 @@ simtime_t Ieee80211Modulation::getPlcpHeaderDuration(Ieee80211Modulation payload
     }
 }
 
-simtime_t Ieee80211Modulation::getPlcpPreambleDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::getPlcpPreambleDuration(Ieee80211PreambleMode preamble)
 {
-    switch (payloadMode.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)payloadMode.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3,  figure 17-4
@@ -585,16 +585,16 @@ simtime_t Ieee80211Modulation::getPlcpPreambleDuration(Ieee80211Modulation paylo
 //
 // Compute the Payload duration in function of the modulation type
 //
-simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modulation payloadMode)
+simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size)
 {
     simtime_t val;
-    switch (payloadMode.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM:
         case MOD_CLASS_ERP_OFDM: {
             // IEEE Std 802.11-2007, section 17.3.2.3, table 17-4
             // corresponds to T_{SYM} in the table
             simtime_t symbolDurationUs;
-            switch ((int)payloadMode.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     symbolDurationUs = 4;
@@ -610,13 +610,13 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
             }
             // IEEE Std 802.11-2007, section 17.3.2.2, table 17-3
             // corresponds to N_{DBPS} in the table
-            double numDataBitsPerSymbol = payloadMode.getDataRate().get() * symbolDurationUs.dbl() / 1e6;
+            double numDataBitsPerSymbol = getDataRate().get() * symbolDurationUs.dbl() / 1e6;
             // IEEE Std 802.11-2007, section 17.3.5.3, equation (17-11)
             int numSymbols = lrint(ceil((16 + size + 6.0) / numDataBitsPerSymbol));
 
             // Add signal extension for ERP PHY
             double aux;
-            if (payloadMode.getModulationClass() == MOD_CLASS_ERP_OFDM)
+            if (getModulationClass() == MOD_CLASS_ERP_OFDM)
                 aux = numSymbols * symbolDurationUs.dbl() + 6;
             else
                 aux = numSymbols * symbolDurationUs.dbl();
@@ -627,7 +627,7 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
         case MOD_CLASS_DSSS:
             // IEEE Std 802.11-2007, section 18.2.3.5
             double aux;
-            aux = lrint(ceil((size) / (payloadMode.getDataRate().get() / 1.0e6)));
+            aux = lrint(ceil((size) / (getDataRate().get() / 1.0e6)));
             val = (aux / 1000000.0);
             return val;
             break;
@@ -640,24 +640,24 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
 //
 // Return the physical header duration, useful for the mac
 //
-simtime_t Ieee80211Modulation::getPreambleAndHeader(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::getPreambleAndHeader(Ieee80211PreambleMode preamble)
 {
-    return getPlcpPreambleDuration(payloadMode, preamble) + getPlcpHeaderDuration(payloadMode, preamble);
+    return getPlcpPreambleDuration(preamble) + getPlcpHeaderDuration(preamble);
 }
 
-simtime_t Ieee80211Modulation::calculateTxDuration(uint64_t size, Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble)
 {
-    simtime_t duration = getPlcpPreambleDuration(payloadMode, preamble)
-        + getPlcpHeaderDuration(payloadMode, preamble)
-        + getPayloadDuration(size, payloadMode);
+    simtime_t duration = getPlcpPreambleDuration(preamble)
+        + getPlcpHeaderDuration(preamble)
+        + getPayloadDuration(size);
     return duration;
 }
 
-Ieee80211Modulation Ieee80211Modulation::getPlcpHeaderMode(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble)
+Ieee80211Modulation Ieee80211Modulation::getPlcpHeaderMode(Ieee80211PreambleMode preamble)
 {
-    switch (payloadMode.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)payloadMode.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 5000000:
                     return Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz();
 
@@ -692,11 +692,11 @@ Ieee80211Modulation Ieee80211Modulation::getPlcpHeaderMode(Ieee80211Modulation p
     }
 }
 
-simtime_t Ieee80211Modulation::getSlotDuration(Ieee80211Modulation modType, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::getSlotDuration(Ieee80211PreambleMode preamble)
 {
-    switch (modType.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)modType.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 5000000:
                     return 21.0 / 1000000.0;
 
@@ -731,11 +731,11 @@ simtime_t Ieee80211Modulation::getSlotDuration(Ieee80211Modulation modType, Ieee
     }
 }
 
-simtime_t Ieee80211Modulation::getSifsTime(Ieee80211Modulation modType, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::getSifsTime(Ieee80211PreambleMode preamble)
 {
-    switch (modType.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)modType.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 5000000:
                     return 64.0 / 1000000.0;
 
@@ -764,11 +764,11 @@ simtime_t Ieee80211Modulation::getSifsTime(Ieee80211Modulation modType, Ieee8021
     }
 }
 
-simtime_t Ieee80211Modulation::get_aPHY_RX_START_Delay(Ieee80211Modulation modType, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211Modulation::get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble)
 {
-    switch (modType.getModulationClass()) {
+    switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch ((int)modType.getChannelSpacing().get()) {
+            switch ((int)getChannelSpacing().get()) {
                 case 5000000:
                     return 97.0 / 1000000.0;
 

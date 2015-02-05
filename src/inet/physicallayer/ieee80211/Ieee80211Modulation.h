@@ -220,15 +220,15 @@ class Ieee80211Modulation
     static Ieee80211Modulation GetOfdmRate12MbpsCS5MHz();
     static Ieee80211Modulation GetOfdmRate13_5MbpsCS5MHz();
 
-    static simtime_t getPlcpHeaderDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPlcpPreambleDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPreambleAndHeader(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getPayloadDuration(uint64_t size, Ieee80211Modulation payloadMode);
-    static simtime_t calculateTxDuration(uint64_t size, Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getSlotDuration(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t getSifsTime(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static simtime_t get_aPHY_RX_START_Delay(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
-    static Ieee80211Modulation getPlcpHeaderMode(Ieee80211Modulation payloadMode, Ieee80211PreambleMode preamble);
+    simtime_t getPlcpHeaderDuration(Ieee80211PreambleMode preamble);
+    simtime_t getPlcpPreambleDuration(Ieee80211PreambleMode preamble);
+    simtime_t getPreambleAndHeader(Ieee80211PreambleMode preamble);
+    simtime_t getPayloadDuration(uint64_t size);
+    simtime_t calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble);
+    simtime_t getSlotDuration(Ieee80211PreambleMode preamble);
+    simtime_t getSifsTime(Ieee80211PreambleMode preamble);
+    simtime_t get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble);
+    Ieee80211Modulation getPlcpHeaderMode(Ieee80211PreambleMode preamble);
 };
 
 bool operator==(const Ieee80211Modulation& a, const Ieee80211Modulation& b);
