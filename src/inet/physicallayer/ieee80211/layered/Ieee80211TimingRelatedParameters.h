@@ -41,7 +41,7 @@ class INET_API Ieee80211TimingRelatedParameters
         int getNumberOfPilotSubcarriers() const { return 4; }
         int getNumberOfTotalSubcarriers() const { return getNumberOfDataSubcarriers() + getNumberOfPilotSubcarriers(); }
         Hz getChannelSpacing() const { return channelSpacing; }
-        Hz getSubcarrierFrequencySpacing() const { return channelSpacing / 24; }
+        Hz getSubcarrierFrequencySpacing() const { return channelSpacing / 64; }
         simtime_t getFFTTransformPeriod() const { return simtime_t(1 / getSubcarrierFrequencySpacing().get()); }
         simtime_t getPreambleDuration() const { return getShortTrainingSequenceDuration() + getLongTrainingSequenceDuration(); }
         simtime_t getSignalDuration() const { return getSymbolInterval(); }
