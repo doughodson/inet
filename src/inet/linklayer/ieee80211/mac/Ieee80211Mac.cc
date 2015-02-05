@@ -23,7 +23,7 @@
 #include "inet/physicallayer/contract/RadioControlInfo_m.h"
 #include "inet/physicallayer/ieee80211/Ieee80211aControlInfo_m.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211eClassifier.h"
-#include "inet/linklayer/ieee80211/mac/Ieee80211DataRate.h"
+#include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
 #include "inet/common/INETUtils.h"
 #include "inet/common/ModuleAccess.h"
 

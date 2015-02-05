@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-#include "inet/linklayer/ieee80211/mac/Ieee80211DataRate.h"
+#include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
 
 #include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
 

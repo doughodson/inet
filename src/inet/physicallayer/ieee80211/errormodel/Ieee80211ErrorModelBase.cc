@@ -21,7 +21,7 @@
 #include "inet/physicallayer/ieee80211/Ieee80211TransmissionBase.h"
 #include "inet/physicallayer/ieee80211/errormodel/Ieee80211ErrorModelBase.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Consts.h"
-#include "inet/linklayer/ieee80211/mac/Ieee80211DataRate.h"
+#include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
 
 namespace inet {
 
