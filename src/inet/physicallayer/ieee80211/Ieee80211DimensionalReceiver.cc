@@ -16,7 +16,6 @@
 //
 
 #include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
-#include "inet/physicallayer/common/ModulationType.h"
 #include "inet/physicallayer/ieee80211/Ieee80211DimensionalReceiver.h"
 #include "inet/physicallayer/ieee80211/Ieee80211DimensionalTransmission.h"
 
