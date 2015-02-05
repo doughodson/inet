@@ -21,8 +21,7 @@
 #define __INET_IEEE80211MODULATION_H
 
 #include <ostream>
-#include <stdint.h>
-#include "inet/common/INETDefs.h"
+#include "inet/physicallayer/base/PhysicalLayerDefs.h"
 
 namespace inet {
 
@@ -94,10 +93,10 @@ class Ieee80211Modulation
     /**
      * \returns the number of Hz used by this signal
      */
-    uint32_t getChannelSpacing(void) const { return channelSpacing; }
-    void setChannelSpacing(uint32_t p) { channelSpacing = p; }
-    uint32_t getBandwidth() const { return bandwidth; }
-    void setBandwidth(uint32_t p) { bandwidth = p; }
+    Hz getChannelSpacing(void) const { return channelSpacing; }
+    void setChannelSpacing(Hz p) { channelSpacing = p; }
+    Hz getBandwidth() const { return bandwidth; }
+    void setBandwidth(Hz p) { bandwidth = p; }
     /**
      * \returns the physical bit rate of this signal.
      *
@@ -131,12 +130,12 @@ class Ieee80211Modulation
                 break;
         }
     };
-    uint32_t getPhyRate(void) const { return phyRate; }
+    bps getPhyRate(void) const { return phyRate; }
     /**
      * \returns the data bit rate of this signal.
      */
-    uint32_t getDataRate(void) const { return dataRate; }
-    void setDataRate(uint32_t p) { dataRate = p; }
+    bps getDataRate(void) const { return dataRate; }
+    void setDataRate(bps p) { dataRate = p; }
     /**
      * \returns the coding rate of this transmission mode
      */
@@ -160,11 +159,11 @@ class Ieee80211Modulation
     Ieee80211Modulation()
     {
         isMandatory = false;
-        channelSpacing = 0;
-        bandwidth = 0;
+        channelSpacing = Hz(NaN);
+        bandwidth = Hz(NaN);
         codeRate = CODE_RATE_UNDEFINED;
-        dataRate = 0;
-        phyRate = 0;
+        dataRate = bps(NaN);
+        phyRate = bps(NaN);
         constellationSize = 0;
         modulationClass = MOD_CLASS_UNKNOWN;
     }
@@ -176,13 +175,13 @@ class Ieee80211Modulation
 
   private:
     bool isMandatory;
-    uint32_t channelSpacing;
+    Hz channelSpacing;
     enum CodeRate codeRate;
-    uint32_t dataRate;
-    uint32_t phyRate;
+    bps dataRate;
+    bps phyRate;
     uint8_t constellationSize;
     enum ModulationClass modulationClass;
-    uint32_t bandwidth;
+    Hz bandwidth;
 
   public:
     static Ieee80211Modulation GetDsssRate1Mbps();

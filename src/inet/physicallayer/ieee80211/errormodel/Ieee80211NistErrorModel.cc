@@ -190,7 +190,7 @@ double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211Modulation mode, do
         }
     }
     else if (mode.getModulationClass() == MOD_CLASS_DSSS) {
-        switch (mode.getDataRate()) {
+        switch ((int)mode.getDataRate().get()) {
             case 1000000:
                 return DsssErrorRateModel::GetDsssDbpskSuccessRate(snr, nbits);
 

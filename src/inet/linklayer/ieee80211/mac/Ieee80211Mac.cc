@@ -709,7 +709,7 @@ void Ieee80211Mac::handleLowerPacket(cPacket *msg)
     validRecMode = false;
     if (cinfo) {
         recFrameModulationType = cinfo->getModulationType();
-        if (recFrameModulationType.getDataRate() > 0)
+        if (!isNaN(recFrameModulationType.getDataRate().get()))
             validRecMode = true;
     }
 

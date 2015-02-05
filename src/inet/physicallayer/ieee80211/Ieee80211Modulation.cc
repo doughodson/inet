@@ -28,9 +28,9 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate1Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_DSSS);
-    mode.setBandwidth(22000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(1000000);
+    mode.setBandwidth(Hz(22000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(1000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -41,9 +41,9 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate2Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_DSSS);
-    mode.setBandwidth(22000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(2000000);
+    mode.setBandwidth(Hz(22000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(2000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -57,9 +57,9 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate5_5Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_DSSS);
-    mode.setBandwidth(22000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(5500000);
+    mode.setBandwidth(Hz(22000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(5500000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -70,9 +70,9 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate11Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_DSSS);
-    mode.setBandwidth(22000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(11000000);
+    mode.setBandwidth(Hz(22000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(11000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -87,8 +87,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate6Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(6000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -99,8 +99,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate9Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(9000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
     mode.setIsMandatory(false);
@@ -111,8 +111,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate12Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(12000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -123,8 +123,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate18Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(18000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
     mode.setIsMandatory(false);
@@ -135,8 +135,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate24Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(24000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
     mode.setIsMandatory(true);
@@ -147,8 +147,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate36Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(36000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
     mode.setIsMandatory(false);
@@ -159,8 +159,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate48Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(48000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -171,8 +171,8 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate54Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_ERP_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setDataRate(54000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -186,9 +186,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(6000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -199,9 +199,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(9000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
     mode.setIsMandatory(false);
@@ -212,9 +212,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(12000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -225,9 +225,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate18Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(18000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
     mode.setIsMandatory(false);
@@ -238,9 +238,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate24Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(24000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
     mode.setIsMandatory(true);
@@ -251,9 +251,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate36Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(36000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
     mode.setIsMandatory(false);
@@ -264,9 +264,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate48Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(48000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -277,9 +277,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate54Mbps()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(20000000);
-    mode.setDataRate(54000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(20000000));
+    mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -291,9 +291,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate3MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(3000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -304,9 +304,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate4_5MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(4500000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
     mode.setIsMandatory(false);
@@ -317,9 +317,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(6000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -330,9 +330,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(9000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
     mode.setIsMandatory(false);
@@ -343,9 +343,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(12000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
     mode.setIsMandatory(true);
@@ -356,9 +356,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate18MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(18000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
     mode.setIsMandatory(false);
@@ -369,9 +369,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate24MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(24000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -382,9 +382,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate27MbpsCS10MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(10000000);
-    mode.setDataRate(27000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(10000000));
+    mode.setDataRate(bps(27000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -396,9 +396,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(1500000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(1500000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
     mode.setIsMandatory(true);
@@ -409,9 +409,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate2_25MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(2250000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(2250000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
     mode.setIsMandatory(false);
@@ -422,9 +422,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate3MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(3000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
     mode.setIsMandatory(true);
@@ -435,9 +435,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate4_5MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(4500000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
     mode.setIsMandatory(false);
@@ -448,9 +448,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(6000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
     mode.setIsMandatory(true);
@@ -461,9 +461,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(9000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
     mode.setIsMandatory(false);
@@ -474,9 +474,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(12000000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -487,9 +487,9 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate13_5MbpsCS5MHz()
 {
     Ieee80211Modulation mode;
     mode.setModulationClass(MOD_CLASS_OFDM);
-    mode.setBandwidth(20000000);
-    mode.setChannelSpacing(5000000);
-    mode.setDataRate(13500000);
+    mode.setBandwidth(Hz(20000000));
+    mode.setChannelSpacing(Hz(5000000));
+    mode.setDataRate(bps(13500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
     mode.setIsMandatory(false);
@@ -500,7 +500,7 @@ simtime_t Ieee80211Modulation::getPlcpHeaderDuration(Ieee80211Modulation payload
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getChannelSpacing()) {
+            switch ((int)payloadMode.getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3 and figure 17-4
@@ -544,7 +544,7 @@ simtime_t Ieee80211Modulation::getPlcpPreambleDuration(Ieee80211Modulation paylo
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getChannelSpacing()) {
+            switch ((int)payloadMode.getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     // IEEE Std 802.11-2007, section 17.3.3,  figure 17-4
@@ -593,8 +593,8 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
         case MOD_CLASS_ERP_OFDM: {
             // IEEE Std 802.11-2007, section 17.3.2.3, table 17-4
             // corresponds to T_{SYM} in the table
-            uint32_t symbolDurationUs;
-            switch (payloadMode.getChannelSpacing()) {
+            simtime_t symbolDurationUs;
+            switch ((int)payloadMode.getChannelSpacing().get()) {
                 case 20000000:
                 default:
                     symbolDurationUs = 4;
@@ -610,16 +610,16 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
             }
             // IEEE Std 802.11-2007, section 17.3.2.2, table 17-3
             // corresponds to N_{DBPS} in the table
-            double numDataBitsPerSymbol = payloadMode.getDataRate() * symbolDurationUs / 1e6;
+            double numDataBitsPerSymbol = payloadMode.getDataRate().get() * symbolDurationUs.dbl() / 1e6;
             // IEEE Std 802.11-2007, section 17.3.5.3, equation (17-11)
-            uint32_t numSymbols = lrint(ceil((16 + size + 6.0) / numDataBitsPerSymbol));
+            int numSymbols = lrint(ceil((16 + size + 6.0) / numDataBitsPerSymbol));
 
             // Add signal extension for ERP PHY
             double aux;
             if (payloadMode.getModulationClass() == MOD_CLASS_ERP_OFDM)
-                aux = numSymbols * symbolDurationUs + 6;
+                aux = numSymbols * symbolDurationUs.dbl() + 6;
             else
-                aux = numSymbols * symbolDurationUs;
+                aux = numSymbols * symbolDurationUs.dbl();
             val = (aux / 1000000.0);
             return val;
         }
@@ -627,7 +627,7 @@ simtime_t Ieee80211Modulation::getPayloadDuration(uint64_t size, Ieee80211Modula
         case MOD_CLASS_DSSS:
             // IEEE Std 802.11-2007, section 18.2.3.5
             double aux;
-            aux = lrint(ceil((size) / (payloadMode.getDataRate() / 1.0e6)));
+            aux = lrint(ceil((size) / (payloadMode.getDataRate().get() / 1.0e6)));
             val = (aux / 1000000.0);
             return val;
             break;
@@ -657,7 +657,7 @@ Ieee80211Modulation Ieee80211Modulation::getPlcpHeaderMode(Ieee80211Modulation p
 {
     switch (payloadMode.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (payloadMode.getChannelSpacing()) {
+            switch ((int)payloadMode.getChannelSpacing().get()) {
                 case 5000000:
                     return Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz();
 
@@ -696,7 +696,7 @@ simtime_t Ieee80211Modulation::getSlotDuration(Ieee80211Modulation modType, Ieee
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getChannelSpacing()) {
+            switch ((int)modType.getChannelSpacing().get()) {
                 case 5000000:
                     return 21.0 / 1000000.0;
 
@@ -735,7 +735,7 @@ simtime_t Ieee80211Modulation::getSifsTime(Ieee80211Modulation modType, Ieee8021
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getChannelSpacing()) {
+            switch ((int)modType.getChannelSpacing().get()) {
                 case 5000000:
                     return 64.0 / 1000000.0;
 
@@ -768,7 +768,7 @@ simtime_t Ieee80211Modulation::get_aPHY_RX_START_Delay(Ieee80211Modulation modTy
 {
     switch (modType.getModulationClass()) {
         case MOD_CLASS_OFDM: {
-            switch (modType.getChannelSpacing()) {
+            switch ((int)modType.getChannelSpacing().get()) {
                 case 5000000:
                     return 97.0 / 1000000.0;
 

@@ -86,12 +86,12 @@ double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
     if (opMode == 'g') {
         if (autoHeaderSize) {
             Ieee80211Modulation modeBodyA = Ieee80211Descriptor::getModulationType('a', bitrate);
-            headerSize = ceil(SIMTIME_DBL(Ieee80211Modulation::getPlcpHeaderDuration(modeBodyA, preambleUsed)) * modeHeader.getDataRate());
+            headerSize = ceil(SIMTIME_DBL(Ieee80211Modulation::getPlcpHeaderDuration(modeBodyA, preambleUsed)) * modeHeader.getDataRate().get());
         }
     }
     else if (opMode == 'b' || opMode == 'a' || opMode == 'p') {
         if (autoHeaderSize)
-            headerSize = ceil(SIMTIME_DBL(Ieee80211Modulation::getPlcpHeaderDuration(modeBody, preambleUsed)) * modeHeader.getDataRate());
+            headerSize = ceil(SIMTIME_DBL(Ieee80211Modulation::getPlcpHeaderDuration(modeBody, preambleUsed)) * modeHeader.getDataRate().get());
     }
     else
         throw cRuntimeError("Radio model not supported yet, must be a,b,g or p");
