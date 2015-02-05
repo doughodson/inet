@@ -17,7 +17,7 @@
 
 #include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
 #include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
-#include "inet/physicallayer/common/ModulationType.h"
+#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
 #include "inet/physicallayer/ieee80211/Ieee80211TransmissionBase.h"
 #include "inet/physicallayer/ieee80211/errormodel/Ieee80211ErrorModelBase.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Consts.h"
