@@ -7,7 +7,7 @@ namespace inet {
 
 namespace ieee80211 {
 
-struct Ieee80211DescriptorData
+struct Ieee80211Mode
 {
     char mode;
     double bitrate;
@@ -18,7 +18,7 @@ class Ieee80211Descriptor
 {
   private:
     static const int descriptorSize;
-    static const Ieee80211DescriptorData data[];
+    static const Ieee80211Mode data[];
 
   public:
     static int findIdx(char mode, double bitrate);
@@ -27,7 +27,7 @@ class Ieee80211Descriptor
     static int getMaxIdx(char mode);
     static bool incIdx(int& idx);
     static bool decIdx(int& idx);
-    static const Ieee80211DescriptorData& getDescriptor(int idx);
+    static const Ieee80211Mode& getDescriptor(int idx);
     static ModulationType getModulationType(char mode, double bitrate);
     static int size() { return descriptorSize; }
 };

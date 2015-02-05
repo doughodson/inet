@@ -31,7 +31,7 @@ using namespace inet::physicallayer;
 /* Bit rates for 802.11b/g/a/p.
  * Must be ordered by mode, bitrate.
  */
-const Ieee80211DescriptorData Ieee80211Descriptor::data[] = {
+const Ieee80211Mode Ieee80211Descriptor::data[] = {
     { 'a', 6000000, Ieee80211Modulation::GetOfdmRate6Mbps() },
     { 'a', 9000000, Ieee80211Modulation::GetOfdmRate9Mbps() },
     { 'a', 12000000, Ieee80211Modulation::GetOfdmRate12Mbps() },
@@ -117,13 +117,13 @@ int Ieee80211Descriptor::getMaxIdx(char mode)
 #else // if 0
 
 namespace {
-bool ieee80211DescriptorCompareModeBitrate(const Ieee80211DescriptorData& a, const Ieee80211DescriptorData& b)
+bool ieee80211DescriptorCompareModeBitrate(const Ieee80211Mode& a, const Ieee80211Mode& b)
 {
     // return a < b;
     return (a.mode < b.mode) || ((a.mode == b.mode) && (a.bitrate < b.bitrate));
 }
 
-bool ieee80211DescriptorCompareMode(const Ieee80211DescriptorData& a, const Ieee80211DescriptorData& b)
+bool ieee80211DescriptorCompareMode(const Ieee80211Mode& a, const Ieee80211Mode& b)
 {
     // return a < b;
     return a.mode < b.mode;
@@ -132,11 +132,11 @@ bool ieee80211DescriptorCompareMode(const Ieee80211DescriptorData& a, const Ieee
 
 int Ieee80211Descriptor::findIdx(char mode, double bitrate)
 {
-    Ieee80211DescriptorData d;
+    Ieee80211Mode d;
     d.mode = mode;
     d.bitrate = bitrate;
 
-    const Ieee80211DescriptorData *found = std::lower_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareModeBitrate);
+    const Ieee80211Mode *found = std::lower_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareModeBitrate);
     if (found->mode == mode && found->bitrate == bitrate)
         return (int)(found - data);
     return -1;
@@ -144,10 +144,10 @@ int Ieee80211Descriptor::findIdx(char mode, double bitrate)
 
 int Ieee80211Descriptor::getMinIdx(char mode)
 {
-    Ieee80211DescriptorData d;
+    Ieee80211Mode d;
     d.mode = mode;
 
-    const Ieee80211DescriptorData *found = std::lower_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareMode);
+    const Ieee80211Mode *found = std::lower_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareMode);
     if (found->mode == mode)
         return (int)(found - data);
     throw cRuntimeError("mode '%c' not valid", mode);
@@ -155,10 +155,10 @@ int Ieee80211Descriptor::getMinIdx(char mode)
 
 int Ieee80211Descriptor::getMaxIdx(char mode)
 {
-    Ieee80211DescriptorData d;
+    Ieee80211Mode d;
     d.mode = mode;
 
-    const Ieee80211DescriptorData *found = std::upper_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareMode);
+    const Ieee80211Mode *found = std::upper_bound(data, &data[descriptorSize], d, ieee80211DescriptorCompareMode);
     if (found > data)
         --found;
     if (found->mode == mode)
@@ -196,7 +196,7 @@ bool Ieee80211Descriptor::decIdx(int& idx)
     return true;
 }
 
-const Ieee80211DescriptorData& Ieee80211Descriptor::getDescriptor(int idx)
+const Ieee80211Mode& Ieee80211Descriptor::getDescriptor(int idx)
 {
     ASSERT(idx >= 0 && idx < descriptorSize);
 
