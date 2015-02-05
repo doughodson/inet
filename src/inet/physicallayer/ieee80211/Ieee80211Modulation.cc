@@ -33,7 +33,6 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate1Mbps()
     mode.setDataRate(bps(1000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -46,7 +45,6 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate2Mbps()
     mode.setDataRate(bps(2000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -62,7 +60,6 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate5_5Mbps()
     mode.setDataRate(bps(5500000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -75,7 +72,6 @@ Ieee80211Modulation Ieee80211Modulation::GetDsssRate11Mbps()
     mode.setDataRate(bps(11000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -91,7 +87,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate6Mbps()
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -103,7 +98,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate9Mbps()
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -115,7 +109,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate12Mbps()
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -127,7 +120,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate18Mbps()
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -139,7 +131,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate24Mbps()
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -151,7 +142,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate36Mbps()
     mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -163,7 +153,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate48Mbps()
     mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -175,7 +164,6 @@ Ieee80211Modulation Ieee80211Modulation::GetErpOfdmRate54Mbps()
     mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -191,7 +179,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6Mbps()
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -204,7 +191,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9Mbps()
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -217,7 +203,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12Mbps()
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -230,7 +215,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate18Mbps()
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -243,7 +227,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate24Mbps()
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -256,7 +239,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate36Mbps()
     mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -269,7 +251,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate48Mbps()
     mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -282,7 +263,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate54Mbps()
     mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -296,7 +276,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate3MbpsCS10MHz()
     mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -309,7 +288,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate4_5MbpsCS10MHz()
     mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -322,7 +300,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6MbpsCS10MHz()
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -335,7 +312,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9MbpsCS10MHz()
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -348,7 +324,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12MbpsCS10MHz()
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -361,7 +336,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate18MbpsCS10MHz()
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -374,7 +348,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate24MbpsCS10MHz()
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -387,7 +360,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate27MbpsCS10MHz()
     mode.setDataRate(bps(27000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -401,7 +373,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate1_5MbpsCS5MHz()
     mode.setDataRate(bps(1500000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -414,7 +385,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate2_25MbpsCS5MHz()
     mode.setDataRate(bps(2250000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(2);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -427,7 +397,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate3MbpsCS5MHz()
     mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -440,7 +409,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate4_5MbpsCS5MHz()
     mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(4);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -453,7 +421,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate6MbpsCS5MHz()
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(true);
     return mode;
 }
 
@@ -466,7 +433,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate9MbpsCS5MHz()
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(16);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -479,7 +445,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate12MbpsCS5MHz()
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_2_3);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 
@@ -492,7 +457,6 @@ Ieee80211Modulation Ieee80211Modulation::GetOfdmRate13_5MbpsCS5MHz()
     mode.setDataRate(bps(13500000));
     mode.setCodeRate(CODE_RATE_3_4);
     mode.setConstellationSize(64);
-    mode.setIsMandatory(false);
     return mode;
 }
 

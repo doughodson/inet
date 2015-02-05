@@ -24,7 +24,7 @@ class INET_API Ieee80211Mode
     static const Ieee80211Mode data[];
 
   public:
-    bool getIsMandatory() { return isMandatory; }
+    bool getIsMandatory() const { return isMandatory; }
 
   public:
     static int findIdx(char mode, double bitrate);

@@ -2529,12 +2529,13 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
      * there is not yet any manipulation here of PHY options.
      */
     bool found = false;
-    Ieee80211Modulation mode;
+    Ieee80211Modulation modulation;
     for (int idx = Ieee80211Mode::getMinIdx(opMode); idx < Ieee80211Mode::size(); idx++) {
         if (Ieee80211Mode::getDescriptor(idx).mode != opMode)
             break;
-        Ieee80211Modulation thismode;
-        thismode = Ieee80211Mode::getModulation(opMode, Ieee80211Mode::getDescriptor(idx).bitrate);
+        const Ieee80211Mode & mode = Ieee80211Mode::getDescriptor(Ieee80211Mode::getIdx(opMode, Ieee80211Mode::getDescriptor(idx).bitrate));
+        Ieee80211Modulation thismodulation;
+        thismodulation = Ieee80211Mode::getModulation(opMode, Ieee80211Mode::getDescriptor(idx).bitrate);
 
         /* If the rate:
          *
@@ -2545,12 +2546,12 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
          *
          * ...then it's our best choice so far.
          */
-        if (thismode.getIsMandatory()
-            && (!found || thismode.getPhyRate() > mode.getPhyRate())
-            && thismode.getPhyRate() <= reqMode.getPhyRate()
-            && thismode.getModulationClass() == reqMode.getModulationClass())
+        if (mode.getIsMandatory()
+            && (!found || thismodulation.getPhyRate() > modulation.getPhyRate())
+            && thismodulation.getPhyRate() <= reqMode.getPhyRate()
+            && thismodulation.getModulationClass() == reqMode.getModulationClass())
         {
-            mode = thismode;
+            modulation = thismodulation;
             // As above; we've found a potentially-suitable transmit
             // rate, but we need to continue and consider all the
             // mandatory rates before we can be sure we've got the right
@@ -2573,7 +2574,7 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
         throw cRuntimeError("Can't find response rate for reqMode. Check standard and selected rates match.");
     }
 
-    return mode;
+    return modulation;
 }
 
 // This methods implemet the duplicate filter

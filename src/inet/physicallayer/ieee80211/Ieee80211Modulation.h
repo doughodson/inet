@@ -159,11 +159,8 @@ class INET_API Ieee80211Modulation
     enum ModulationClass getModulationClass() const { return modulationClass; }
     void setModulationClass(enum ModulationClass p) { modulationClass = p; }
 
-    void setIsMandatory(bool val) { isMandatory = val; }
-    bool getIsMandatory() { return isMandatory; }
     Ieee80211Modulation()
     {
-        isMandatory = false;
         channelSpacing = Hz(NaN);
         bandwidth = Hz(NaN);
         codeRate = CODE_RATE_UNDEFINED;
@@ -179,7 +176,6 @@ class INET_API Ieee80211Modulation
     }
 
   private:
-    bool isMandatory;
     Hz channelSpacing;
     enum CodeRate codeRate;
     bps dataRate;
