@@ -19,6 +19,7 @@
 #ifndef __INET_IGMPSERIALIZER_H
 #define __INET_IGMPSERIALIZER_H
 
+#include "inet/common/serializer/ISerializer.h"
 #include "inet/networklayer/ipv4/IGMPMessage.h"
 
 namespace inet {
@@ -28,21 +29,30 @@ namespace serializer {
 /**
  * Converts between IGMPMessage and binary (network byte order) IGMP header.
  */
-class IGMPSerializer
+class IGMPSerializer : public SerializerBase
 {
+  protected:
+    virtual void serialize(const cPacket *pkt, Buffer &b, Context& context) override;
+    virtual cPacket* parse(Buffer &b, Context& context) override;
+
   public:
-    IGMPSerializer() {}
+    IGMPSerializer(const char *name = nullptr) : SerializerBase(name) {}
 
-    /**
-     * Serializes an IGMPMessage for transmission on the wire.
-     * Returns the length of data written into buffer.
-     */
-    int serialize(const IGMPMessage *pkt, unsigned char *buf, unsigned int bufsize);
+    //TODO old functions:
+    int serialize(const IGMPMessage *pkt, unsigned char *buf, unsigned int bufsize)
+    {
+        Buffer b(buf, bufsize);
+        Context c;
+        serialize(pkt, b, c);
+        return b.getPos();
+    }
 
-    /**
-     * Puts a packet sniffed from the wire into an IGMPMessage.
-     */
-    IGMPMessage *parse(const unsigned char *buf, unsigned int bufsize);
+    cPacket *parse(const unsigned char *buf, unsigned int bufsize)
+    {
+        Buffer b(const_cast<unsigned char *>(buf), bufsize);
+        Context c;
+        return parse(b, c);
+    }
 };
 
 } // namespace serializer
