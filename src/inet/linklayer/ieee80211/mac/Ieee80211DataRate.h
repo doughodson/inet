@@ -9,6 +9,7 @@ namespace ieee80211 {
 
 class INET_API Ieee80211Mode
 {
+  public:
     char mode;
     double bitrate;
     ModulationType modulationType;
