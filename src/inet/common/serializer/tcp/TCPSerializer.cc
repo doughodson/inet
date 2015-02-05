@@ -29,6 +29,8 @@ namespace inet {
 
 namespace serializer {
 
+Register_Serializer(tcp::TCPSegment, IP_PROT, IP_PROT_TCP, TCPSerializer);
+
 // load headers into a namespace, to avoid conflicts with platform definitions of the same stuff
 #include "inet/common/serializer/headers/bsdint.h"
 #include "inet/common/serializer/headers/in.h"
@@ -49,6 +51,20 @@ namespace inet {
 
 using namespace serializer;
 using namespace tcp;
+
+void TCPSerializer::serialize(const cPacket *pkt, Buffer &b, Context& context)
+{
+    int len = serialize(check_and_cast<const TCPSegment *>(pkt), static_cast<unsigned char *>(b.accessNBytes(0)), b.getRemainder());
+    b.accessNBytes(len);
+}
+
+cPacket* TCPSerializer::parse(Buffer &b, Context& context)
+{
+    TCPSegment *dest = new TCPSegment("parsed-sctp");
+    parse(static_cast<unsigned char *>(b.accessNBytes(0)), b.getRemainder(), dest, true);
+    b.accessNBytes(b.getRemainder());
+    return dest;
+}
 
 int TCPSerializer::serialize(const TCPSegment *tcpseg,
         unsigned char *buf, unsigned int bufsize)

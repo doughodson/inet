@@ -97,7 +97,7 @@ TCPSegment *TcpLwipMsgBasedSendQueue::createSegmentWithBytes(const void *tcpData
 
     TCPSegment *tcpseg = new TCPSegment("tcp-segment");
 
-    TCPSerializer().parse((const unsigned char *)tcpDataP, tcpLengthP, tcpseg, false);
+    serializer::TCPSerializer().parse((const unsigned char *)tcpDataP, tcpLengthP, tcpseg, false);
 
     uint32 fromSeq = tcpseg->getSequenceNo();
     uint32 numBytes = tcpseg->getPayloadLength();
