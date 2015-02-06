@@ -20,7 +20,7 @@
 
 #include "inet/physicallayer/base/NarrowbandReceiverBase.h"
 #include "inet/physicallayer/ieee80211/BerParseFile.h"
-#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 
 namespace inet {
 

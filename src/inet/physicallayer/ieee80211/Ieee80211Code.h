@@ -17,8 +17,8 @@
 // Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
 //
 
-#ifndef __INET_IEEE80211MODULATION_H
-#define __INET_IEEE80211MODULATION_H
+#ifndef __INET_IEEE80211CODE_H
+#define __INET_IEEE80211CODE_H
 
 #include "inet/physicallayer/base/PhysicalLayerDefs.h"
 
@@ -26,24 +26,44 @@ namespace inet {
 
 namespace physicallayer {
 
-class INET_API Ieee80211Modulation
+/**
+ * This enumeration defines the various convolutional coding rates
+ * used for the OFDM transmission modes in the IEEE 802.11
+ * standard. DSSS (for example) rates which do not have an explicit
+ * coding stage in their generation should have this parameter set to
+ * WIFI_CODE_RATE_UNDEFINED.
+ */
+enum CodeRate {
+    /** No explicit coding (e.g., DSSS rates) */
+    CODE_RATE_UNDEFINED,
+    /** Rate 3/4 */
+    CODE_RATE_3_4,
+    /** Rate 2/3 */
+    CODE_RATE_2_3,
+    /** Rate 1/2 */
+    CODE_RATE_1_2,
+    /** Rate 5/6 */
+    CODE_RATE_5_6
+};
+
+class INET_API Ieee80211Code
 {
   protected:
-    uint8_t constellationSize;
+    enum CodeRate codeRate;
 
   public:
-    Ieee80211Modulation()
+    Ieee80211Code()
     {
-        constellationSize = 0;
+        codeRate = CODE_RATE_UNDEFINED;
     }
 
-    uint8_t getConstellationSize(void) const { return constellationSize; }
-    void setConstellationSize(uint8_t p) { constellationSize = p; }
+    enum CodeRate getCodeRate(void) const { return codeRate; }
+    void setCodeRate(enum CodeRate cRate) { codeRate = cRate; };
 };
 
 } // namespace physicallayer
 
 } // namespace inet
 
-#endif // ifndef __INET_IEEE80211MODULATION_H
+#endif // ifndef __INET_IEEE80211CODE_H
 

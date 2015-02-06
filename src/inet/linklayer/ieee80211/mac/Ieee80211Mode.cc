@@ -20,7 +20,7 @@
 
 #include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
 
-#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 
 namespace inet {
 

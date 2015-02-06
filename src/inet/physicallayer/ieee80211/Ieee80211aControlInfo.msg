@@ -22,7 +22,7 @@
 //
 cplusplus {{
 
-#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 
 using namespace inet::physicallayer;
 
@@ -30,14 +30,14 @@ using namespace inet::physicallayer;
 
 namespace inet;
 
-class noncobject Ieee80211Modulation;
+class noncobject Ieee80211PhyMode;
 
 class Radio80211aControlInfo
 {
     double snr;
     double lossRate;
     double recPow;
-    Ieee80211Modulation modulation;
+    Ieee80211PhyMode phyMode;
     bool airtimeMetric;
     double testFrameDuration;
     double testFrameError;

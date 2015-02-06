@@ -31,7 +31,7 @@
 #include "inet/common/queue/IPassiveQueue.h"
 #include "inet/common/lifecycle/ILifecycle.h"
 #include "inet/physicallayer/contract/IRadio.h"
-#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 #include "inet/linklayer/base/MACProtocolBase.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Frame_m.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Consts.h"

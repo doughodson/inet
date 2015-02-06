@@ -1,7 +1,7 @@
 #ifndef __INET_IEEE80211DATARATE_H
 #define __INET_IEEE80211DATARATE_H
 
-#include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 #include "inet/physicallayer/ieee80211/Ieee80211OFDMCode.h"
 #include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 

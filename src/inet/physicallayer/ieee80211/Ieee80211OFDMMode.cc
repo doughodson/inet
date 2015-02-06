@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2013 OpenSim Ltd.
+// Copyright (C) 2014 OpenSim Ltd.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public License
@@ -15,34 +15,13 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef __INET_IEEE80211SCALARTRANSMITTER_H
-#define __INET_IEEE80211SCALARTRANSMITTER_H
-
-#include "inet/physicallayer/base/NarrowbandTransmitterBase.h"
-#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
+#include "inet/physicallayer/ieee80211/Ieee80211OFDMMode.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API Ieee80211ScalarTransmitter : public NarrowbandTransmitterBase
-{
-  protected:
-    char opMode;
-    Ieee80211PreambleMode preambleMode;
-
-  protected:
-    virtual void initialize(int stage) override;
-
-  public:
-    Ieee80211ScalarTransmitter();
-
-    virtual const ITransmission *createTransmission(const IRadio *radio, const cPacket *packet, simtime_t startTime) const override;
-};
-
 } // namespace physicallayer
 
 } // namespace inet
-
-#endif // ifndef __INET_IEEE80211SCALARTRANSMITTER_H
 
