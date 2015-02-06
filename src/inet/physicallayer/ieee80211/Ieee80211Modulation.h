@@ -80,11 +80,17 @@ enum Ieee80211PreambleMode {
 
 class INET_API Ieee80211Code
 {
+  protected:
+    enum CodeRate codeRate;
+
   public:
-    static Ieee80211Code getCodeRate1_2() { return Ieee80211Code(); }
-    static Ieee80211Code getCodeRate2_3() { return Ieee80211Code(); }
-    static Ieee80211Code getCodeRate3_4() { return Ieee80211Code(); }
-    static Ieee80211Code getCodeRate5_6() { return Ieee80211Code(); }
+    Ieee80211Code()
+    {
+        codeRate = CODE_RATE_UNDEFINED;
+    }
+
+    enum CodeRate getCodeRate(void) const { return codeRate; }
+    void setCodeRate(enum CodeRate cRate) { codeRate = cRate; };
 };
 
 class INET_API Ieee80211Modulation
@@ -105,17 +111,18 @@ class INET_API Ieee80211Modulation
 class INET_API Ieee80211PhyMode
 {
   protected:
+    Ieee80211Code code;
     Ieee80211Modulation modulation;
 
     // TODO: move?
     Hz channelSpacing;
-    enum CodeRate codeRate;
     bps dataRate;
     bps phyRate;
     enum ModulationClass modulationClass;
     Hz bandwidth;
 
   public:
+    Ieee80211Code getCode() const { return code; }
     Ieee80211Modulation getModulation() const { return modulation; }
 
     /**
@@ -134,7 +141,7 @@ class INET_API Ieee80211PhyMode
     /// MANDATORY it is necessary set the dataRate before the codeRate
     void setCodeRate(enum CodeRate cRate)
     {
-        codeRate = cRate;
+        code.setCodeRate(cRate);
         switch (cRate) {
             case CODE_RATE_5_6:
                 phyRate = dataRate * 6 / 5;
@@ -164,10 +171,6 @@ class INET_API Ieee80211PhyMode
      */
     bps getDataRate(void) const { return dataRate; }
     void setDataRate(bps p) { dataRate = p; }
-    /**
-     * \returns the coding rate of this transmission mode
-     */
-    enum CodeRate getCodeRate(void) const { return codeRate; }
 
     /**
      * \returns true if this mode is a mandatory mode, false
@@ -180,7 +183,6 @@ class INET_API Ieee80211PhyMode
     {
         channelSpacing = Hz(NaN);
         bandwidth = Hz(NaN);
-        codeRate = CODE_RATE_UNDEFINED;
         dataRate = bps(NaN);
         phyRate = bps(NaN);
         modulationClass = MOD_CLASS_UNKNOWN;

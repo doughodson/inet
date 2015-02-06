@@ -149,7 +149,7 @@ double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211PhyMode mode, doubl
 {
     if (mode.getModulationClass() == MOD_CLASS_ERP_OFDM || mode.getModulationClass() == MOD_CLASS_OFDM) {
         if (mode.getModulation().getConstellationSize() == 2) {
-            if (mode.getCodeRate() == CODE_RATE_1_2) {
+            if (mode.getCode().getCodeRate() == CODE_RATE_1_2) {
                 return GetFecBpskBer(snr, nbits, 1    // b value
                         );
             }
@@ -159,7 +159,7 @@ double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211PhyMode mode, doubl
             }
         }
         else if (mode.getModulation().getConstellationSize() == 4) {
-            if (mode.getCodeRate() == CODE_RATE_1_2) {
+            if (mode.getCode().getCodeRate() == CODE_RATE_1_2) {
                 return GetFecQpskBer(snr, nbits, 1    // b value
                         );
             }
@@ -169,7 +169,7 @@ double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211PhyMode mode, doubl
             }
         }
         else if (mode.getModulation().getConstellationSize() == 16) {
-            if (mode.getCodeRate() == CODE_RATE_1_2) {
+            if (mode.getCode().getCodeRate() == CODE_RATE_1_2) {
                 return GetFec16QamBer(snr, nbits, 1    // b value
                         );
             }
@@ -179,7 +179,7 @@ double Ieee80211NistErrorModel::GetChunkSuccessRate(Ieee80211PhyMode mode, doubl
             }
         }
         else if (mode.getModulation().getConstellationSize() == 64) {
-            if (mode.getCodeRate() == CODE_RATE_2_3) {
+            if (mode.getCode().getCodeRate() == CODE_RATE_2_3) {
                 return GetFec64QamBer(snr, nbits, 2    // b value
                         );
             }
