@@ -81,7 +81,10 @@ enum Ieee80211PreambleMode {
 class INET_API Ieee80211Code
 {
   public:
-    static Ieee80211Code getCodeRate1per2() { return Ieee80211Code(); }
+    static Ieee80211Code getCodeRate1_2() { return Ieee80211Code(); }
+    static Ieee80211Code getCodeRate2_3() { return Ieee80211Code(); }
+    static Ieee80211Code getCodeRate3_4() { return Ieee80211Code(); }
+    static Ieee80211Code getCodeRate5_6() { return Ieee80211Code(); }
 };
 
 /**
