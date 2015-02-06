@@ -44,25 +44,6 @@ class TCPSerializer : public SerializerBase
     TCPSerializer(const char *name = nullptr) : SerializerBase(name) {}
 
     /**
-     * Serializes a TCPSegment for transmission on the wire.
-     * The checksum is NOT filled in.
-     * Returns the length of data written into buffer.
-     * TODO msg why not a const reference?
-     */
-    int serialize(const tcp::TCPSegment *source, unsigned char *destbuf, unsigned int bufsize);
-
-    /**
-     * Serializes a TCPSegment for transmission on the wire.
-     * The checksum is NOT filled in. (The kernel does that when sending
-     * the frame over a raw socket.)
-     * Returns the length of data written into buffer.
-     * TODO msg why not a const reference?
-     * TODO pseudoheader vs IPv6, pseudoheder.len should calculated by the serialize(), etc
-     */
-    int serialize(const tcp::TCPSegment *source, unsigned char *destbuf, unsigned int bufsize,
-            const L3Address& srcIp, const L3Address& destIp);
-
-    /**
      * Puts a packet sniffed from the wire into a TCPSegment.
      * TODO dest why not reference?
      */
@@ -72,8 +53,7 @@ class TCPSerializer : public SerializerBase
     /**
      * Calculate checksum with pseudo header.
      */
-    static uint16_t checksum(const void *addr, unsigned int count,
-            const L3Address& srcIp, const L3Address& destIp);
+    static uint16_t checksum(const void *addr, unsigned int count, const void *addr2, unsigned int count2);
 };
 
 } // namespace serializer
