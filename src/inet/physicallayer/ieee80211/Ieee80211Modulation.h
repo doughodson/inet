@@ -89,23 +89,35 @@ class INET_API Ieee80211Code
 
 class INET_API Ieee80211Modulation
 {
+  protected:
+    uint8_t constellationSize;
+
+  public:
+    Ieee80211Modulation()
+    {
+        constellationSize = 0;
+    }
+
+    uint8_t getConstellationSize(void) const { return constellationSize; }
+    void setConstellationSize(uint8_t p) { constellationSize = p; }
 };
 
 class INET_API Ieee80211PhyMode
 {
   protected:
-    const Ieee80211Modulation *modulation;
+    Ieee80211Modulation modulation;
 
     // TODO: move?
     Hz channelSpacing;
     enum CodeRate codeRate;
     bps dataRate;
     bps phyRate;
-    uint8_t constellationSize;
     enum ModulationClass modulationClass;
     Hz bandwidth;
 
   public:
+    Ieee80211Modulation getModulation() const { return modulation; }
+
     /**
      * \returns the number of Hz used by this signal
      */
@@ -158,12 +170,6 @@ class INET_API Ieee80211PhyMode
     enum CodeRate getCodeRate(void) const { return codeRate; }
 
     /**
-     * \returns the size of the modulation constellation.
-     */
-    uint8_t getConstellationSize(void) const { return constellationSize; }
-    void setConstellationSize(uint8_t p) { constellationSize = p; }
-
-    /**
      * \returns true if this mode is a mandatory mode, false
      *          otherwise.
      */
@@ -177,7 +183,6 @@ class INET_API Ieee80211PhyMode
         codeRate = CODE_RATE_UNDEFINED;
         dataRate = bps(NaN);
         phyRate = bps(NaN);
-        constellationSize = 0;
         modulationClass = MOD_CLASS_UNKNOWN;
     }
 

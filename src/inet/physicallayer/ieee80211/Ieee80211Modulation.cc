@@ -32,7 +32,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetDsssRate1Mbps()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(1000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -44,7 +44,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetDsssRate2Mbps()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(2000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -59,7 +59,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetDsssRate5_5Mbps()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(5500000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -71,7 +71,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetDsssRate11Mbps()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(11000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -86,7 +86,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate6Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -97,7 +97,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate9Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -108,7 +108,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate12Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -119,7 +119,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate18Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -130,7 +130,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate24Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -141,7 +141,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate36Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -152,7 +152,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate48Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -163,7 +163,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetErpOfdmRate54Mbps()
     mode.setBandwidth(Hz(20000000));
     mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -178,7 +178,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate6Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -190,7 +190,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate9Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -202,7 +202,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate12Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -214,7 +214,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate18Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_UNDEFINED);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -226,7 +226,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate24Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -238,7 +238,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate36Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(36000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -250,7 +250,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate48Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(48000000));
     mode.setCodeRate(CODE_RATE_2_3);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -262,7 +262,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate54Mbps()
     mode.setChannelSpacing(Hz(20000000));
     mode.setDataRate(bps(54000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -275,7 +275,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate3MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -287,7 +287,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate4_5MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -299,7 +299,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate6MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -311,7 +311,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate9MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -323,7 +323,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate12MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -335,7 +335,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate18MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(18000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -347,7 +347,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate24MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(24000000));
     mode.setCodeRate(CODE_RATE_2_3);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -359,7 +359,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate27MbpsCS10MHz()
     mode.setChannelSpacing(Hz(10000000));
     mode.setDataRate(bps(27000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -372,7 +372,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate1_5MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(1500000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -384,7 +384,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate2_25MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(2250000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(2);
+    mode.getModulation().setConstellationSize(2);
     return mode;
 }
 
@@ -396,7 +396,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate3MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(3000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -408,7 +408,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate4_5MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(4500000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(4);
+    mode.getModulation().setConstellationSize(4);
     return mode;
 }
 
@@ -420,7 +420,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate6MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(6000000));
     mode.setCodeRate(CODE_RATE_1_2);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -432,7 +432,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate9MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(9000000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(16);
+    mode.getModulation().setConstellationSize(16);
     return mode;
 }
 
@@ -444,7 +444,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate12MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(12000000));
     mode.setCodeRate(CODE_RATE_2_3);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
@@ -456,7 +456,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate13_5MbpsCS5MHz()
     mode.setChannelSpacing(Hz(5000000));
     mode.setDataRate(bps(13500000));
     mode.setCodeRate(CODE_RATE_3_4);
-    mode.setConstellationSize(64);
+    mode.getModulation().setConstellationSize(64);
     return mode;
 }
 
