@@ -24,9 +24,9 @@ namespace inet {
 
 namespace physicallayer {
 
-//class INET_API Ieee80211OFDMMode : public Ieee80211PhyMode
-//{
-//};
+class INET_API Ieee80211OFDMMode : public Ieee80211PhyMode
+{
+};
 
 } // namespace physicallayer
 

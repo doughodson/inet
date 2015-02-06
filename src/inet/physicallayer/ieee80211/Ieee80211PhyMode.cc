@@ -457,7 +457,7 @@ Ieee80211PhyMode Ieee80211PhyMode::GetOfdmRate13_5MbpsCS5MHz()
     return mode;
 }
 
-simtime_t Ieee80211PhyMode::getPlcpHeaderDuration(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::getPlcpHeaderDuration(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
@@ -501,7 +501,7 @@ simtime_t Ieee80211PhyMode::getPlcpHeaderDuration(Ieee80211PreambleMode preamble
     }
 }
 
-simtime_t Ieee80211PhyMode::getPlcpPreambleDuration(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::getPlcpPreambleDuration(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
@@ -546,7 +546,7 @@ simtime_t Ieee80211PhyMode::getPlcpPreambleDuration(Ieee80211PreambleMode preamb
 //
 // Compute the Payload duration in function of the modulation type
 //
-simtime_t Ieee80211PhyMode::getPayloadDuration(uint64_t size)
+simtime_t Ieee80211PhyMode::getPayloadDuration(uint64_t size) const
 {
     simtime_t val;
     switch (getModulationClass()) {
@@ -601,12 +601,12 @@ simtime_t Ieee80211PhyMode::getPayloadDuration(uint64_t size)
 //
 // Return the physical header duration, useful for the mac
 //
-simtime_t Ieee80211PhyMode::getPreambleAndHeader(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::getPreambleAndHeader(Ieee80211PreambleMode preamble) const
 {
     return getPlcpPreambleDuration(preamble) + getPlcpHeaderDuration(preamble);
 }
 
-simtime_t Ieee80211PhyMode::calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble) const
 {
     simtime_t duration = getPlcpPreambleDuration(preamble)
         + getPlcpHeaderDuration(preamble)
@@ -614,7 +614,7 @@ simtime_t Ieee80211PhyMode::calculateTxDuration(uint64_t size, Ieee80211Preamble
     return duration;
 }
 
-Ieee80211PhyMode Ieee80211PhyMode::getPlcpHeaderMode(Ieee80211PreambleMode preamble)
+Ieee80211PhyMode Ieee80211PhyMode::getPlcpHeaderMode(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
@@ -653,7 +653,7 @@ Ieee80211PhyMode Ieee80211PhyMode::getPlcpHeaderMode(Ieee80211PreambleMode pream
     }
 }
 
-simtime_t Ieee80211PhyMode::getSlotDuration(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::getSlotDuration(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
@@ -692,7 +692,7 @@ simtime_t Ieee80211PhyMode::getSlotDuration(Ieee80211PreambleMode preamble)
     }
 }
 
-simtime_t Ieee80211PhyMode::getSifsTime(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::getSifsTime(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {
@@ -725,7 +725,7 @@ simtime_t Ieee80211PhyMode::getSifsTime(Ieee80211PreambleMode preamble)
     }
 }
 
-simtime_t Ieee80211PhyMode::get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble)
+simtime_t Ieee80211PhyMode::get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble) const
 {
     switch (getModulationClass()) {
         case MOD_CLASS_OFDM: {

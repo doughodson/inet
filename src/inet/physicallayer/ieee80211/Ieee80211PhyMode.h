@@ -180,15 +180,16 @@ class INET_API Ieee80211PhyMode
     static Ieee80211PhyMode GetOfdmRate12MbpsCS5MHz();
     static Ieee80211PhyMode GetOfdmRate13_5MbpsCS5MHz();
 
-    simtime_t getPlcpHeaderDuration(Ieee80211PreambleMode preamble);
-    simtime_t getPlcpPreambleDuration(Ieee80211PreambleMode preamble);
-    simtime_t getPreambleAndHeader(Ieee80211PreambleMode preamble);
-    simtime_t getPayloadDuration(uint64_t size);
-    simtime_t calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble);
-    simtime_t getSlotDuration(Ieee80211PreambleMode preamble);
-    simtime_t getSifsTime(Ieee80211PreambleMode preamble);
-    simtime_t get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble);
-    Ieee80211PhyMode getPlcpHeaderMode(Ieee80211PreambleMode preamble);
+    virtual simtime_t getPlcpHeaderDuration(Ieee80211PreambleMode preamble) const;
+    virtual simtime_t getPlcpPreambleDuration(Ieee80211PreambleMode preamble) const;
+    virtual simtime_t getPreambleAndHeader(Ieee80211PreambleMode preamble) const;
+    virtual simtime_t getPayloadDuration(uint64_t size) const;
+    virtual simtime_t calculateTxDuration(uint64_t size, Ieee80211PreambleMode preamble) const;
+    virtual simtime_t getSlotDuration(Ieee80211PreambleMode preamble) const;
+    virtual simtime_t getSifsTime(Ieee80211PreambleMode preamble) const;
+    virtual simtime_t get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble) const;
+
+    Ieee80211PhyMode getPlcpHeaderMode(Ieee80211PreambleMode preamble) const;
 };
 
 bool operator==(const Ieee80211PhyMode& a, const Ieee80211PhyMode& b);

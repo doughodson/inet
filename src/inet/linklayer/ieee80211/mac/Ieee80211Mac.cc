@@ -708,7 +708,7 @@ void Ieee80211Mac::handleLowerPacket(cPacket *msg)
     emit(NF_LINK_FULL_PROMISCUOUS, msg);
     validRecMode = false;
     if (cinfo) {
-        recFrameModulation = cinfo->getModulation();
+        recFrameModulation = cinfo->getPhyMode();
         if (!isNaN(recFrameModulation.getDataRate().get()))
             validRecMode = true;
     }
