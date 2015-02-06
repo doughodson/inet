@@ -87,16 +87,24 @@ class INET_API Ieee80211Code
     static Ieee80211Code getCodeRate5_6() { return Ieee80211Code(); }
 };
 
-/**
- * \brief represent a single transmission mode
- *
- * A WifiMode is implemented by a single integer which is used
- * to lookup in a global array the characteristics of the
- * associated transmission mode. It is thus extremely cheap to
- * keep a WifiMode variable around.
- */
 class INET_API Ieee80211Modulation
 {
+};
+
+class INET_API Ieee80211PhyMode
+{
+  protected:
+    const Ieee80211Modulation *modulation;
+
+    // TODO: move?
+    Hz channelSpacing;
+    enum CodeRate codeRate;
+    bps dataRate;
+    bps phyRate;
+    uint8_t constellationSize;
+    enum ModulationClass modulationClass;
+    Hz bandwidth;
+
   public:
     /**
      * \returns the number of Hz used by this signal
@@ -162,7 +170,7 @@ class INET_API Ieee80211Modulation
     enum ModulationClass getModulationClass() const { return modulationClass; }
     void setModulationClass(enum ModulationClass p) { modulationClass = p; }
 
-    Ieee80211Modulation()
+    Ieee80211PhyMode()
     {
         channelSpacing = Hz(NaN);
         bandwidth = Hz(NaN);
@@ -173,57 +181,48 @@ class INET_API Ieee80211Modulation
         modulationClass = MOD_CLASS_UNKNOWN;
     }
 
-    bool operator==(const Ieee80211Modulation& b)
+    bool operator==(const Ieee80211PhyMode& b)
     {
         return *this == b;
     }
 
-  private:
-    Hz channelSpacing;
-    enum CodeRate codeRate;
-    bps dataRate;
-    bps phyRate;
-    uint8_t constellationSize;
-    enum ModulationClass modulationClass;
-    Hz bandwidth;
-
   public:
-    static Ieee80211Modulation GetDsssRate1Mbps();
-    static Ieee80211Modulation GetDsssRate2Mbps();
-    static Ieee80211Modulation GetDsssRate5_5Mbps();
-    static Ieee80211Modulation GetDsssRate11Mbps();
-    static Ieee80211Modulation GetErpOfdmRate6Mbps();
-    static Ieee80211Modulation GetErpOfdmRate9Mbps();
-    static Ieee80211Modulation GetErpOfdmRate12Mbps();
-    static Ieee80211Modulation GetErpOfdmRate18Mbps();
-    static Ieee80211Modulation GetErpOfdmRate24Mbps();
-    static Ieee80211Modulation GetErpOfdmRate36Mbps();
-    static Ieee80211Modulation GetErpOfdmRate48Mbps();
-    static Ieee80211Modulation GetErpOfdmRate54Mbps();
-    static Ieee80211Modulation GetOfdmRate6Mbps();
-    static Ieee80211Modulation GetOfdmRate9Mbps();
-    static Ieee80211Modulation GetOfdmRate12Mbps();
-    static Ieee80211Modulation GetOfdmRate18Mbps();
-    static Ieee80211Modulation GetOfdmRate24Mbps();
-    static Ieee80211Modulation GetOfdmRate36Mbps();
-    static Ieee80211Modulation GetOfdmRate48Mbps();
-    static Ieee80211Modulation GetOfdmRate54Mbps();
-    static Ieee80211Modulation GetOfdmRate3MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate4_5MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate6MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate9MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate12MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate18MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate24MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate27MbpsCS10MHz();
-    static Ieee80211Modulation GetOfdmRate1_5MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate2_25MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate3MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate4_5MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate6MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate9MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate12MbpsCS5MHz();
-    static Ieee80211Modulation GetOfdmRate13_5MbpsCS5MHz();
+    static Ieee80211PhyMode GetDsssRate1Mbps();
+    static Ieee80211PhyMode GetDsssRate2Mbps();
+    static Ieee80211PhyMode GetDsssRate5_5Mbps();
+    static Ieee80211PhyMode GetDsssRate11Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate6Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate9Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate12Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate18Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate24Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate36Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate48Mbps();
+    static Ieee80211PhyMode GetErpOfdmRate54Mbps();
+    static Ieee80211PhyMode GetOfdmRate6Mbps();
+    static Ieee80211PhyMode GetOfdmRate9Mbps();
+    static Ieee80211PhyMode GetOfdmRate12Mbps();
+    static Ieee80211PhyMode GetOfdmRate18Mbps();
+    static Ieee80211PhyMode GetOfdmRate24Mbps();
+    static Ieee80211PhyMode GetOfdmRate36Mbps();
+    static Ieee80211PhyMode GetOfdmRate48Mbps();
+    static Ieee80211PhyMode GetOfdmRate54Mbps();
+    static Ieee80211PhyMode GetOfdmRate3MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate4_5MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate6MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate9MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate12MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate18MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate24MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate27MbpsCS10MHz();
+    static Ieee80211PhyMode GetOfdmRate1_5MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate2_25MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate3MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate4_5MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate6MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate9MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate12MbpsCS5MHz();
+    static Ieee80211PhyMode GetOfdmRate13_5MbpsCS5MHz();
 
     simtime_t getPlcpHeaderDuration(Ieee80211PreambleMode preamble);
     simtime_t getPlcpPreambleDuration(Ieee80211PreambleMode preamble);
@@ -233,10 +232,10 @@ class INET_API Ieee80211Modulation
     simtime_t getSlotDuration(Ieee80211PreambleMode preamble);
     simtime_t getSifsTime(Ieee80211PreambleMode preamble);
     simtime_t get_aPHY_RX_START_Delay(Ieee80211PreambleMode preamble);
-    Ieee80211Modulation getPlcpHeaderMode(Ieee80211PreambleMode preamble);
+    Ieee80211PhyMode getPlcpHeaderMode(Ieee80211PreambleMode preamble);
 };
 
-bool operator==(const Ieee80211Modulation& a, const Ieee80211Modulation& b);
+bool operator==(const Ieee80211PhyMode& a, const Ieee80211PhyMode& b);
 
 } // namespace physicallayer
 

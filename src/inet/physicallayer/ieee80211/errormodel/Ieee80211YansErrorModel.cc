@@ -151,7 +151,7 @@ double Ieee80211YansErrorModel::GetFecQamBer(double snr, uint32_t nbits,
 //
 // This method return the probability of NO ERROR
 //
-double Ieee80211YansErrorModel::GetChunkSuccessRate(Ieee80211Modulation mode, double snr, uint32_t nbits) const
+double Ieee80211YansErrorModel::GetChunkSuccessRate(Ieee80211PhyMode mode, double snr, uint32_t nbits) const
 {
     if (mode.getModulationClass() == MOD_CLASS_ERP_OFDM ||
         mode.getModulationClass() == MOD_CLASS_OFDM)

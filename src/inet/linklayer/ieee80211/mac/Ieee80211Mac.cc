@@ -1390,7 +1390,7 @@ simtime_t Ieee80211Mac::getSIFS()
 {
 // TODO:   return aRxRFDelay() + aRxPLCPDelay() + aMACProcessingDelay() + aRxTxTurnaroundTime();
     if (useModulationParameters) {
-        Ieee80211Modulation modType;
+        Ieee80211PhyMode modType;
         modType = Ieee80211Mode::getModulation(opMode, bitrate);
         return modType.getSifsTime(wifiPreambleType);
     }
@@ -1402,7 +1402,7 @@ simtime_t Ieee80211Mac::getSlotTime()
 {
 // TODO:   return aCCATime() + aRxTxTurnaroundTime + aAirPropagationTime() + aMACProcessingDelay();
     if (useModulationParameters) {
-        Ieee80211Modulation modType;
+        Ieee80211PhyMode modType;
         modType = Ieee80211Mode::getModulation(opMode, bitrate);
         return modType.getSlotDuration(wifiPreambleType);
     }
@@ -1429,7 +1429,7 @@ simtime_t Ieee80211Mac::getDIFS(int category)
 
 simtime_t Ieee80211Mac::getHeaderTime(double bitrate)
 {
-    Ieee80211Modulation modType;
+    Ieee80211PhyMode modType;
     modType = Ieee80211Mode::getModulation(opMode, bitrate);
     return modType.getPreambleAndHeader(wifiPreambleType);
 }
@@ -1553,7 +1553,7 @@ void Ieee80211Mac::scheduleDataTimeoutPeriod(Ieee80211DataOrMgmtFrame *frameToSe
     if (!endTimeout->isScheduled()) {
         EV_DEBUG << "scheduling data timeout period\n";
         if (useModulationParameters) {
-            Ieee80211Modulation modType;
+            Ieee80211PhyMode modType;
             modType = Ieee80211Mode::getModulation(opMode, bitRate);
             double duration = computeFrameDuration(frameToSend);
             double slot = SIMTIME_DBL(modType.getSlotDuration(wifiPreambleType));
@@ -2050,7 +2050,7 @@ double Ieee80211Mac::computeFrameDuration(Ieee80211Frame *msg)
 double Ieee80211Mac::computeFrameDuration(int bits, double bitrate)
 {
     double duration;
-    Ieee80211Modulation modType;
+    Ieee80211PhyMode modType;
     modType = Ieee80211Mode::getModulation(opMode, bitrate);
     if (PHY_HEADER_LENGTH < 0)
         duration = SIMTIME_DBL(modType.calculateTxDuration(bits, wifiPreambleType));
@@ -2494,7 +2494,7 @@ Ieee80211Mac::Ieee80211DataOrMgmtFrameList *Ieee80211Mac::transmissionQueue(int 
     return &(edcCAF[i].transmissionQueue);
 }
 
-Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMode)
+Ieee80211PhyMode Ieee80211Mac::getControlAnswerMode(Ieee80211PhyMode reqMode)
 {
     /**
      * The standard has relatively unambiguous rules for selecting a
@@ -2529,10 +2529,10 @@ Ieee80211Modulation Ieee80211Mac::getControlAnswerMode(Ieee80211Modulation reqMo
      * there is not yet any manipulation here of PHY options.
      */
     bool found = false;
-    Ieee80211Modulation bestModulation;
+    Ieee80211PhyMode bestModulation;
     for (int idx = Ieee80211Mode::getMinIdx(opMode); idx < Ieee80211Mode::size(); idx++) {
         const Ieee80211Mode & mode = Ieee80211Mode::getDescriptor(idx);
-        const Ieee80211Modulation & modulation = mode.modulation;
+        const Ieee80211PhyMode & modulation = mode.modulation;
         if (mode.mode != opMode)
             break;
 

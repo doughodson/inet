@@ -36,7 +36,7 @@ class INET_API Ieee80211ErrorModelBase : public ErrorModelBase
 
   protected:
     virtual void initialize(int stage) override;
-    virtual double GetChunkSuccessRate(Ieee80211Modulation mode, double snr, uint32_t nbits) const = 0;
+    virtual double GetChunkSuccessRate(Ieee80211PhyMode mode, double snr, uint32_t nbits) const = 0;
 
   public:
     Ieee80211ErrorModelBase();

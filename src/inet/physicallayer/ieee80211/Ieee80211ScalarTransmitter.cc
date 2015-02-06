@@ -71,7 +71,7 @@ const ITransmission *Ieee80211ScalarTransmitter::createTransmission(const IRadio
     TransmissionRequest *controlInfo = dynamic_cast<TransmissionRequest *>(macFrame->getControlInfo());
     W transmissionPower = controlInfo && !isNaN(controlInfo->getPower().get()) ? controlInfo->getPower() : power;
     bps transmissionBitrate = controlInfo && !isNaN(controlInfo->getBitrate().get()) ? controlInfo->getBitrate() : bitrate;
-    Ieee80211Modulation modulationType = Ieee80211Mode::getModulation(opMode, transmissionBitrate.get());
+    Ieee80211PhyMode modulationType = Ieee80211Mode::getModulation(opMode, transmissionBitrate.get());
     const simtime_t duration = SIMTIME_DBL(modulationType.calculateTxDuration(macFrame->getBitLength(), preambleMode));
     const simtime_t endTime = startTime + duration;
     IMobility *mobility = transmitter->getAntenna()->getMobility();

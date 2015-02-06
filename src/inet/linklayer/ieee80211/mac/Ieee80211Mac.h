@@ -97,7 +97,7 @@ class INET_API Ieee80211Mac : public MACProtocolBase
     RateControlMode rateControlMode = (RateControlMode)-1;
 
     Ieee80211PreambleMode wifiPreambleType = (Ieee80211PreambleMode)-1;
-    Ieee80211Modulation recFrameModulation;
+    Ieee80211PhyMode recFrameModulation;
     bool validRecMode = false;
     bool useModulationParameters = false;
     bool prioritizeMulticast = false;
@@ -119,7 +119,7 @@ class INET_API Ieee80211Mac : public MACProtocolBase
     /** The basic bitrate (1 or 2 Mbps) is used to transmit control frames and multicast/broadcast frames */
     double basicBitrate = NaN;
     double controlBitRate = NaN;
-    Ieee80211Modulation controlFrameModulation;
+    Ieee80211PhyMode controlFrameModulation;
 
     // Variables used by the auto bit rate
     bool forceBitRate = false;    //if true the
@@ -664,7 +664,7 @@ class INET_API Ieee80211Mac : public MACProtocolBase
 
     virtual bool isBackoffPending();
 
-    Ieee80211Modulation getControlAnswerMode(Ieee80211Modulation reqMode);
+    Ieee80211PhyMode getControlAnswerMode(Ieee80211PhyMode reqMode);
     //@}
 
     virtual void sendUp(cMessage *msg) override;

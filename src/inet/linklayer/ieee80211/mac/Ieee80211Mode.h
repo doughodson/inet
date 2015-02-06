@@ -3,6 +3,7 @@
 
 #include "inet/physicallayer/ieee80211/Ieee80211Modulation.h"
 #include "inet/physicallayer/ieee80211/Ieee80211OFDMCode.h"
+#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 
 namespace inet {
 
@@ -17,7 +18,7 @@ class INET_API Ieee80211Mode
     double bitrate;
     bool isMandatory;
     Ieee80211Code code;
-    Ieee80211Modulation modulation;
+    Ieee80211PhyMode modulation;
 
   private:
     static const int descriptorSize;
@@ -34,7 +35,7 @@ class INET_API Ieee80211Mode
     static bool incIdx(int& idx);
     static bool decIdx(int& idx);
     static const Ieee80211Mode& getDescriptor(int idx);
-    static Ieee80211Modulation getModulation(char mode, double bitrate);
+    static Ieee80211PhyMode getModulation(char mode, double bitrate);
     static int size() { return descriptorSize; }
 };
 
