@@ -214,7 +214,8 @@ void SerializerBase::xSerialize(const cPacket *pkt, Buffer &b, Context& context)
     else {
         serialize(pkt, b, context);
     }
-    ASSERT(b.hasError() || b.getPos() - startPos == pkt->getByteLength());
+    if (!b.hasError() && (b.getPos() - startPos != pkt->getByteLength()))
+        throw cRuntimeError("serializer error: packet %s (%s) length is %d but serialized length is %d", pkt->getName(), pkt->getClassName(), pkt->getByteLength(), b.getPos() - startPos);
 }
 
 cPacket *SerializerBase::xParse(Buffer &b, Context& context)

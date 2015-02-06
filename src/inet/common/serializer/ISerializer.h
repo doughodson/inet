@@ -101,7 +101,7 @@ class INET_API Buffer
 class Context
 {
   public:
-    void *l3AddressesPtr = nullptr;
+    const void *l3AddressesPtr = nullptr;
     unsigned int l3AddressesLength = 0;
 };
 /**
