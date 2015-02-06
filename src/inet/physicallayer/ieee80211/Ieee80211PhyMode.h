@@ -71,8 +71,8 @@ class INET_API Ieee80211PhyMode
     Hz bandwidth;
 
   public:
-    Ieee80211Code getCode() const { return code; }
-    Ieee80211Modulation getModulation() const { return modulation; }
+    Ieee80211Code & getCode() { return code; }
+    Ieee80211Modulation & getModulation() { return modulation; }
 
     /**
      * \returns the number of Hz used by this signal
