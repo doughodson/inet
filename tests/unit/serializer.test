@@ -1,15 +1,46 @@
 %description:
 Test serializing frames
 
+%inifile: omnetpp.ini
+[General]
+debugger-attach-on-startup=true
+#debugger-attach-on-error=true
+
 %includes:
 #include <stdio.h>
 #include <iostream>
-#include "inet/common/serializer/pcap.h"
+#include "inet/common/serializer/ISerializer.h"
 #include "inet/common/serializer/headerserializers/SerializerUtil.h"
 #include "inet/common/serializer/headerserializers/ethernet/EthernetSerializer.h"
 #include "inet/common/serializer/headerserializers/ieee80211/Ieee80211Serializer.h"
 
 %global:
+
+#define PCAP_MAGIC      0xa1b2c3d4
+
+/* "libpcap" file header (minus magic number). */
+struct pcap_hdr
+{
+    uint32 magic;    /* magic */
+    uint16 version_major;    /* major version number */
+    uint16 version_minor;    /* minor version number */
+    uint32 thiszone;    /* GMT to local correction */
+    uint32 sigfigs;    /* accuracy of timestamps */
+    uint32 snaplen;    /* max length of captured packets, in octets */
+    uint32 network;    /* data link type */
+};
+
+/* "libpcap" record header. */
+struct pcaprec_hdr
+{
+    int32 ts_sec;    /* timestamp seconds */
+    uint32 ts_usec;    /* timestamp microseconds */
+    uint32 incl_len;    /* number of octets of packet saved in file */
+    uint32 orig_len;    /* actual length of packet */
+};
+
+using namespace inet::serializer;
+
 static void printobject(cObject* object)
 {
     cClassDescriptor *descriptor = object->getDescriptor();
@@ -24,8 +55,8 @@ static void testRecord(const char* filename, bool fcs = true)
     FILE *pcapFile;
     struct pcap_hdr fileHeader;
     struct pcaprec_hdr recordHeader;
-    uint8 readBuf[8192];
-    uint8 writeBuf[8192];
+    static uint8 readBuf[60000];
+    static uint8 writeBuf[60000];
 
     memset((void*)&readBuf, 0, sizeof(readBuf));
     memset((void*)&writeBuf, 0, sizeof(writeBuf));
@@ -54,36 +85,16 @@ static void testRecord(const char* filename, bool fcs = true)
 
     uint32 serializedLength = 0;
 
-    switch(fileHeader.network)
-    {
-        case LINKTYPE_ETHERNET:
-        {
-            cPacket *etherFrame = EthernetSerializer().parse(readBuf, recordHeader.incl_len);
-            cPacket *temp = etherFrame;
-            while (temp)
-            {
-                printobject(temp);
-                temp = temp->getEncapsulatedPacket();
-            }
-            serializedLength = EthernetSerializer().serialize((EthernetIIFrame *)etherFrame, writeBuf, sizeof(writeBuf));
-            delete etherFrame;
-            break;
-        }
-        case LINKTYPE_IEEE801_11:
-        {
-            cPacket *ieee80211Frame = Ieee80211Serializer().parse(readBuf, recordHeader.incl_len);
-            cPacket *temp = ieee80211Frame;
-            while (temp)
-            {
-                printobject(temp);
-                temp = temp->getEncapsulatedPacket();
-            }
-            serializedLength = Ieee80211Serializer().serialize((Ieee80211Frame *)ieee80211Frame, writeBuf, sizeof(writeBuf));
-            delete ieee80211Frame;
-            break;
-        }
-    }
-    
+    Buffer rb(readBuf, recordHeader.incl_len);
+    Buffer wb(writeBuf, sizeof(writeBuf));
+    Context c;
+    cPacket *frame = SerializerBase::parse(rb, c, LINKTYPE, fileHeader.network, 0);
+    for (cPacket *temp = frame; temp; temp = temp->getEncapsulatedPacket())
+        printobject(temp);
+    SerializerBase::serialize(frame, wb, c, LINKTYPE, fileHeader.network, 0);
+    serializedLength = wb.getPos();
+    delete frame;
+
     if (!fcs)
         serializedLength -= 4;
     if(recordHeader.incl_len == serializedLength && !memcmp(readBuf, writeBuf, serializedLength))
