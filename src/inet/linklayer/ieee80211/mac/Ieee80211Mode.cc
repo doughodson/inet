@@ -32,41 +32,41 @@ using namespace inet::physicallayer;
  * Must be ordered by mode, bitrate.
  */
 const Ieee80211Mode Ieee80211Mode::data[] = {
-    { 'a', 6000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate6Mbps() },
-    { 'a', 9000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate9Mbps() },
-    { 'a', 12000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate12Mbps() },
-    { 'a', 18000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate18Mbps() },
-    { 'a', 24000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate24Mbps() },
-    { 'a', 36000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate36Mbps() },
-    { 'a', 48000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate48Mbps() },
-    { 'a', 54000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate54Mbps() },
+    { 'a', 6000000, true, Ieee80211PhyMode::GetOfdmRate6Mbps() },
+    { 'a', 9000000, false, Ieee80211PhyMode::GetOfdmRate9Mbps() },
+    { 'a', 12000000, true, Ieee80211PhyMode::GetOfdmRate12Mbps() },
+    { 'a', 18000000, false, Ieee80211PhyMode::GetOfdmRate18Mbps() },
+    { 'a', 24000000, true, Ieee80211PhyMode::GetOfdmRate24Mbps() },
+    { 'a', 36000000, false, Ieee80211PhyMode::GetOfdmRate36Mbps() },
+    { 'a', 48000000, false, Ieee80211PhyMode::GetOfdmRate48Mbps() },
+    { 'a', 54000000, false, Ieee80211PhyMode::GetOfdmRate54Mbps() },
 
-    { 'b', 1000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate1Mbps() },
-    { 'b', 2000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate2Mbps() },
-    { 'b', 5500000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate5_5Mbps() },
-    { 'b', 11000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate11Mbps() },
+    { 'b', 1000000, true, Ieee80211PhyMode::GetDsssRate1Mbps() },
+    { 'b', 2000000, true, Ieee80211PhyMode::GetDsssRate2Mbps() },
+    { 'b', 5500000, true, Ieee80211PhyMode::GetDsssRate5_5Mbps() },
+    { 'b', 11000000, true, Ieee80211PhyMode::GetDsssRate11Mbps() },
 
-    { 'g', 1000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate1Mbps() },
-    { 'g', 2000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate2Mbps() },
-    { 'g', 5500000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate5_5Mbps() },
-    { 'g', 6000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate6Mbps() },
-    { 'g', 9000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate9Mbps() },
-    { 'g', 11000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetDsssRate11Mbps() },
-    { 'g', 12000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate12Mbps() },
-    { 'g', 18000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate18Mbps() },
-    { 'g', 24000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate24Mbps() },
-    { 'g', 36000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate36Mbps() },
-    { 'g', 48000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate48Mbps() },
-    { 'g', 54000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetErpOfdmRate54Mbps() },
+    { 'g', 1000000, true, Ieee80211PhyMode::GetDsssRate1Mbps() },
+    { 'g', 2000000, true, Ieee80211PhyMode::GetDsssRate2Mbps() },
+    { 'g', 5500000, true, Ieee80211PhyMode::GetDsssRate5_5Mbps() },
+    { 'g', 6000000, true, Ieee80211PhyMode::GetErpOfdmRate6Mbps() },
+    { 'g', 9000000, false, Ieee80211PhyMode::GetErpOfdmRate9Mbps() },
+    { 'g', 11000000, true, Ieee80211PhyMode::GetDsssRate11Mbps() },
+    { 'g', 12000000, true, Ieee80211PhyMode::GetErpOfdmRate12Mbps() },
+    { 'g', 18000000, false, Ieee80211PhyMode::GetErpOfdmRate18Mbps() },
+    { 'g', 24000000, true, Ieee80211PhyMode::GetErpOfdmRate24Mbps() },
+    { 'g', 36000000, false, Ieee80211PhyMode::GetErpOfdmRate36Mbps() },
+    { 'g', 48000000, false, Ieee80211PhyMode::GetErpOfdmRate48Mbps() },
+    { 'g', 54000000, false, Ieee80211PhyMode::GetErpOfdmRate54Mbps() },
 
-    { 'p', 3000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate3MbpsCS10MHz() },
-    { 'p', 4500000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate4_5MbpsCS10MHz() },
-    { 'p', 6000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate6MbpsCS10MHz() },
-    { 'p', 9000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate9MbpsCS10MHz() },
-    { 'p', 12000000, true, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate12MbpsCS10MHz() },
-    { 'p', 18000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate18MbpsCS10MHz() },
-    { 'p', 24000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate24MbpsCS10MHz() },
-    { 'p', 27000000, false, Ieee80211Code::getCodeRate1_2(), Ieee80211PhyMode::GetOfdmRate27MbpsCS10MHz() },
+    { 'p', 3000000, true, Ieee80211PhyMode::GetOfdmRate3MbpsCS10MHz() },
+    { 'p', 4500000, false, Ieee80211PhyMode::GetOfdmRate4_5MbpsCS10MHz() },
+    { 'p', 6000000, true, Ieee80211PhyMode::GetOfdmRate6MbpsCS10MHz() },
+    { 'p', 9000000, false, Ieee80211PhyMode::GetOfdmRate9MbpsCS10MHz() },
+    { 'p', 12000000, true, Ieee80211PhyMode::GetOfdmRate12MbpsCS10MHz() },
+    { 'p', 18000000, false, Ieee80211PhyMode::GetOfdmRate18MbpsCS10MHz() },
+    { 'p', 24000000, false, Ieee80211PhyMode::GetOfdmRate24MbpsCS10MHz() },
+    { 'p', 27000000, false, Ieee80211PhyMode::GetOfdmRate27MbpsCS10MHz() },
 };
 
 const int Ieee80211Mode::descriptorSize = sizeof(Ieee80211Mode::data) / sizeof(Ieee80211Mode::data[0]);
@@ -206,7 +206,7 @@ const Ieee80211Mode& Ieee80211Mode::getDescriptor(int idx)
 Ieee80211PhyMode Ieee80211Mode::getModulation(char mode, double bitrate)
 {
     int i = getIdx(mode, bitrate);
-    return getDescriptor(i).modulation;
+    return getDescriptor(i).phyMode;
 }
 
 } // namespace ieee80211

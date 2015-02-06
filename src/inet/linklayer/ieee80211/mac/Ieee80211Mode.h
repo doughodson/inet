@@ -17,8 +17,7 @@ class INET_API Ieee80211Mode
     char mode;
     double bitrate;
     bool isMandatory;
-    Ieee80211Code code;
-    Ieee80211PhyMode modulation;
+    Ieee80211PhyMode phyMode;
 
   private:
     static const int descriptorSize;

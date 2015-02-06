@@ -237,12 +237,12 @@ void Ieee80211Mac::initialize(int stage)
         {
             int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
             controlBitRate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
-            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulation;
+            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).phyMode;
         }
         else
         {
             int basicBitrateIdx = Ieee80211Mode::getIdx(opMode, controlBitRate);
-            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).modulation;
+            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).phyMode;
         }
 
         // configure AutoBit Rate
@@ -2532,7 +2532,7 @@ Ieee80211PhyMode Ieee80211Mac::getControlAnswerMode(Ieee80211PhyMode reqMode)
     Ieee80211PhyMode bestModulation;
     for (int idx = Ieee80211Mode::getMinIdx(opMode); idx < Ieee80211Mode::size(); idx++) {
         const Ieee80211Mode & mode = Ieee80211Mode::getDescriptor(idx);
-        const Ieee80211PhyMode & modulation = mode.modulation;
+        const Ieee80211PhyMode & modulation = mode.phyMode;
         if (mode.mode != opMode)
             break;
 
