@@ -36,17 +36,6 @@ class IPv6Serializer : public SerializerBase
 
   public:
     IPv6Serializer(const char *name = nullptr) : SerializerBase(name) {}
-
-    /**
-     * Serializes an IPv6Datagram for transmission on the wire.
-     * Returns the length of data written into buffer.
-     */
-    int serialize(const IPv6Datagram *dgram, unsigned char *buf, unsigned int bufsize);
-
-    /**
-     * Puts a packet sniffed from the wire into an IPv6Datagram.
-     */
-    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer

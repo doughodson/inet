@@ -57,14 +57,6 @@ namespace serializer {
 
 Register_Serializer(IPv6Datagram, ETHERTYPE, ETHERTYPE_IPv6, IPv6Serializer);
 
-int IPv6Serializer::serialize(const IPv6Datagram *dgram, unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(buf, bufsize);
-    Context c;
-    xSerialize(dgram, b, c);
-    return b.getPos();
-}
-
 void IPv6Serializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
 {
     const IPv6Datagram *dgram = check_and_cast<const IPv6Datagram *>(pkt);
@@ -104,17 +96,9 @@ void IPv6Serializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
     ip6h->ip6_plen = htons(encapEnd - encapStart);
 }
 
-cPacket* IPv6Serializer::parse(Buffer &b, Context& context)
+cPacket* IPv6Serializer::parse(Buffer &b, Context& c)
 {
-    cPacket* pkt = parse(static_cast<unsigned char *>(b.accessNBytes(0)), b.getRemainder());
-    b.accessNBytes(b.getRemainder());
-    return pkt;
-}
-
-cPacket *IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(const_cast<unsigned char *>(buf), bufsize);
-    Context c;
+    ASSERT(b.getPos() == 0);
     IPv6Datagram *dest = new IPv6Datagram("parsed-ipv6");
     const struct ip6_hdr *ip6h = (struct ip6_hdr *) b.accessNBytes(sizeof(struct ip6_hdr));
     uint32_t flowinfo = ntohl(ip6h->ip6_flow);
@@ -143,8 +127,8 @@ cPacket *IPv6Serializer::parse(const unsigned char *buf, unsigned int bufsize)
     c.l3AddressesPtr = &ip6h->ip6_src.__u6_addr.__u6_addr32[0];
     c.l3AddressesLength = 32;
 
-    if (packetLength + IPv6_HEADER_BYTES > bufsize)
-        EV << "Can not handle IPv6 packet of total length " << packetLength + IPv6_HEADER_BYTES << "(captured only " << bufsize << " bytes).\n";
+    if (packetLength + IPv6_HEADER_BYTES > b._getBufSize())
+        EV_ERROR << "Can not handle IPv6 packet of total length " << packetLength + IPv6_HEADER_BYTES << "(captured only " << b._getBufSize() << " bytes).\n";
 
     cPacket *encapPacket = NULL;
     unsigned int encapLength = std::min(packetLength, b.getRemainder());
