@@ -3,7 +3,7 @@ Test serializing frames
 
 %inifile: omnetpp.ini
 [General]
-debugger-attach-on-startup=true
+#debugger-attach-on-startup=true
 #debugger-attach-on-error=true
 
 %includes:
@@ -62,8 +62,17 @@ static void testRecord(const char* filename, bool fcs = true)
     memset((void*)&writeBuf, 0, sizeof(writeBuf));
 
     pcapFile  = fopen(filename, "rb");
-    fread(&fileHeader, sizeof(fileHeader), 1, pcapFile);
-    if (fileHeader.magic != 0xa1b2c3d4)
+    if (!pcapFile)
+        throw cRuntimeError("pcap file '%s' can not opened.", filename);
+
+    size_t err = fread(&fileHeader, sizeof(fileHeader), 1, pcapFile);
+    if (err != 1)
+        throw cRuntimeError("Can not read pcap fileheader from file '%s', errno is %ld.", filename, err);
+
+    if (fileHeader.magic == 0xa1b2c3d4)
+    {
+    }
+    else if (fileHeader.magic == 0xd4c3b2a1)
     {
         fileHeader.version_major = swapByteOrder16(fileHeader.version_major);
         fileHeader.version_minor = swapByteOrder16(fileHeader.version_minor);
@@ -72,7 +81,12 @@ static void testRecord(const char* filename, bool fcs = true)
         fileHeader.snaplen = swapByteOrder32(fileHeader.snaplen);
         fileHeader.network = swapByteOrder32(fileHeader.network);
     }
-    fread(&recordHeader, sizeof(recordHeader), 1, pcapFile);
+    else
+        throw cRuntimeError("unknown pcap fileheader from file '%s'", filename);
+
+    err = fread(&recordHeader, sizeof(recordHeader), 1, pcapFile);
+    if (err != 1)
+        throw cRuntimeError("Can not read pcap recordheader from file '%s', errno is %ld.", filename, err);
     if (fileHeader.magic != 0xa1b2c3d4)
     {
         recordHeader.ts_sec = swapByteOrder32(recordHeader.ts_sec);
@@ -80,7 +94,7 @@ static void testRecord(const char* filename, bool fcs = true)
         recordHeader.orig_len = swapByteOrder32(recordHeader.orig_len);
         recordHeader.incl_len = swapByteOrder32(recordHeader.incl_len);
     }
-    fread(&readBuf, recordHeader.orig_len, 1, pcapFile);
+    fread(&readBuf, recordHeader.incl_len, 1, pcapFile);
     fclose(pcapFile);
 
     uint32 serializedLength = 0;
@@ -95,18 +109,22 @@ static void testRecord(const char* filename, bool fcs = true)
     serializedLength = wb.getPos();
     delete frame;
 
-    if (!fcs)
-        serializedLength -= 4;
-    if(recordHeader.incl_len == serializedLength && !memcmp(readBuf, writeBuf, serializedLength))
+    if(recordHeader.incl_len == serializedLength)
+        EV << "Frame lengths are the same" << endl;
+    else
+        EV << "Frame lengths are not the same: " << recordHeader.incl_len << " ws " << serializedLength << endl;
+    if(recordHeader.incl_len == serializedLength && !memcmp(readBuf, writeBuf, fcs ? serializedLength : serializedLength - 4))
         EV << "Frames are the same" << endl;
     else
         EV << "Frames are not the same" << endl;
 }
 
 %activity:
-testRecord("../../arp.pcap", false);
-testRecord("../../tcp.pcap", false);
-testRecord("../../80211ack.pcap", false);
+testRecord("../../pcap/rarp_request.pcap", false);
+testRecord("../../pcap/rarp_req_reply.pcap", false);
+//testRecord("../../pcap/v6.pcap", false);
+//testRecord("../../pcap/tcp.pcap", false);
+//testRecord("../../pcap/80211ack.pcap", false);
 
 %contains-regex: stdout
 dest: FF-FF-FF-FF-FF-FF
