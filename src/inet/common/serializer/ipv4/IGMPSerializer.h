@@ -37,22 +37,6 @@ class IGMPSerializer : public SerializerBase
 
   public:
     IGMPSerializer(const char *name = nullptr) : SerializerBase(name) {}
-
-    //TODO old functions:
-    int serialize(const IGMPMessage *pkt, unsigned char *buf, unsigned int bufsize)
-    {
-        Buffer b(buf, bufsize);
-        Context c;
-        serialize(pkt, b, c);
-        return b.getPos();
-    }
-
-    cPacket *parse(const unsigned char *buf, unsigned int bufsize)
-    {
-        Buffer b(const_cast<unsigned char *>(buf), bufsize);
-        Context c;
-        return parse(b, c);
-    }
 };
 
 } // namespace serializer
