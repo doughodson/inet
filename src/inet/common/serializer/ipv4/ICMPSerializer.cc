@@ -41,14 +41,6 @@ namespace serializer {
 
 Register_Serializer(ICMPMessage, IP_PROT, IP_PROT_ICMP, ICMPSerializer);
 
-int ICMPSerializer::serialize(const ICMPMessage *pkt, unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(buf, bufsize);
-    Context c;
-    serialize(pkt, b, c);
-    return b.getPos();
-}
-
 void ICMPSerializer::serialize(const cPacket *_pkt, Buffer &b, Context& c)
 {
     unsigned int startpos = b.getPos();
@@ -110,14 +102,6 @@ void ICMPSerializer::serialize(const cPacket *_pkt, Buffer &b, Context& c)
         }
     }
     b.writeUint16To(startpos + 2, TCPIPchecksum::checksum(b._getBuf() + startpos, b.getPos() - startpos));
-}
-
-cPacket *ICMPSerializer::parse(const unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(const_cast<unsigned char *>(buf), bufsize);
-    Context c;
-    cPacket *pkt = parse(b, c);
-    return pkt;
 }
 
 cPacket *ICMPSerializer::parse(Buffer &b, Context& context)

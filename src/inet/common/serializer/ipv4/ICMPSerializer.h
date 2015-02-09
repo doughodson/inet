@@ -37,18 +37,6 @@ class ICMPSerializer : public SerializerBase
 
   public:
     ICMPSerializer(const char *name = nullptr) : SerializerBase(name) {}
-
-
-    /**
-     * Serializes an ICMPMessage for transmission on the wire.
-     * Returns the length of data written into buffer.
-     */
-    int serialize(const ICMPMessage *pkt, unsigned char *buf, unsigned int bufsize);
-
-    /**
-     * Puts a packet sniffed from the wire into an ICMPMessage.
-     */
-    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer
