@@ -36,7 +36,8 @@ Define_Module(Ieee80211DimensionalTransmitter);
 Ieee80211DimensionalTransmitter::Ieee80211DimensionalTransmitter() :
     APSKDimensionalTransmitter(),
     opMode('\0'),
-    preambleMode((Ieee80211PreambleMode) - 1)
+    preambleMode((Ieee80211PreambleMode) - 1),
+    phyMode(nullptr)
 {
 }
 
@@ -80,7 +81,7 @@ const ITransmission *Ieee80211DimensionalTransmitter::createTransmission(const I
     const EulerAngles startOrientation = mobility->getCurrentAngularPosition();
     const EulerAngles endOrientation = mobility->getCurrentAngularPosition();
     const ConstMapping *powerMapping = createPowerMapping(startTime, endTime, carrierFrequency, bandwidth, transmissionPower);
-    return new Ieee80211DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, powerMapping, opMode, preambleMode);
+    return new Ieee80211DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, powerMapping, opMode, preambleMode, phyMode);
 }
 
 } // namespace physicallayer

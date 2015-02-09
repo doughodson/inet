@@ -21,9 +21,10 @@ namespace inet {
 
 namespace physicallayer {
 
-Ieee80211TransmissionBase::Ieee80211TransmissionBase(char opMode, Ieee80211PreambleMode preambleMode) :
+Ieee80211TransmissionBase::Ieee80211TransmissionBase(char opMode, Ieee80211PreambleMode preambleMode, const Ieee80211PhyMode *phyMode) :
     opMode(opMode),
-    preambleMode(preambleMode)
+    preambleMode(preambleMode),
+    phyMode(phyMode)
 {
 }
 

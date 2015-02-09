@@ -30,11 +30,14 @@ class INET_API Ieee80211TransmissionBase
   protected:
     const char opMode;
     const Ieee80211PreambleMode preambleMode;
+    const Ieee80211PhyMode *phyMode;
 
   public:
-    Ieee80211TransmissionBase(char opMode, Ieee80211PreambleMode preambleMode);
+    Ieee80211TransmissionBase(char opMode, Ieee80211PreambleMode preambleMode, const Ieee80211PhyMode *phyMode);
+
     virtual char getOpMode() const { return opMode; }
     virtual Ieee80211PreambleMode getPreambleMode() const { return preambleMode; }
+    virtual const Ieee80211PhyMode *getPhyMode() const { return phyMode; }
 };
 
 } // namespace physicallayer

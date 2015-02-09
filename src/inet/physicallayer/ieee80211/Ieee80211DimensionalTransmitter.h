@@ -31,6 +31,7 @@ class INET_API Ieee80211DimensionalTransmitter : public APSKDimensionalTransmitt
   protected:
     char opMode;
     Ieee80211PreambleMode preambleMode;
+    const Ieee80211PhyMode *phyMode;
 
   protected:
     virtual void initialize(int stage) override;
