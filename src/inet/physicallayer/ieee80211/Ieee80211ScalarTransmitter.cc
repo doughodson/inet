@@ -64,6 +64,7 @@ void Ieee80211ScalarTransmitter::initialize(int stage)
         else
             throw cRuntimeError("Unknown preamble mode");
         carrierFrequency = Hz(CENTER_FREQUENCIES[par("channelNumber")]);
+        phyMode = &Ieee80211Mode::getPhyMode(opMode, bitrate.get());
     }
 }
 
@@ -72,15 +73,15 @@ const ITransmission *Ieee80211ScalarTransmitter::createTransmission(const IRadio
     TransmissionRequest *controlInfo = dynamic_cast<TransmissionRequest *>(macFrame->getControlInfo());
     W transmissionPower = controlInfo && !isNaN(controlInfo->getPower().get()) ? controlInfo->getPower() : power;
     bps transmissionBitrate = controlInfo && !isNaN(controlInfo->getBitrate().get()) ? controlInfo->getBitrate() : bitrate;
-    Ieee80211PhyMode modulationType = Ieee80211Mode::getPhyMode(opMode, transmissionBitrate.get());
-    const simtime_t duration = SIMTIME_DBL(modulationType.calculateTxDuration(macFrame->getBitLength(), preambleMode));
+    const Ieee80211PhyMode *transmissionPhyMode = transmissionBitrate != bitrate ? &Ieee80211Mode::getPhyMode(opMode, transmissionBitrate.get()) : phyMode;
+    const simtime_t duration = SIMTIME_DBL(transmissionPhyMode->calculateTxDuration(macFrame->getBitLength(), preambleMode));
     const simtime_t endTime = startTime + duration;
     IMobility *mobility = transmitter->getAntenna()->getMobility();
     const Coord startPosition = mobility->getCurrentPosition();
     const Coord endPosition = mobility->getCurrentPosition();
     const EulerAngles startOrientation = mobility->getCurrentAngularPosition();
     const EulerAngles endOrientation = mobility->getCurrentAngularPosition();
-    return new Ieee80211ScalarTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, transmissionPower, opMode, preambleMode, phyMode);
+    return new Ieee80211ScalarTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, transmissionPower, opMode, preambleMode, transmissionPhyMode);
 }
 
 } // namespace physicallayer

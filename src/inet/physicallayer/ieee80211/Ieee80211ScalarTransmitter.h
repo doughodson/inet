@@ -30,7 +30,7 @@ class INET_API Ieee80211ScalarTransmitter : public NarrowbandTransmitterBase
   protected:
     char opMode;
     Ieee80211PreambleMode preambleMode;
-    Ieee80211PhyMode *phyMode;
+    const Ieee80211PhyMode *phyMode;
 
   protected:
     virtual void initialize(int stage) override;
