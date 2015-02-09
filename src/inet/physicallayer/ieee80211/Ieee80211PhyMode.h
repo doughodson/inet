@@ -130,14 +130,7 @@ class INET_API Ieee80211PhyMode
     enum ModulationClass getModulationClass() const { return modulationClass; }
     void setModulationClass(enum ModulationClass p) { modulationClass = p; }
 
-    Ieee80211PhyMode()
-    {
-        channelSpacing = Hz(NaN);
-        bandwidth = Hz(NaN);
-        dataRate = bps(NaN);
-        phyRate = bps(NaN);
-        modulationClass = MOD_CLASS_UNKNOWN;
-    }
+    Ieee80211PhyMode();
 
     bool operator==(const Ieee80211PhyMode& b)
     {

@@ -21,6 +21,16 @@ namespace inet {
 
 namespace physicallayer {
 
+Ieee80211PhyMode::Ieee80211PhyMode() :
+    preambleMode((Ieee80211PreambleMode)-1),
+    channelSpacing(Hz(NaN)),
+    dataRate(bps(NaN)),
+    phyRate(bps(NaN)),
+    modulationClass(MOD_CLASS_UNKNOWN),
+    bandwidth(Hz(NaN))
+{
+}
+
 Ieee80211PhyMode Ieee80211PhyMode::GetDsssRate1Mbps()
 {
     Ieee80211PhyMode mode;
