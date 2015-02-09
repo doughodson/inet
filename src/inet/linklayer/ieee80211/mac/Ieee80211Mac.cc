@@ -1391,7 +1391,7 @@ simtime_t Ieee80211Mac::getSIFS()
 // TODO:   return aRxRFDelay() + aRxPLCPDelay() + aMACProcessingDelay() + aRxTxTurnaroundTime();
     if (useModulationParameters) {
         Ieee80211PhyMode modType;
-        modType = Ieee80211Mode::getModulation(opMode, bitrate);
+        modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
         return modType.getSifsTime(wifiPreambleType);
     }
 
@@ -1403,7 +1403,7 @@ simtime_t Ieee80211Mac::getSlotTime()
 // TODO:   return aCCATime() + aRxTxTurnaroundTime + aAirPropagationTime() + aMACProcessingDelay();
     if (useModulationParameters) {
         Ieee80211PhyMode modType;
-        modType = Ieee80211Mode::getModulation(opMode, bitrate);
+        modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
         return modType.getSlotDuration(wifiPreambleType);
     }
     return ST;
@@ -1547,7 +1547,7 @@ void Ieee80211Mac::scheduleDataTimeoutPeriod(Ieee80211DataOrMgmtFrame *frameToSe
         EV_DEBUG << "scheduling data timeout period\n";
         if (useModulationParameters) {
             Ieee80211PhyMode modType;
-            modType = Ieee80211Mode::getModulation(opMode, bitRate);
+            modType = Ieee80211Mode::getPhyMode(opMode, bitRate);
             double duration = computeFrameDuration(frameToSend);
             double slot = SIMTIME_DBL(modType.getSlotDuration(wifiPreambleType));
             double sifs = SIMTIME_DBL(modType.getSifsTime(wifiPreambleType));
@@ -2044,7 +2044,7 @@ double Ieee80211Mac::computeFrameDuration(int bits, double bitrate)
 {
     double duration;
     Ieee80211PhyMode modType;
-    modType = Ieee80211Mode::getModulation(opMode, bitrate);
+    modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
     if (PHY_HEADER_LENGTH < 0)
         duration = SIMTIME_DBL(modType.calculateTxDuration(bits, wifiPreambleType));
     else
