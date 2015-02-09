@@ -81,7 +81,12 @@ const ITransmission *Ieee80211ScalarTransmitter::createTransmission(const IRadio
     const Coord endPosition = mobility->getCurrentPosition();
     const EulerAngles startOrientation = mobility->getCurrentAngularPosition();
     const EulerAngles endOrientation = mobility->getCurrentAngularPosition();
-    return new Ieee80211ScalarTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, transmissionPower, opMode, preambleMode, transmissionPhyMode);
+    int transmissionHeaderBitLength;
+    if (opMode == 'b')
+        transmissionHeaderBitLength = HEADER_WITHOUT_PREAMBLE;
+    else
+        transmissionHeaderBitLength = 24;
+    return new Ieee80211ScalarTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, transmissionHeaderBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, transmissionPower, opMode, preambleMode, transmissionPhyMode);
 }
 
 } // namespace physicallayer

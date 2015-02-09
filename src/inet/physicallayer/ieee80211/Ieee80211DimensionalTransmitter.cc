@@ -82,7 +82,12 @@ const ITransmission *Ieee80211DimensionalTransmitter::createTransmission(const I
     const EulerAngles startOrientation = mobility->getCurrentAngularPosition();
     const EulerAngles endOrientation = mobility->getCurrentAngularPosition();
     const ConstMapping *powerMapping = createPowerMapping(startTime, endTime, carrierFrequency, bandwidth, transmissionPower);
-    return new Ieee80211DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, powerMapping, opMode, preambleMode, transmissionPhyMode);
+    int transmissionHeaderBitLength;
+    if (opMode == 'b')
+        transmissionHeaderBitLength = HEADER_WITHOUT_PREAMBLE;
+    else
+        transmissionHeaderBitLength = 24;
+    return new Ieee80211DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, transmissionHeaderBitLength, macFrame->getBitLength(), carrierFrequency, bandwidth, transmissionBitrate, powerMapping, opMode, preambleMode, transmissionPhyMode);
 }
 
 } // namespace physicallayer

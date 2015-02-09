@@ -72,41 +72,42 @@ double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
     const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(transmission);
     const Ieee80211TransmissionBase *ieee80211Transmission = check_and_cast<const Ieee80211TransmissionBase *>(transmission);
     const Ieee80211PhyMode *phyMode = ieee80211Transmission->getPhyMode();
-    int bitLength = narrowbandTransmission->getPayloadBitLength();
+    int payloadBitLength = narrowbandTransmission->getPayloadBitLength();
+    int headerBitLength = narrowbandTransmission->getHeaderBitLength();
     double bitrate = narrowbandTransmission->getBitrate().get();
     const Ieee80211PreambleMode preambleMode = phyMode->getPreambleMode();
     char opMode = ieee80211Transmission->getOpMode();
-
-    uint32_t headerSize;
-    if (opMode == 'b')
-        headerSize = HEADER_WITHOUT_PREAMBLE;
-    else
-        headerSize = 24;
+//
+//    uint32_t headerSize;
+//    if (opMode == 'b')
+//        headerSize = HEADER_WITHOUT_PREAMBLE;
+//    else
+//        headerSize = 24;
     Ieee80211PhyMode modeBody = Ieee80211Mode::getPhyMode(opMode, bitrate);
     Ieee80211PhyMode modeHeader = modeBody.getPlcpHeaderMode(preambleMode);
-    if (opMode == 'g') {
-        if (autoHeaderSize) {
-            Ieee80211PhyMode modeBodyA = Ieee80211Mode::getPhyMode('a', bitrate);
-            headerSize = ceil(SIMTIME_DBL(modeBodyA.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
-        }
-    }
-    else if (opMode == 'b' || opMode == 'a' || opMode == 'p') {
-        if (autoHeaderSize)
-            headerSize = ceil(SIMTIME_DBL(modeBody.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
-    }
-    else
-        throw cRuntimeError("Radio model not supported yet, must be a,b,g or p");
+//    if (opMode == 'g') {
+//        if (autoHeaderSize) {
+//            Ieee80211PhyMode modeBodyA = Ieee80211Mode::getPhyMode('a', bitrate);
+//            headerSize = ceil(SIMTIME_DBL(modeBodyA.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
+//        }
+//    }
+//    else if (opMode == 'b' || opMode == 'a' || opMode == 'p') {
+//        if (autoHeaderSize)
+//            headerSize = ceil(SIMTIME_DBL(modeBody.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
+//    }
+//    else
+//        throw cRuntimeError("Radio model not supported yet, must be a,b,g or p");
     double minSNIR = snir->getMin();
-    double headerSuccessRate = GetChunkSuccessRate(modeHeader, minSNIR, headerSize);
+    double headerSuccessRate = GetChunkSuccessRate(modeHeader, minSNIR, headerBitLength);
 
     // probability of no bit error in the MPDU
     double payloadSuccessRate;
     if (berTableFile)
-        payloadSuccessRate = 1 - berTableFile->getPer(bitrate, minSNIR, bitLength / 8);
+        payloadSuccessRate = 1 - berTableFile->getPer(bitrate, minSNIR, payloadBitLength / 8);
     else
-        payloadSuccessRate = GetChunkSuccessRate(modeBody, minSNIR, bitLength);
+        payloadSuccessRate = GetChunkSuccessRate(modeBody, minSNIR, payloadBitLength);
 
-    EV_DEBUG << "min SNIR = " << minSNIR << ", bit length = " << bitLength << ", header error rate = " << 1 - headerSuccessRate << ", payload error rate = " << 1 - payloadSuccessRate << endl;
+    EV_DEBUG << "min SNIR = " << minSNIR << ", bit length = " << payloadBitLength << ", header error rate = " << 1 - headerSuccessRate << ", payload error rate = " << 1 - payloadSuccessRate << endl;
 
     if (headerSuccessRate >= 1)
         headerSuccessRate = 1;
