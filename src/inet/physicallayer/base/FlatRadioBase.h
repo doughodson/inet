@@ -15,41 +15,30 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef __INET_IEEE80211RADIO_H
-#define __INET_IEEE80211RADIO_H
+#ifndef __INET_FLATRADIOBASE_H
+#define __INET_FLATRADIOBASE_H
 
-#include "inet/physicallayer/base/FlatRadioBase.h"
+#include "inet/physicallayer/base/NarrowbandRadioBase.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API Ieee80211Radio : public FlatRadioBase
+class INET_API FlatRadioBase : public NarrowbandRadioBase
 {
-  public:
-    /**
-     * This signal is emitted every time the radio channel changes.
-     * The signal value is the new radio channel.
-     */
-    static simsignal_t radioChannelChangedSignal;
-
   protected:
-    int channelNumber;
-
-  protected:
-    void initialize(int stage) override;
-
-    void handleUpperCommand(cMessage *message) override;
+    void handleUpperCommand(cMessage *message);
 
   public:
-    Ieee80211Radio();
+    FlatRadioBase();
 
-    virtual void setChannelNumber(int newChannelNumber);
+    virtual void setPower(W newPower);
+    virtual void setBitrate(bps newBitrate);
 };
 
 } // namespace physicallayer
 
 } // namespace inet
 
-#endif // ifndef __INET_IEEE80211RADIO_H
+#endif // ifndef __INET_FLATRADIOBASE_H
 

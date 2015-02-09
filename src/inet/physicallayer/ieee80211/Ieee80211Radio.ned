@@ -17,7 +17,7 @@
 
 package inet.physicallayer.ieee80211;
 
-import inet.physicallayer.base.NarrowbandRadioBase;
+import inet.physicallayer.base.FlatRadioBase;
 
 //
 // This radio model is part of the IEEE 802.11 physical layer model. It supports
@@ -33,7 +33,7 @@ import inet.physicallayer.base.NarrowbandRadioBase;
 // details.
 //
 // TODO: check this Table 18-14—Receiver performance requirements
-module Ieee80211Radio extends NarrowbandRadioBase
+module Ieee80211Radio extends FlatRadioBase
 {
     parameters:
         int channelNumber = default(0);                               // initial channel number

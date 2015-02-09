@@ -16,7 +16,7 @@
 //
 
 #include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
-#include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
+#include "inet/physicallayer/base/FlatTransmissionBase.h"
 #include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 #include "inet/physicallayer/ieee80211/Ieee80211TransmissionBase.h"
 #include "inet/physicallayer/ieee80211/errormodel/Ieee80211ErrorModelBase.h"
@@ -69,12 +69,12 @@ void Ieee80211ErrorModelBase::initialize(int stage)
 double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
 {
     const ITransmission *transmission = snir->getReception()->getTransmission();
-    const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(transmission);
+    const FlatTransmissionBase *flatTransmission = check_and_cast<const FlatTransmissionBase *>(transmission);
     const Ieee80211TransmissionBase *ieee80211Transmission = check_and_cast<const Ieee80211TransmissionBase *>(transmission);
     const Ieee80211PhyMode *phyMode = ieee80211Transmission->getPhyMode();
-    int payloadBitLength = narrowbandTransmission->getPayloadBitLength();
-    int headerBitLength = narrowbandTransmission->getHeaderBitLength();
-    double bitrate = narrowbandTransmission->getBitrate().get();
+    int payloadBitLength = flatTransmission->getPayloadBitLength();
+    int headerBitLength = flatTransmission->getHeaderBitLength();
+    double bitrate = flatTransmission->getBitrate().get();
     const Ieee80211PreambleMode preambleMode = ieee80211Transmission->getPreambleMode();
 //    char opMode = ieee80211Transmission->getOpMode();
 //

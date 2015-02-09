@@ -15,7 +15,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
+#include "inet/physicallayer/base/FlatTransmissionBase.h"
 #include "inet/physicallayer/ieee80211/Ieee80211ScalarReceiver.h"
 #include "inet/physicallayer/ieee80211/Ieee80211ScalarTransmission.h"
 
@@ -26,7 +26,7 @@ namespace physicallayer {
 Define_Module(Ieee80211ScalarReceiver);
 
 Ieee80211ScalarReceiver::Ieee80211ScalarReceiver() :
-    NarrowbandReceiverBase(),
+    FlatReceiverBase(),
     opMode('\0'),
     preambleMode((Ieee80211PreambleMode)-1)
 {
@@ -34,7 +34,7 @@ Ieee80211ScalarReceiver::Ieee80211ScalarReceiver() :
 
 void Ieee80211ScalarReceiver::initialize(int stage)
 {
-    NarrowbandReceiverBase::initialize(stage);
+    FlatReceiverBase::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
         const char *opModeString = par("opMode");
         if (!strcmp("b", opModeString))

@@ -24,15 +24,8 @@ namespace physicallayer {
 
 NarrowbandTransmitterBase::NarrowbandTransmitterBase() :
     modulation(nullptr),
-    headerBitLength(-1),
-    carrierFrequency(Hz(sNaN)),
-    bandwidth(Hz(sNaN)),
-    bitrate(sNaN),
-    power(W(sNaN))
-{
-}
-
-NarrowbandTransmitterBase::~NarrowbandTransmitterBase()
+    carrierFrequency(Hz(NaN)),
+    bandwidth(Hz(NaN))
 {
 }
 
@@ -41,22 +34,16 @@ void NarrowbandTransmitterBase::initialize(int stage)
     TransmitterBase::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
         modulation = APSKModulationBase::findModulation(par("modulation"));
-        headerBitLength = par("headerBitLength");
         carrierFrequency = Hz(par("carrierFrequency"));
         bandwidth = Hz(par("bandwidth"));
-        bitrate = bps(par("bitrate"));
-        power = W(par("power"));
     }
 }
 
 void NarrowbandTransmitterBase::printToStream(std::ostream& stream) const
 {
     stream << "modulation = { " << modulation << " }, "
-           << "headerBitLength = " << headerBitLength << ", "
            << "carrierFrequency = " << carrierFrequency << ", "
-           << "bandwidth = " << bandwidth << ", "
-           << "bitrate = " << bitrate << ", "
-           << "power = " << power;
+           << "bandwidth = " << bandwidth << ", ";
 }
 
 } // namespace physicallayer

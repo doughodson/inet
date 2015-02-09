@@ -18,13 +18,13 @@
 #ifndef __INET_SCALARTRANSMISSION_H
 #define __INET_SCALARTRANSMISSION_H
 
-#include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
+#include "inet/physicallayer/base/FlatTransmissionBase.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API ScalarTransmission : public NarrowbandTransmissionBase, public virtual IScalarSignal
+class INET_API ScalarTransmission : public FlatTransmissionBase, public virtual IScalarSignal
 {
   protected:
     const W power;

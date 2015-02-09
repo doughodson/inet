@@ -16,7 +16,7 @@
 //
 
 #include "inet/physicallayer/errormodel/StochasticErrorModel.h"
-#include "inet/physicallayer/base/NarrowbandTransmissionBase.h"
+#include "inet/physicallayer/base/FlatTransmissionBase.h"
 
 namespace inet {
 
@@ -55,8 +55,8 @@ double StochasticErrorModel::computePacketErrorRate(const ISNIR *snir) const
     else {
         double bitErrorRate = computeBitErrorRate(snir);
         const IReception *reception = snir->getReception();
-        const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(reception->getTransmission());
-        return 1.0 - pow(1.0 - bitErrorRate, narrowbandTransmission->getPayloadBitLength());
+        const FlatTransmissionBase *flatTransmission = check_and_cast<const FlatTransmissionBase *>(reception->getTransmission());
+        return 1.0 - pow(1.0 - bitErrorRate, flatTransmission->getPayloadBitLength());
     }
 }
 

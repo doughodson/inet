@@ -22,7 +22,7 @@ namespace inet {
 namespace physicallayer {
 
 Ieee80211DimensionalTransmission::Ieee80211DimensionalTransmission(const IRadio *transmitter, const cPacket *macFrame, const simtime_t startTime, const simtime_t endTime, const Coord startPosition, const Coord endPosition, const EulerAngles startOrientation, const EulerAngles endOrientation, const IModulation *modulation, int headerBitLength, int payloadBitLength, Hz carrierFrequency, Hz bandwidth, bps bitrate, const ConstMapping *power, char opMode, Ieee80211PreambleMode preambleMode, const Ieee80211PhyMode *phyMode) :
-    DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, modulation, headerBitLength, payloadBitLength, carrierFrequency, bandwidth, bitrate, power),
+    DimensionalTransmission(transmitter, macFrame, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, headerBitLength, payloadBitLength, bitrate, modulation, carrierFrequency, bandwidth, power),
     Ieee80211TransmissionBase(opMode, preambleMode, phyMode)
 {
 }

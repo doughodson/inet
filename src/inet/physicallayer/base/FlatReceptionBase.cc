@@ -15,41 +15,18 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef __INET_IEEE80211RADIO_H
-#define __INET_IEEE80211RADIO_H
-
-#include "inet/physicallayer/base/FlatRadioBase.h"
+#include "inet/physicallayer/base/FlatReceptionBase.h"
 
 namespace inet {
 
 namespace physicallayer {
 
-class INET_API Ieee80211Radio : public FlatRadioBase
+FlatReceptionBase::FlatReceptionBase(const IRadio *receiver, const ITransmission *transmission, const simtime_t startTime, const simtime_t endTime, const Coord startPosition, const Coord endPosition, const EulerAngles startOrientation, const EulerAngles endOrientation, Hz carrierFrequency, Hz bandwidth) :
+    NarrowbandReceptionBase(receiver, transmission, startTime, endTime, startPosition, endPosition, startOrientation, endOrientation, carrierFrequency, bandwidth)
 {
-  public:
-    /**
-     * This signal is emitted every time the radio channel changes.
-     * The signal value is the new radio channel.
-     */
-    static simsignal_t radioChannelChangedSignal;
-
-  protected:
-    int channelNumber;
-
-  protected:
-    void initialize(int stage) override;
-
-    void handleUpperCommand(cMessage *message) override;
-
-  public:
-    Ieee80211Radio();
-
-    virtual void setChannelNumber(int newChannelNumber);
-};
+}
 
 } // namespace physicallayer
 
 } // namespace inet
-
-#endif // ifndef __INET_IEEE80211RADIO_H
 
