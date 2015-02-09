@@ -71,9 +71,10 @@ double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
     const ITransmission *transmission = snir->getReception()->getTransmission();
     const NarrowbandTransmissionBase *narrowbandTransmission = check_and_cast<const NarrowbandTransmissionBase *>(transmission);
     const Ieee80211TransmissionBase *ieee80211Transmission = check_and_cast<const Ieee80211TransmissionBase *>(transmission);
+    const Ieee80211PhyMode *phyMode = ieee80211Transmission->getPhyMode();
     int bitLength = narrowbandTransmission->getPayloadBitLength();
     double bitrate = narrowbandTransmission->getBitrate().get();
-    Ieee80211PreambleMode preambleUsed = ieee80211Transmission->getPreambleMode();
+    const Ieee80211PreambleMode preambleMode = phyMode->getPreambleMode();
     char opMode = ieee80211Transmission->getOpMode();
 
     uint32_t headerSize;
@@ -82,16 +83,16 @@ double Ieee80211ErrorModelBase::computePacketErrorRate(const ISNIR *snir) const
     else
         headerSize = 24;
     Ieee80211PhyMode modeBody = Ieee80211Mode::getPhyMode(opMode, bitrate);
-    Ieee80211PhyMode modeHeader = modeBody.getPlcpHeaderMode(preambleUsed);
+    Ieee80211PhyMode modeHeader = modeBody.getPlcpHeaderMode(preambleMode);
     if (opMode == 'g') {
         if (autoHeaderSize) {
             Ieee80211PhyMode modeBodyA = Ieee80211Mode::getPhyMode('a', bitrate);
-            headerSize = ceil(SIMTIME_DBL(modeBodyA.getPlcpHeaderDuration(preambleUsed)) * modeHeader.getDataRate().get());
+            headerSize = ceil(SIMTIME_DBL(modeBodyA.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
         }
     }
     else if (opMode == 'b' || opMode == 'a' || opMode == 'p') {
         if (autoHeaderSize)
-            headerSize = ceil(SIMTIME_DBL(modeBody.getPlcpHeaderDuration(preambleUsed)) * modeHeader.getDataRate().get());
+            headerSize = ceil(SIMTIME_DBL(modeBody.getPlcpHeaderDuration(preambleMode)) * modeHeader.getDataRate().get());
     }
     else
         throw cRuntimeError("Radio model not supported yet, must be a,b,g or p");

@@ -72,7 +72,9 @@ class INET_API Ieee80211PhyMode
     Hz bandwidth;
 
   public:
-    Ieee80211PreambleMode getPreambleMode() { return preambleMode; }
+    Ieee80211PreambleMode getPreambleMode() const { return preambleMode; }
+    void setPreambleMode(Ieee80211PreambleMode preambleMode) { this->preambleMode = preambleMode; }
+
     Ieee80211Code & getCode() { return code; }
     Ieee80211Modulation & getModulation() { return modulation; }
 
