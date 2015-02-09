@@ -60,7 +60,6 @@ enum Ieee80211PreambleMode {
 class INET_API Ieee80211PhyMode
 {
   protected:
-    Ieee80211PreambleMode preambleMode;
     Ieee80211Code code;
     Ieee80211Modulation modulation;
 
@@ -72,9 +71,6 @@ class INET_API Ieee80211PhyMode
     Hz bandwidth;
 
   public:
-    Ieee80211PreambleMode getPreambleMode() const { return preambleMode; }
-    void setPreambleMode(Ieee80211PreambleMode preambleMode) { this->preambleMode = preambleMode; }
-
     Ieee80211Code & getCode() { return code; }
     Ieee80211Modulation & getModulation() { return modulation; }
 
