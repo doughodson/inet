@@ -42,9 +42,6 @@ class EthernetSerializer : public SerializerBase
 
   public:
     EthernetSerializer(const char *name = nullptr) : SerializerBase(name) {}
-
-    int serialize(const EtherFrame *pkt, unsigned char *buf, unsigned int bufsize);
-    cPacket *parse(const unsigned char *buf, unsigned int bufsize);
 };
 
 } // namespace serializer

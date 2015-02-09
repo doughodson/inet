@@ -35,6 +35,7 @@ Register_Serializer(EtherFrame, LINKTYPE, LINKTYPE_ETHERNET, EthernetSerializer)
 
 void EthernetSerializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
 {
+    ASSERT(b.getPos() == 0);
     const EtherFrame *ethPkt = check_and_cast<const EtherFrame *>(pkt);
     b.writeMACAddress(ethPkt->getDest());
     b.writeMACAddress(ethPkt->getSrc());
@@ -80,6 +81,8 @@ void EthernetSerializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
     else {
         throw cRuntimeError("Serializer not found for '%s'", pkt->getClassName());
     }
+    if (b.getPos() + 4 < pkt->getByteLength())
+        b.fillNBytes(pkt->getByteLength() - b.getPos() -4 , 0);
     uint32_t fcs = ethernetCRC(b._getBuf(), b.getPos());
     b.writeUint32(fcs);
 }
@@ -97,28 +100,13 @@ cPacket* EthernetSerializer::parse(Buffer &b, Context& c)
     ASSERT(encapPacket);
     etherPacket->encapsulate(encapPacket);
     etherPacket->setName(encapPacket->getName());
+    if (b.getRemainder() > 4)
+        b.accessNBytes(b.getRemainder() - 4);
     uint32_t calcfcs = ethernetCRC(b._getBuf(), b.getPos());
     uint32_t storedfcs = b.readUint32();
-    if (calcfcs != storedfcs)
+    if (storedfcs && calcfcs != 0xC704DD7B)
         etherPacket->setBitError(true);
     return etherPacket;
-}
-
-//TODO remove next 2 functions
-int EthernetSerializer::serialize(const EtherFrame *pkt, unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(buf, bufsize);
-    Context c;
-    serialize(pkt, b, c);
-    return b.getPos();
-}
-
-cPacket *EthernetSerializer::parse(const unsigned char *buf, unsigned int bufsize)
-{
-    Buffer b(const_cast<unsigned char *>(buf), bufsize);
-    Context c;
-    cPacket *pkt = parse(b, c);
-    return pkt;
 }
 
 } // namespace serializer
