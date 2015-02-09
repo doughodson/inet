@@ -34,7 +34,7 @@ class INET_API Ieee80211Mode
     static bool incIdx(int& idx);
     static bool decIdx(int& idx);
     static const Ieee80211Mode& getDescriptor(int idx);
-    static Ieee80211PhyMode getPhyMode(char mode, double bitrate);
+    static const Ieee80211PhyMode& getPhyMode(char mode, double bitrate);
     static int size() { return descriptorSize; }
 };
 

@@ -203,7 +203,7 @@ const Ieee80211Mode& Ieee80211Mode::getDescriptor(int idx)
     return data[idx];
 }
 
-Ieee80211PhyMode Ieee80211Mode::getPhyMode(char mode, double bitrate)
+const Ieee80211PhyMode& Ieee80211Mode::getPhyMode(char mode, double bitrate)
 {
     int i = getIdx(mode, bitrate);
     return getDescriptor(i).phyMode;
