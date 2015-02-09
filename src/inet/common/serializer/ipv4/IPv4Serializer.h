@@ -35,23 +35,6 @@ class IPv4Serializer : public SerializerBase
 
   public:
     IPv4Serializer(const char *name = nullptr) : SerializerBase(name) {}
-
-    /**
-     * Serializes an IPv4Datagram for transmission on the wire.
-     * The checksum is set to 0 when hasCalcChkSum is false. (The kernel does that when sending
-     * the frame over a raw socket.)
-     * When hasCalcChkSum is true, then calculating checksum.
-     * Returns the length of data written into buffer.
-     */
-    int serialize(const IPv4Datagram *dgram, unsigned char *buf, unsigned int bufsize, bool hasCalcChkSum = false);
-
-
-    cPacket *parse(const unsigned char *buf, unsigned int bufsize)
-    {
-        Buffer b(const_cast<unsigned char *>(buf), bufsize);
-        Context c;
-        return parse(b, c);
-    }
 };
 
 } // namespace serializer

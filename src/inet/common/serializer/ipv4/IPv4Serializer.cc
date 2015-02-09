@@ -61,17 +61,16 @@ namespace serializer {
 
 Register_Serializer(IPv4Datagram, ETHERTYPE, ETHERTYPE_IPv4, IPv4Serializer);
 
-void IPv4Serializer::serialize(const cPacket *pkt, Buffer &b, Context& context)
+void IPv4Serializer::serialize(const cPacket *pkt, Buffer &b, Context& c)
 {
-    b.seek(serialize(check_and_cast<const IPv4Datagram *>(pkt), b._getBuf(), b._getBufSize(), true));
-}
-
-int IPv4Serializer::serialize(const IPv4Datagram *dgram, unsigned char *buf, unsigned int bufsize, bool hasCalcChkSum)
-{
-    Context c;
+    unsigned int startPos = b.getPos();
     int packetLength;
-    struct ip *ip = (struct ip *)buf;
-
+    struct ip *ip = (struct ip *)b.accessNBytes(IP_HEADER_BYTES);
+    if (!ip) {
+        EV_ERROR << "IPv4Serializer: not enough space for IPv4 header.\n";
+        return;
+    }
+    const IPv4Datagram *dgram = check_and_cast<const IPv4Datagram *>(pkt);
     ip->ip_hl = IP_HEADER_BYTES >> 2;
     ip->ip_v = dgram->getVersion();
     ip->ip_tos = dgram->getTypeOfService();
@@ -93,17 +92,15 @@ int IPv4Serializer::serialize(const IPv4Datagram *dgram, unsigned char *buf, uns
     if (dgram->getHeaderLength() > IP_HEADER_BYTES)
         EV_ERROR << "Serializing an IPv4 packet with options. Dropping the options.\n";
 
-    packetLength = dgram->getHeaderLength();
+//    packetLength = dgram->getHeaderLength();
+//    b.fillNBytes(packetLength - IP_HEADER_BYTES, 0);
 
     const cPacket *encapPacket = dgram->getEncapsulatedPacket();
-    Buffer subBuffer(buf + packetLength, bufsize - packetLength);
-    SerializerBase::serialize(encapPacket, subBuffer, c, IP_PROT, dgram->getTransportProtocol(), 0);
-    packetLength += subBuffer.getPos();
+    SerializerBase::serialize(encapPacket, b, c, IP_PROT, dgram->getTransportProtocol(), 0);
 
+    packetLength = b.getPos();
     ip->ip_len = htons(packetLength);
-    ip->ip_sum = TCPIPchecksum::checksum(buf, IP_HEADER_BYTES);
-
-    return packetLength;
+    ip->ip_sum = TCPIPchecksum::checksum(ip, IP_HEADER_BYTES);
 }
 
 cPacket* IPv4Serializer::parse(Buffer &b, Context& c)
