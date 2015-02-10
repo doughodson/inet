@@ -957,11 +957,14 @@ IPv6RouterSolicitation *IPv6NeighbourDiscovery::createAndSendRSPacket(InterfaceE
     IPv6Address destAddr = IPv6Address::ALL_ROUTERS_2;    //all_routers multicast
     IPv6RouterSolicitation *rs = new IPv6RouterSolicitation("RSpacket");
     rs->setType(ICMPv6_ROUTER_SOL);
+    rs->setByteLength(8);      // FIXME make constant...
 
     //The Source Link-Layer Address option SHOULD be set to the host's link-layer
     //address, if the IP source address is not the unspecified address.
-    if (!myIPv6Address.isUnspecified())
+    if (!myIPv6Address.isUnspecified()) {
         rs->setSourceLinkLayerAddress(ie->getMacAddress());
+        rs->setByteLength(8 + MAC_ADDRESS_SIZE);      // FIXME make constant...
+    }
 
     //Construct a Router Solicitation message
     sendPacketToIPv6Module(rs, destAddr, myIPv6Address, ie->getInterfaceId());
@@ -1178,6 +1181,7 @@ IPv6RouterAdvertisement *IPv6NeighbourDiscovery::createAndSendRAPacket(const IPv
         //Construct a Router Advertisment message
         IPv6RouterAdvertisement *ra = new IPv6RouterAdvertisement("RApacket");
         ra->setType(ICMPv6_ROUTER_AD);
+        ra->setByteLength(8);      // FIXME set to correct value
 
         //RFC 2461: Section 6.2.3 Router Advertisment Message Content
         /*A router sends periodic as well as solicited Router Advertisements out
@@ -1804,13 +1808,16 @@ IPv6NeighbourSolicitation *IPv6NeighbourDiscovery::createAndSendNSPacket(const I
 
     //Neighbour Solicitation Specific Information
     ns->setTargetAddress(nsTargetAddr);
+    ns->setByteLength(8 + 16);      // FIXME make constant...
 
     /*If the solicitation is being sent to a solicited-node multicast
        address, the sender MUST include its link-layer address (if it has
        one) as a Source Link-Layer Address option.*/
     if (dgDestAddr.matches(IPv6Address("FF02::1:FF00:0"), 104) &&    // FIXME what's this? make constant...
-        !dgSrcAddr.isUnspecified())
+            !dgSrcAddr.isUnspecified()) {
         ns->setSourceLinkLayerAddress(myMacAddr);
+        ns->setByteLength(8 + 16 + MAC_ADDRESS_SIZE);      // FIXME make constant...
+    }
 
     sendPacketToIPv6Module(ns, dgDestAddr, dgSrcAddr, ie->getInterfaceId());
 
@@ -1985,6 +1992,8 @@ void IPv6NeighbourDiscovery::sendSolicitedNA(IPv6NeighbourSolicitation *ns,
         IPv6ControlInfo *nsCtrlInfo, InterfaceEntry *ie)
 {
     IPv6NeighbourAdvertisement *na = new IPv6NeighbourAdvertisement("NApacket");
+    na->setByteLength(8 + 16 + 6);      // FIXME set correct length
+
     //RFC 2461: Section 7.2.4
     /*A node sends a Neighbor Advertisement in response to a valid Neighbor
        Solicitation targeting one of the node's assigned addresses.  The
@@ -2076,6 +2085,7 @@ void IPv6NeighbourDiscovery::sendUnsolicitedNA(InterfaceEntry *ie)
 #else /* WITH_xMIPv6 */
     IPv6NeighbourAdvertisement *na = new IPv6NeighbourAdvertisement("NApacket");
     IPv6Address myIPv6Addr = ie->ipv6Data()->getPreferredAddress();
+    na->setByteLength(8 + 16 + 6);      // FIXME set correct length
 #endif /* WITH_xMIPv6 */
 
     // The Target Address field in the unsolicited advertisement is set to
@@ -2372,6 +2382,7 @@ IPv6Redirect *IPv6NeighbourDiscovery::createAndSendRedirectPacket(InterfaceEntry
     //Construct a Redirect message
     IPv6Redirect *redirect = new IPv6Redirect("redirectMsg");
     redirect->setType(ICMPv6_REDIRECT);
+    redirect->setByteLength(8 + 16 + 16);      // FIXME make constant...
 
     //Redirect Message Specific Information
     //redirect->setTargetAddress();
@@ -2379,6 +2390,7 @@ IPv6Redirect *IPv6NeighbourDiscovery::createAndSendRedirectPacket(InterfaceEntry
 
     //Possible Option
     //redirect->setTargetLinkLayerAddress();
+    //redirect->setByteLength(8 + 16 + 16 + MAC_ADDRESS_SIZE);      // FIXME make constant...
 
     return redirect;
 }
