@@ -36,6 +36,7 @@
 #include "inet/linklayer/ieee80211/mac/Ieee80211Frame_m.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Consts.h"
 #include "inet/linklayer/ieee80211/mac/IQoSClassifier.h"
+#include "inet/linklayer/ieee80211/mac/Ieee80211ModeSet.h"
 
 namespace inet {
 
@@ -112,14 +113,18 @@ class INET_API Ieee80211Mac : public MACProtocolBase
     //@{
     /** MAC address */
     MACAddress address;
-    char opMode = 0;
+//    char opMode = 0;
+    const Ieee80211ModeSet *modeSet;
     /** The bitrate is used to send unicast data and mgmt frames; be sure to use a valid 802.11 bitrate */
-    double bitrate = NaN;
+    const Ieee80211Mode *dataFrameMode;
+//    double bitrate = NaN;
 
     /** The basic bitrate (1 or 2 Mbps) is used to transmit control frames and multicast/broadcast frames */
-    double basicBitrate = NaN;
-    double controlBitRate = NaN;
-    Ieee80211PhyMode controlFrameModulation;
+    const Ieee80211Mode *basicFrameMode;
+    const Ieee80211Mode *controlFrameMode;
+//    double basicBitrate = NaN;
+//    double controlBitRate = NaN;
+//    Ieee80211PhyMode controlFrameModulation;
 
     // Variables used by the auto bit rate
     bool forceBitRate = false;    //if true the
@@ -129,7 +134,6 @@ class INET_API Ieee80211Mac : public MACProtocolBase
     int samplingCoeff = 0;
     double recvdThroughput = NaN;
     int autoBitrate = 0;
-    int rateIndex = 0;
     int successCounter = 0;
     int failedCounter = 0;
     bool recovery = false;
@@ -625,7 +629,7 @@ class INET_API Ieee80211Mac : public MACProtocolBase
      * in bits, but excluding the physical layer framing (preamble etc.)
      */
     virtual double computeFrameDuration(Ieee80211Frame *msg);
-    virtual double computeFrameDuration(int bits, double bitrate);
+    virtual double computeFrameDuration(int bits, bps bitrate);
 
     /** @brief Logs all state information */
     virtual void logState();

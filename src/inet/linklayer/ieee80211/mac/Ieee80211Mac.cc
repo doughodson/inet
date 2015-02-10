@@ -23,7 +23,6 @@
 #include "inet/physicallayer/contract/RadioControlInfo_m.h"
 #include "inet/physicallayer/ieee80211/Ieee80211aControlInfo_m.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211eClassifier.h"
-#include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
 #include "inet/common/INETUtils.h"
 #include "inet/common/ModuleAccess.h"
 
@@ -115,17 +114,8 @@ void Ieee80211Mac::initialize(int stage)
             edcCAF.push_back(catEdca);
         }
         // initialize parameters
-        const char *opModeStr = par("opMode").stringValue();
-        if (strcmp("b", opModeStr) == 0)
-            opMode = 'b';
-        else if (strcmp("g", opModeStr) == 0)
-            opMode = 'g';
-        else if (strcmp("a", opModeStr) == 0)
-            opMode = 'a';
-        else if (strcmp("p", opModeStr) == 0)
-            opMode = 'p';
-        else
-            throw cRuntimeError("Invalid opMode='%s'", opModeStr);
+        const char opMode = *par("opMode").stringValue();
+        modeSet = Ieee80211ModeSet::getModeSet(opMode);
 
         PHY_HEADER_LENGTH = par("phyHeaderLength");    //26us
 
@@ -208,42 +198,30 @@ void Ieee80211Mac::initialize(int stage)
         if (ST == -1)
             ST = 20e-6; //20us
 
-        basicBitrate = par("basicBitrate");
-        bitrate = par("bitrate");
         duplicateDetect = par("duplicateDetectionFilter");
         purgeOldTuples = par("purgeOldTuples");
         duplicateTimeOut = par("duplicateTimeOut");
         lastTimeDelete = 0;
 
-        if (bitrate == -1) {
-            rateIndex = Ieee80211Mode::getMaxIdx(opMode);
-            bitrate = Ieee80211Mode::getDescriptor(rateIndex).bitrate;
-        }
+        double bitrate = par("bitrate");
+        if (bitrate == -1)
+            dataFrameMode = modeSet->getFastestMode();
         else
-            rateIndex = Ieee80211Mode::getIdx(opMode, bitrate);
+            dataFrameMode = modeSet->getMode(bps(bitrate));
 
-        if (basicBitrate == -1) {
-            int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
-            basicBitrate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
-        }
+        double basicBitrate = par("basicBitrate");
+        if (basicBitrate == -1)
+            basicFrameMode = modeSet->getFastestMode();
         else
-            Ieee80211Mode::getIdx(opMode, basicBitrate);
+            basicFrameMode = modeSet->getMode(bps(basicBitrate));
 
-        controlBitRate = par("controlBitrate").doubleValue();
+        double controlBitRate = par("controlBitrate");
+        if (controlBitRate == -1)
+            controlFrameMode = modeSet->getFastestMode();
+        else
+            controlFrameMode = modeSet->getMode(bps(controlBitRate));
 
         EV_DEBUG << " slotTime=" << getSlotTime() * 1e6 << "us DIFS=" << getDIFS() * 1e6 << "us";
-
-        if (controlBitRate == -1)
-        {
-            int basicBitrateIdx = Ieee80211Mode::getMaxIdx(opMode);
-            controlBitRate = Ieee80211Mode::getDescriptor(basicBitrateIdx).bitrate;
-            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).phyMode;
-        }
-        else
-        {
-            int basicBitrateIdx = Ieee80211Mode::getIdx(opMode, controlBitRate);
-            controlFrameModulation = Ieee80211Mode::getDescriptor(basicBitrateIdx).phyMode;
-        }
 
         // configure AutoBit Rate
         configureAutoBitRate();
@@ -1389,11 +1367,8 @@ void Ieee80211Mac::finishReception()
 simtime_t Ieee80211Mac::getSIFS()
 {
 // TODO:   return aRxRFDelay() + aRxPLCPDelay() + aMACProcessingDelay() + aRxTxTurnaroundTime();
-    if (useModulationParameters) {
-        Ieee80211PhyMode modType;
-        modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
-        return modType.getSifsTime(wifiPreambleType);
-    }
+    if (useModulationParameters)
+        return dataFrameMode->getPhyMode()->getSifsTime(wifiPreambleType);
 
     return SIFS;
 }
@@ -1401,11 +1376,8 @@ simtime_t Ieee80211Mac::getSIFS()
 simtime_t Ieee80211Mac::getSlotTime()
 {
 // TODO:   return aCCATime() + aRxTxTurnaroundTime + aAirPropagationTime() + aMACProcessingDelay();
-    if (useModulationParameters) {
-        Ieee80211PhyMode modType;
-        modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
-        return modType.getSlotDuration(wifiPreambleType);
-    }
+    if (useModulationParameters)
+        return dataFrameMode->getPhyMode()->getSlotDuration(wifiPreambleType);
     return ST;
 }
 
@@ -1536,22 +1508,21 @@ void Ieee80211Mac::cancelAIFSPeriod()
 void Ieee80211Mac::scheduleDataTimeoutPeriod(Ieee80211DataOrMgmtFrame *frameToSend)
 {
     double tim;
-    double bitRate = bitrate;
+    bps bitRate = dataFrameMode->getPhyMode()->getDataRate();
     TransmissionRequest *trq = dynamic_cast<TransmissionRequest *>(frameToSend->getControlInfo());
     if (trq) {
-        bitRate = trq->getBitrate().get();
-        if (bitRate == 0)
-            bitRate = bitrate;
+        bitRate = trq->getBitrate();
+        if (bitRate == bps(0))
+            bitRate = dataFrameMode->getPhyMode()->getDataRate();
     }
     if (!endTimeout->isScheduled()) {
         EV_DEBUG << "scheduling data timeout period\n";
         if (useModulationParameters) {
-            Ieee80211PhyMode modType;
-            modType = Ieee80211Mode::getPhyMode(opMode, bitRate);
+            const Ieee80211PhyMode *phyMode = modeSet->getMode(bitRate)->getPhyMode();
             double duration = computeFrameDuration(frameToSend);
-            double slot = SIMTIME_DBL(modType.getSlotDuration(wifiPreambleType));
-            double sifs = SIMTIME_DBL(modType.getSifsTime(wifiPreambleType));
-            double PHY_RX_START = SIMTIME_DBL(modType.get_aPHY_RX_START_Delay (wifiPreambleType));
+            double slot = SIMTIME_DBL(phyMode->getSlotDuration(wifiPreambleType));
+            double sifs = SIMTIME_DBL(phyMode->getSifsTime(wifiPreambleType));
+            double PHY_RX_START = SIMTIME_DBL(phyMode->get_aPHY_RX_START_Delay (wifiPreambleType));
             tim = duration + slot + sifs + PHY_RX_START;
         }
         else
@@ -1773,13 +1744,13 @@ Ieee80211DataOrMgmtFrame *Ieee80211Mac::buildDataFrame(Ieee80211DataOrMgmtFrame 
             auto nextframeToSend = transmissionQueue()->begin();
             nextframeToSend++;
             ASSERT(transmissionQueue()->end() != nextframeToSend);
-            double bitRate = bitrate;
+            bps bitRate = dataFrameMode->getPhyMode()->getDataRate();
             int size = (*nextframeToSend)->getBitLength();
             TransmissionRequest *trRq = dynamic_cast<TransmissionRequest *>(transmissionQueue()->front()->getControlInfo());
             if (trRq) {
-                bitRate = trRq->getBitrate().get();
-                if (bitRate == 0)
-                    bitRate = bitrate;
+                bitRate = trRq->getBitrate();
+                if (bitRate == bps(0))
+                    bitRate = dataFrameMode->getPhyMode()->getDataRate();
             }
             frame->setDuration(3 * getSIFS() + 2 * controlFrameTxTime(LENGTH_ACK) + computeFrameDuration(size, bitRate));
         }
@@ -1847,7 +1818,7 @@ Ieee80211Frame *Ieee80211Mac::setBasicBitrate(Ieee80211Frame *frame)
 {
     ASSERT(frame->getControlInfo() == nullptr);
     TransmissionRequest *ctrl = new TransmissionRequest();
-    ctrl->setBitrate(bps(basicBitrate));
+    ctrl->setBitrate(bps(basicFrameMode->getPhyMode()->getDataRate()));
     frame->setControlInfo(ctrl);
     return frame;
 }
@@ -1856,7 +1827,7 @@ Ieee80211Frame *Ieee80211Mac::setControlBitrate(Ieee80211Frame *frame)
 {
     ASSERT(frame->getControlInfo()==nullptr);
     TransmissionRequest *ctrl = new TransmissionRequest();
-    ctrl->setBitrate((bps)controlBitRate);
+    ctrl->setBitrate((bps)controlFrameMode->getPhyMode()->getDataRate());
     frame->setControlInfo(ctrl);
     return frame;
 }
@@ -2032,23 +2003,22 @@ double Ieee80211Mac::computeFrameDuration(Ieee80211Frame *msg)
     ctrl = dynamic_cast<TransmissionRequest *>(msg->removeControlInfo());
     if (ctrl) {
         EV_DEBUG << "Per frame2 params bitrate " << ctrl->getBitrate().get() / 1e6 << "Mb" << endl;
-        duration = computeFrameDuration(msg->getBitLength(), ctrl->getBitrate().get());
+        duration = computeFrameDuration(msg->getBitLength(), ctrl->getBitrate());
         delete ctrl;
         return duration;
     }
     else
-        return computeFrameDuration(msg->getBitLength(), bitrate);
+        return computeFrameDuration(msg->getBitLength(), dataFrameMode->getPhyMode()->getDataRate());
 }
 
-double Ieee80211Mac::computeFrameDuration(int bits, double bitrate)
+double Ieee80211Mac::computeFrameDuration(int bits, bps bitrate)
 {
     double duration;
-    Ieee80211PhyMode modType;
-    modType = Ieee80211Mode::getPhyMode(opMode, bitrate);
+    const Ieee80211PhyMode *phyMode = modeSet->getMode(bitrate)->getPhyMode();
     if (PHY_HEADER_LENGTH < 0)
-        duration = SIMTIME_DBL(modType.calculateTxDuration(bits, wifiPreambleType));
+        duration = SIMTIME_DBL(phyMode->calculateTxDuration(bits, wifiPreambleType));
     else
-        duration = SIMTIME_DBL(modType.getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
+        duration = SIMTIME_DBL(phyMode->getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
 
     EV_DEBUG << " duration=" << duration * 1e6 << "us(" << bits << "bits " << bitrate / 1e6 << "Mbps)" << endl;
     return duration;
@@ -2163,9 +2133,9 @@ void Ieee80211Mac::reportDataOk()
     failedCounter = 0;
     recovery = false;
     if ((successCounter == getSuccessThreshold() || timer == getTimerTimeout())
-        && Ieee80211Mode::incIdx(rateIndex))
+        && modeSet->getFasterMode(dataFrameMode))
     {
-        setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
+        dataFrameMode = modeSet->getFasterMode(dataFrameMode);
         timer = 0;
         successCounter = 0;
         recovery = true;
@@ -2183,16 +2153,18 @@ void Ieee80211Mac::reportDataFailed(void)
     if (recovery) {
         if (retryCounter() == 1) {
             reportRecoveryFailure();
-            if (Ieee80211Mode::decIdx(rateIndex))
-                setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
+            const Ieee80211Mode *slowerMode = modeSet->getSlowerMode(dataFrameMode);
+            if (slowerMode != nullptr)
+                dataFrameMode = slowerMode;
         }
         timer = 0;
     }
     else {
         if (needNormalFallback()) {
             reportFailure();
-            if (Ieee80211Mode::decIdx(rateIndex))
-                setBitrate(Ieee80211Mode::getDescriptor(rateIndex).bitrate);
+            const Ieee80211Mode *slowerMode = modeSet->getSlowerMode(dataFrameMode);
+            if (slowerMode != nullptr)
+                dataFrameMode = slowerMode;
         }
         if (retryCounter() >= 2) {
             timer = 0;
@@ -2275,12 +2247,12 @@ bool Ieee80211Mac::needNormalFallback(void)
 
 double Ieee80211Mac::getBitrate()
 {
-    return bitrate;
+    return dataFrameMode->getPhyMode()->getDataRate().get();
 }
 
-void Ieee80211Mac::setBitrate(double rate)
+void Ieee80211Mac::setBitrate(double bitrate)
 {
-    bitrate = rate;
+    dataFrameMode = modeSet->getMode(bps(bitrate));
 }
 
 // method for access to the EDCA data
@@ -2523,11 +2495,10 @@ Ieee80211PhyMode Ieee80211Mac::getControlAnswerMode(Ieee80211PhyMode reqMode)
      */
     bool found = false;
     Ieee80211PhyMode bestModulation;
-    for (int idx = Ieee80211Mode::getMinIdx(opMode); idx < Ieee80211Mode::size(); idx++) {
-        const Ieee80211Mode & mode = Ieee80211Mode::getDescriptor(idx);
-        const Ieee80211PhyMode & modulation = mode.phyMode;
-        if (mode.mode != opMode)
-            break;
+    const Ieee80211Mode * modeX = modeSet->getSlowestMode();
+    while (modeX != nullptr) {
+        const Ieee80211Mode & mode = *modeX;
+        const Ieee80211PhyMode & phyMode = *mode.getPhyMode();
 
         /* If the rate:
          *
@@ -2539,11 +2510,11 @@ Ieee80211PhyMode Ieee80211Mac::getControlAnswerMode(Ieee80211PhyMode reqMode)
          * ...then it's our best choice so far.
          */
         if (mode.getIsMandatory()
-            && (!found || modulation.getPhyRate() > bestModulation.getPhyRate())
-            && modulation.getPhyRate() <= reqMode.getPhyRate()
-            && modulation.getModulationClass() == reqMode.getModulationClass())
+            && (!found || phyMode.getPhyRate() > bestModulation.getPhyRate())
+            && phyMode.getPhyRate() <= reqMode.getPhyRate()
+            && phyMode.getModulationClass() == reqMode.getModulationClass())
         {
-            bestModulation = modulation;
+            bestModulation = phyMode;
             // As above; we've found a potentially-suitable transmit
             // rate, but we need to continue and consider all the
             // mandatory rates before we can be sure we've got the right
@@ -2664,11 +2635,11 @@ double Ieee80211Mac::controlFrameTxTime(int bits)
 {
      double duration;
      if (PHY_HEADER_LENGTH < 0)
-         duration = SIMTIME_DBL(controlFrameModulation.calculateTxDuration(bits,wifiPreambleType));
+         duration = SIMTIME_DBL(controlFrameMode->getPhyMode()->calculateTxDuration(bits, wifiPreambleType));
      else
-         duration = SIMTIME_DBL(controlFrameModulation.getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
+         duration = SIMTIME_DBL(controlFrameMode->getPhyMode()->getPayloadDuration(bits)) + PHY_HEADER_LENGTH;
 
-     EV_DEBUG << " duration=" << duration*1e6 << "us(" << bits << "bits " << controlFrameModulation.getPhyRate()/1e6 << "Mbps)" << endl;
+     EV_DEBUG << " duration=" << duration*1e6 << "us(" << bits << "bits " << controlFrameMode->getPhyMode()->getPhyRate()/1e6 << "Mbps)" << endl;
      return duration;
 }
 

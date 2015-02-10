@@ -23,7 +23,7 @@
 #include "inet/physicallayer/ieee80211/Ieee80211ScalarTransmission.h"
 #include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 #include "inet/linklayer/ieee80211/mac/Ieee80211Consts.h"
-#include "inet/linklayer/ieee80211/mac/Ieee80211Mode.h"
+#include "inet/linklayer/ieee80211/mac/Ieee80211ModeSet.h"
 
 namespace inet {
 
@@ -64,7 +64,7 @@ void Ieee80211ScalarTransmitter::initialize(int stage)
         else
             throw cRuntimeError("Unknown preamble mode");
         carrierFrequency = Hz(CENTER_FREQUENCIES[par("channelNumber")]);
-        phyMode = &Ieee80211Mode::getPhyMode(opMode, bitrate.get());
+        phyMode = Ieee80211ModeSet::getModeSet(opMode)->getMode(bitrate)->getPhyMode();
     }
 }
 
@@ -73,7 +73,7 @@ const ITransmission *Ieee80211ScalarTransmitter::createTransmission(const IRadio
     TransmissionRequest *controlInfo = dynamic_cast<TransmissionRequest *>(macFrame->getControlInfo());
     W transmissionPower = controlInfo && !isNaN(controlInfo->getPower().get()) ? controlInfo->getPower() : power;
     bps transmissionBitrate = controlInfo && !isNaN(controlInfo->getBitrate().get()) ? controlInfo->getBitrate() : bitrate;
-    const Ieee80211PhyMode *transmissionPhyMode = transmissionBitrate != bitrate ? &Ieee80211Mode::getPhyMode(opMode, transmissionBitrate.get()) : phyMode;
+    const Ieee80211PhyMode *transmissionPhyMode = transmissionBitrate != bitrate ? Ieee80211ModeSet::getModeSet(opMode)->getMode(transmissionBitrate)->getPhyMode() : phyMode;
     const simtime_t duration = SIMTIME_DBL(transmissionPhyMode->calculateTxDuration(macFrame->getBitLength(), preambleMode));
     const simtime_t endTime = startTime + duration;
     IMobility *mobility = transmitter->getAntenna()->getMobility();

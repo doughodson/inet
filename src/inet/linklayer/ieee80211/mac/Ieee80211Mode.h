@@ -1,8 +1,6 @@
-#ifndef __INET_IEEE80211DATARATE_H
-#define __INET_IEEE80211DATARATE_H
+#ifndef __INET_IEEE80211MODE_H
+#define __INET_IEEE80211MODE_H
 
-#include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
-#include "inet/physicallayer/ieee80211/Ieee80211OFDMCode.h"
 #include "inet/physicallayer/ieee80211/Ieee80211PhyMode.h"
 
 namespace inet {
@@ -13,34 +11,21 @@ using namespace inet::physicallayer;
 
 class INET_API Ieee80211Mode
 {
-  public:
-    char mode;
-    double bitrate;
-    bool isMandatory;
-    Ieee80211PhyMode phyMode;
-
-  private:
-    static const int descriptorSize;
-    static const Ieee80211Mode data[];
+  protected:
+    const bool isMandatory;
+    // TODO: separate header phy mode and payload phy mode?
+    const Ieee80211PhyMode phyMode;
 
   public:
+    Ieee80211Mode(bool isMandatory, const Ieee80211PhyMode phyMode);
+
     bool getIsMandatory() const { return isMandatory; }
-
-  public:
-    static int findIdx(char mode, double bitrate);
-    static int getIdx(char mode, double bitrate);
-    static int getMinIdx(char mode);
-    static int getMaxIdx(char mode);
-    static bool incIdx(int& idx);
-    static bool decIdx(int& idx);
-    static const Ieee80211Mode& getDescriptor(int idx);
-    static const Ieee80211PhyMode& getPhyMode(char mode, double bitrate);
-    static int size() { return descriptorSize; }
+    const Ieee80211PhyMode *getPhyMode() const { return &phyMode; }
 };
 
 } // namespace ieee80211
 
 } // namespace inet
 
-#endif // ifndef __INET_IEEE80211DATARATE_H
+#endif // ifndef __INET_IEEE80211MODE_H
 
