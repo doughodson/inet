@@ -172,6 +172,15 @@ void Buffer::writeMACAddress(const MACAddress& addr)
         addr.getAddressBytes((unsigned char *)addrBytes);
 }
 
+IPv6Address Buffer::readIPv6Address()
+{
+    uint32_t d[4];
+    void *addrBytes = accessNBytes(MAC_ADDRESS_SIZE);
+    for (int i = 0; i < 4; i++)
+        d[i] = readUint32();
+    return IPv6Address(d[0], d[1], d[2], d[3]);
+}
+
 void SerializerBase::serializeByteArrayPacket(const ByteArrayMessage *pkt, Buffer &b)
 {
     unsigned int length = pkt->getByteLength();
@@ -201,7 +210,10 @@ void SerializerBase::serialize(const cPacket *pkt, Buffer &b, Context& context, 
         b.accessNBytes(subBuffer.getPos());
         return;
     }
-    throw cRuntimeError("Serializer not found for '%s' (%i, %i)", pkt->getClassName(), group, id);
+    if (context.throwOnSerializerNotFound)
+        throw cRuntimeError("Serializer not found for '%s' (%i, %i)", pkt->getClassName(), group, id);
+    context.errorOccured = true;
+    b.fillNBytes(pkt->getByteLength(), '?');
 }
 
 void SerializerBase::xSerialize(const cPacket *pkt, Buffer &b, Context& context)

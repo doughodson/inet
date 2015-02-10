@@ -24,6 +24,7 @@
 #include "inet/common/ByteArrayMessage.h"
 #include "inet/linklayer/common/MACAddress.h"
 #include "inet/networklayer/contract/ipv4/IPv4Address.h"
+#include "inet/networklayer/contract/ipv6/IPv6Address.h"
 
 
 namespace inet {
@@ -73,6 +74,7 @@ class INET_API Buffer
     uint32_t readUint32();    // ntoh, returns 0 when not enough space
     MACAddress readMACAddress();
     IPv4Address readIPv4Address()  { return IPv4Address(readUint32()); }
+    IPv6Address readIPv6Address();
 
     // write
     void writeByte(unsigned char data);
@@ -83,6 +85,7 @@ class INET_API Buffer
     void writeUint32(uint32_t data);    // hton
     void writeMACAddress(const MACAddress& addr);
     void writeIPv4Address(IPv4Address addr)  { writeUint32(addr.getInt()); }
+    void writeIPv6Address(const IPv6Address &addr)  { for (int i = 0; i < 4; i++) { writeUint32(addr.words()[i]); } }
 
     // read/write
     void *accessNBytes(unsigned int length);    // returns nullptr when haven't got enough space
@@ -103,6 +106,8 @@ class Context
   public:
     const void *l3AddressesPtr = nullptr;
     unsigned int l3AddressesLength = 0;
+    bool throwOnSerializerNotFound = true;
+    bool errorOccured = false;
 };
 /**
  * Converts between cPacket and binary (network byte order) packet.
