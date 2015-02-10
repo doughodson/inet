@@ -107,6 +107,7 @@ cPacket *ICMPSerializer::parse(Buffer &b, Context& context)
     uint8_t type = b.readByte();     // type
     uint8_t subcode = b.readByte();  // subcode
     b.readUint16();   // crc
+    pkt->setByteLength(4);
 
     switch (type) {
         case ICMP_ECHO: {
