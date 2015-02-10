@@ -20,13 +20,9 @@
 #include "inet/common/serializer/ipv4/ICMPSerializer.h"
 
 #include "inet/applications/pingapp/PingPayload_m.h"
-#include "inet/common/serializer/headers/bsdint.h"
-#include "inet/common/serializer/headers/defs.h"
-#include "inet/common/serializer/headers/in.h"
 #include "inet/common/serializer/headers/in_systm.h"
 #include "inet/common/serializer/ipv4/headers/ip.h"
 #include "inet/common/serializer/ipv4/headers/ip_icmp.h"
-#include "inet/common/serializer/ipv4/IPv4Serializer.h"
 #include "inet/common/serializer/TCPIPchecksum.h"
 #include "inet/linklayer/common/Ieee802Ctrl_m.h"
 #include "inet/networklayer/common/IPProtocolId_m.h"
@@ -54,14 +50,11 @@ void ICMPSerializer::serialize(const cPacket *_pkt, Buffer &b, Context& c)
             b.writeUint16(0);   // crc
             b.writeUint16(pp->getOriginatorId());
             b.writeUint16(pp->getSeqNo());
-            unsigned int datalen = (pp->getByteLength() - 4);
+            unsigned int datalen = pp->getDataArraySize();
             for (unsigned int i = 0; i < datalen; i++)
-                if (i < pp->getDataArraySize()) {
-                    b.writeByte(pp->getData(i));
-                }
-                else {
-                    b.writeByte('a');
-                }
+                b.writeByte(pp->getData(i));
+            datalen = (pp->getByteLength() - 4) - datalen;
+            b.fillNBytes(datalen, 'a');
             break;
         }
 
@@ -75,6 +68,8 @@ void ICMPSerializer::serialize(const cPacket *_pkt, Buffer &b, Context& c)
             unsigned int datalen = pp->getDataArraySize();
             for (unsigned int i = 0; i < datalen; i++)
                 b.writeByte(pp->getData(i));
+            datalen = (pp->getByteLength() - 4) - datalen;
+            b.fillNBytes(datalen, 'a');
             break;
         }
 
@@ -126,21 +121,18 @@ cPacket *ICMPSerializer::parse(Buffer &b, Context& context)
             char name[32];
             sprintf(name, "parsed-ping%d", seqno);
             pp->setName(name);
+            pkt->setName(name);
 
             pp->setByteLength(4 + b.getRemainder());
             pp->setDataArraySize(b.getRemainder());
             for (unsigned int i = 0; b.getRemainder() > 0; i++)
                 pp->setData(i, b.readByte());
             pkt->encapsulate(pp);
-            pkt->setName(pp->getName());
             break;
         }
 
         case ICMP_ECHOREPLY: {
             PingPayload *pp = new PingPayload();
-
-            b.readByte();     // subcode
-            b.readUint16();   // crc
             pkt->setType(ICMP_ECHO_REPLY);
             pkt->setCode(subcode);
             pkt->setByteLength(4);
@@ -150,13 +142,13 @@ cPacket *ICMPSerializer::parse(Buffer &b, Context& context)
             char name[32];
             sprintf(name, "parsed-ping%d-reply", ntohs(seqno));
             pp->setName(name);
+            pkt->setName(name);
 
             pp->setByteLength(4 + b.getRemainder());
             pp->setDataArraySize(b.getRemainder());
             for (unsigned int i = 0; b.getRemainder() > 0; i++)
                 pp->setData(i, b.readByte());
             pkt->encapsulate(pp);
-            pkt->setName(pp->getName());
             break;
         }
 
