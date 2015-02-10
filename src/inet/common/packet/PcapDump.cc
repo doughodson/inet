@@ -148,6 +148,7 @@ void PcapDump::writeIPv6Frame(simtime_t stime, const IPv6Datagram *ipPacket)
 
     serializer::Buffer b(buf, sizeof(buf));
     serializer::Context c;
+    c.throwOnSerializerNotFound = false;
     serializer::IPv6Serializer().xSerialize(ipPacket, b, c);
     int32 serialized_ip = b.getPos();
 
